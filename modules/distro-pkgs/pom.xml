@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.baseos</groupId>
+    <artifactId>distro-pkgs</artifactId>
+    <version>8</version>
+    <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!--mkdir dir="${rpm.path}/isofs/distro-base"/>
+                                <exec dir="${rpm.path}/isofs/distro-base" executable="${rpm.path}/../xbin/dl-from-repo.sh" resolveexecutable="true">
+                                    <arg value="-R" />
+                                    <arg value="${baseos.baseurl}" />
+                                    <arg value="-D" />
+                                    <arg value="./" />
+                                    <arg value="-/-" />
+                                    <arg value="rocky-release" />
+                                    <arg value="rocky-repos.noarch" />
+                                    <arg value="rocky-gpg-keys.noarch" />
+                                    <arg value="basesystem.noarch" />
+                                    <arg value="filesystem.x86_64" />
+                                    <arg value="setup.noarch" />
+                                </exec-->
+
+                                <!--mkdir dir="${rpm.path}/isofs/distro-micro"/>
+                                <exec dir="${rpm.path}/isofs/distro-micro" executable="${rpm.path}/../xbin/dl-from-repo.sh" resolveexecutable="true">
+                                    <arg value="-R" />
+                                    <arg value="${baseos.baseurl}" />
+                                    <arg value="-D" />
+                                    <arg value="./" />
+                                    <arg value="-/-" />
+                                    <arg value="bash.x86_64" />
+                                    <arg value="coreutils-single.x86_64" />
+                                    <arg value="glibc-common.x86_64" />
+                                    <arg value="glibc-minimal-langpack.x86_64" />
+                                    <arg value="glibc.x86_64" />
+                                    <arg value="libacl.x86_64" />
+                                    <arg value="libattr.x86_64" />
+                                    <arg value="libcap.x86_64" />
+                                    <arg value="libselinux.x86_64" />
+                                    <arg value="libsepol.x86_64" />
+                                    <arg value="ncurses-base.noarch" />
+                                    <arg value="ncurses-libs.x86_64" />
+                                    <arg value="pcre2.x86_64" />
+                                    <arg value="tzdata.noarch" />
+                                </exec-->
+
+                                <!--
+                                universal base image micro
+                                https://catalog.redhat.com/api/containers/v1/images/id/61096e0d3d73db3b143ede04/rpm-manifest
+
+                                ### ubi8-minimal
+                                https://catalog.redhat.com/api/containers/v1/images/id/610976854841f140fd7b5c7d/rpm-manifest
+
+                                ### ubi8-init
+                                https://catalog.redhat.com/api/containers/v1/images/id/610a1afb4841f140fd7b6612/rpm-manifest
+
+                                jq -r '.rpms[].name' < rpms.json
+
+                                jq -r '.rpms[] | "<arg value=\""+ .name +"."+ .architecture + "\" />"' < rpms-minimal.json|sort
+
+                                <mkdir dir="${rpm.path}/isofs/distro-minimal"/>
+                                    <arg value="audit-libs.x86_64" />
+                                    <arg value="basesystem.noarch" />
+                                    <arg value="bash.x86_64" />
+                                    <arg value="brotli.x86_64" />
+                                    <arg value="bzip2-libs.x86_64" />
+                                    <arg value="ca-certificates.noarch" />
+                                    <arg value="chkconfig.x86_64" />
+                                    <arg value="coreutils-single.x86_64" />
+                                    <arg value="crypto-policies.noarch" />
+                                    <arg value="curl.x86_64" />
+                                    <arg value="cyrus-sasl-lib.x86_64" />
+                                    <arg value="elfutils-libelf.x86_64" />
+                                    <arg value="expat.x86_64" />
+                                    <arg value="file-libs.x86_64" />
+                                    <arg value="filesystem.x86_64" />
+                                    <arg value="gawk.x86_64" />
+                                    <arg value="glib2.x86_64" />
+                                    <arg value="glibc-common.x86_64" />
+                                    <arg value="glibc-minimal-langpack.x86_64" />
+                                    <arg value="glibc.x86_64" />
+                                    <arg value="gmp.x86_64" />
+                                    <arg value="gnupg2.x86_64" />
+                                    <arg value="gnutls.x86_64" />
+                                    <arg value="gobject-introspection.x86_64" />
+                                    <arg value="gpgme.x86_64" />
+                                    <arg value="grep.x86_64" />
+                                    <arg value="info.x86_64" />
+                                    <arg value="json-c.x86_64" />
+                                    <arg value="json-glib.x86_64" />
+                                    <arg value="keyutils-libs.x86_64" />
+                                    <arg value="krb5-libs.x86_64" />
+                                    <arg value="langpacks-en.noarch" />
+                                    <arg value="libacl.x86_64" />
+                                    <arg value="libarchive.x86_64" />
+                                    <arg value="libassuan.x86_64" />
+                                    <arg value="libattr.x86_64" />
+                                    <arg value="libblkid.x86_64" />
+                                    <arg value="libcap-ng.x86_64" />
+                                    <arg value="libcap.x86_64" />
+                                    <arg value="libcom_err.x86_64" />
+                                    <arg value="libcurl.x86_64" />
+                                    <arg value="libdb-utils.x86_64" />
+                                    <arg value="libdb.x86_64" />
+                                    <arg value="libdnf.x86_64" />
+                                    <arg value="libffi.x86_64" />
+                                    <arg value="libgcc.x86_64" />
+                                    <arg value="libgcrypt.x86_64" />
+                                    <arg value="libgpg-error.x86_64" />
+                                    <arg value="libidn2.x86_64" />
+                                    <arg value="libksba.x86_64" />
+                                    <arg value="libmetalink.x86_64" />
+                                    <arg value="libmodulemd.x86_64" />
+                                    <arg value="libmount.x86_64" />
+                                    <arg value="libnghttp2.x86_64" />
+                                    <arg value="libpeas.x86_64" />
+                                    <arg value="libpsl.x86_64" />
+                                    <arg value="librepo.x86_64" />
+                                    <arg value="librhsm.x86_64" />
+                                    <arg value="libselinux.x86_64" />
+                                    <arg value="libsepol.x86_64" />
+                                    <arg value="libsigsegv.x86_64" />
+                                    <arg value="libsmartcols.x86_64" />
+                                    <arg value="libsolv.x86_64" />
+                                    <arg value="libssh-config.noarch" />
+                                    <arg value="libssh.x86_64" />
+                                    <arg value="libstdc++.x86_64" />
+                                    <arg value="libtasn1.x86_64" />
+                                    <arg value="libunistring.x86_64" />
+                                    <arg value="libusbx.x86_64" />
+                                    <arg value="libuuid.x86_64" />
+                                    <arg value="libverto.x86_64" />
+                                    <arg value="libxcrypt.x86_64" />
+                                    <arg value="libxml2.x86_64" />
+                                    <arg value="libyaml.x86_64" />
+                                    <arg value="libzstd.x86_64" />
+                                    <arg value="lua-libs.x86_64" />
+                                    <arg value="lz4-libs.x86_64" />
+                                    <arg value="microdnf.x86_64" />
+                                    <arg value="mpfr.x86_64" />
+                                    <arg value="ncurses-base.noarch" />
+                                    <arg value="ncurses-libs.x86_64" />
+                                    <arg value="nettle.x86_64" />
+                                    <arg value="npth.x86_64" />
+                                    <arg value="openldap.x86_64" />
+                                    <arg value="openssl-libs.x86_64" />
+                                    <arg value="p11-kit-trust.x86_64" />
+                                    <arg value="p11-kit.x86_64" />
+                                    <arg value="pcre2.x86_64" />
+                                    <arg value="pcre.x86_64" />
+                                    <arg value="popt.x86_64" />
+                                    <arg value="publicsuffix-list-dafsa.noarch" />
+                                    <arg value="readline.x86_64" />
+                                    <arg value="redhat-release.x86_64" />
+                                    <arg value="rootfiles.noarch" />
+                                    <arg value="rpm-libs.x86_64" />
+                                    <arg value="rpm.x86_64" />
+                                    <arg value="sed.x86_64" />
+                                    <arg value="setup.noarch" />
+                                    <arg value="sqlite-libs.x86_64" />
+                                    <arg value="systemd-libs.x86_64" />
+                                    <arg value="tzdata.noarch" />
+                                    <arg value="xz-libs.x86_64" />
+                                    <arg value="zlib.x86_64" />
+                                -->
+
+                                <mkdir dir="${rpm.path}/isofs/distro-base"/>
+                                <exec dir="${rpm.path}/isofs/distro-base" executable="${rpm.path}/../xbin/dl-from-repo.sh" resolveexecutable="true">
+                                    <arg value="-R" />
+                                    <arg value="${baseos.baseurl}" />
+                                    <arg value="-D" />
+                                    <arg value="./" />
+                                    <arg value="--" />
+
+                                    <arg value="glibc.x86_64" />
+                                    <arg value="glibc-common" />
+                                    <arg value="glibc-minimal-langpack" />
+                                    <arg value="glibc-langpack-en" />
+                                    <arg value="glibc-langpack-de" />
+                                    <arg value="ncurses.x86_64" />
+                                    <arg value="ncurses-libs.x86_64" />
+                                    <arg value="ncurses-base" />
+                                    <arg value="zlib.x86_64" />
+                                    <arg value="libgcc.x86_64" />
+                                    <arg value="libstdc++.x86_64" />
+
+                                    <arg value="bash" />
+                                    <arg value="tzdata" />
+                                    <arg value="gdbm.x86_64" />
+                                    <arg value="gdbm-libs.x86_64" />
+                                    <arg value="readline.x86_64" />
+                                    <arg value="lksctp-tools.x86_64" />
+                                    <arg value="openldap.x86_64" />
+                                    <arg value="sqlite-libs.x86_64" />
+                                    <arg value="sqlite.x86_64" />
+
+                                    <arg value="coreutils-single.x86_64" />
+                                    <arg value="libacl.x86_64" />
+                                    <arg value="libattr.x86_64" />
+                                    <arg value="libcap.x86_64" />
+                                    <arg value="libcap-ng.x86_64" />
+                                    <arg value="libselinux.x86_64" />
+                                    <arg value="libsepol.x86_64" />
+                                    <arg value="pcre2.x86_64" />
+                                    <arg value="pcre2-utf16.x86_64" />
+                                    <arg value="pcre2-utf32.x86_64" />
+                                    <arg value="pcre.x86_64" />
+                                    <arg value="pcre-cpp.x86_64" />
+                                    <arg value="pcre-utf16.x86_64" />
+                                    <arg value="pcre-utf32.x86_64" />
+
+                                    <!-- for pam support -->
+                                    <arg value="libxcrypt.x86_64" />
+                                    <arg value="openssl-libs.x86_64" />
+                                    <arg value="libdb.x86_64" />
+                                    <arg value="pam.x86_64" />
+                                    <arg value="audit-libs.x86_64" />
+                                    <arg value="libtirpc.x86_64" />
+                                    <arg value="libpwquality.x86_64" />
+                                    <arg value="libnsl2.x86_64" />
+                                    <arg value="cracklib.x86_64" />
+                                    <arg value="libconfig.x86_64" />
+                                    <arg value="libcurl.x86_64" />
+
+                                    <arg value="krb5-libs.x86_64" />
+                                    <arg value="keyutils-libs.x86_64" />
+                                    <arg value="crypto-policies" />
+                                    <arg value="libcom_err.x86_64" />
+                                    <arg value="libverto.x86_64" />
+
+                                    <!-- for util linux -->
+                                    <arg value="util-linux.x86_64" />
+                                    <arg value="libblkid.x86_64" />
+                                    <arg value="libuuid.x86_64" />
+                                    <arg value="systemd-libs.x86_64" />
+                                    <arg value="libsmartcols.x86_64" />
+                                    <arg value="libfdisk.x86_64" />
+                                    <arg value="libmount.x86_64" />
+                                    <arg value="libutempter.x86_64" />
+
+                                    <!-- for shadow-utils -->
+                                    <arg value="shadow-utils.x86_64" />
+                                    <arg value="libsemanage.x86_64" />
+                                    <arg value="bzip2-libs.x86_64" />
+                                    <arg value="xz-libs.x86_64" />
+                                    <arg value="lz4-libs.x86_64" />
+
+                                    <!-- for openssh -->
+                                    <arg value="libgcrypt.x86_64" />
+                                    <arg value="libgpg-error.x86_64" />
+                                    <arg value="openssh.x86_64" />
+                                    <arg value="openssh-clients.x86_64" />
+                                    <arg value="openssh-server.x86_64" />
+
+                                    <!-- misc -->
+                                    <arg value="avahi-libs.x86_64" />
+                                    <arg value="chkconfig.x86_64" />
+                                    <arg value="cups-libs.x86_64" />
+                                    <arg value="dbus-libs.x86_64" />
+                                    <arg value="freetype.x86_64" />
+                                    <arg value="libpng.x86_64" />
+                                    <arg value="lksctp-tools.x86_64" />
+
+                                    <arg value="mailcap" />
+                                    <arg value="popt.x86_64" />
+                                    <arg value="logrotate.x86_64" />
+                                    <arg value="net-snmp-libs.x86_64" />
+                                    <arg value="unixODBC.x86_64" />
+                                    <arg value="libseccomp.x86_64" />
+                                    <arg value="libsecret.x86_64" />
+                                    <arg value="libevent.x86_64" />
+                                    <arg value="expat.x86_64" />
+                                    <arg value="python3-libs.x86_64" />
+                                    <arg value="libtirpc.x86_64" />
+                                    <arg value="platform-python.x86_64" />
+                                    <arg value="platform-python-setuptools" />
+                                    <arg value="python3-pip-wheel" />
+                                    <arg value="python3-setuptools-wheel" />
+                                    <arg value="glib2.x86_64" />
+                                    <arg value="libffi.x86_64" />
+                                    <arg value="gnutls.x86_64" />
+                                    <arg value="gmp.x86_64" />
+                                    <arg value="nettle.x86_64" />
+                                    <arg value="libidn2.x86_64" />
+                                    <arg value="p11-kit.x86_64" />
+                                    <arg value="libtasn1.x86_64" />
+                                    <arg value="libunistring.x86_64" />
+                                    <arg value="p11-kit-trust.x86_64" />
+                                    <arg value="libpcap.x86_64" />
+                                    <arg value="libibverbs.x86_64" />
+                                    <arg value="libnl3.x86_64" />
+                                    <arg value="rdma-core.x86_64" />
+                                    <arg value="pciutils.x86_64" />
+                                    <arg value="kmod-libs.x86_64" />
+                                    <arg value="pciutils-libs.x86_64" />
+                                    <arg value="e2fsprogs.x86_64" />
+                                    <arg value="e2fsprogs-libs.x86_64" />
+                                    <arg value="fuse-libs.x86_64" />
+                                    <arg value="libss.x86_64" />
+                                    <arg value="device-mapper-libs.x86_64" />
+                                    <arg value="xfsprogs.x86_64" />
+
+                                    <arg value="microdnf.x86_64" />
+                                    <arg value="libpeas.x86_64" />
+                                    <arg value="gobject-introspection.x86_64" />
+                                    <arg value="libssh.x86_64" />
+                                    <arg value="libssh-config" />
+                                    <arg value="brotli.x86_64" />
+                                    <arg value="libnghttp2.x86_64" />
+                                    <arg value="libpsl.x86_64" />
+                                    <arg value="publicsuffix-list-dafsa" />
+                                    <arg value="cyrus-sasl-lib.x86_64" />
+
+                                    <arg value="rocky-release" />
+                                    <arg value="rocky-repos" />
+                                    <arg value="rocky-gpg-keys" />
+                                    <arg value="ca-certificates" />
+                                    <arg value="dnf" />
+                                    <arg value="dnf-data" />
+                                    <arg value="libreport-filesystem.x86_64" />
+                                    <arg value="yum" />
+                                    <arg value="python3-dnf" />
+                                    <arg value="libmodulemd.x86_64" />
+                                    <arg value="libmodulemd1.x86_64" />
+                                    <arg value="file-libs.x86_64" />
+                                    <arg value="rpm-libs.x86_64" />
+                                    <arg value="elfutils-libelf.x86_64" />
+                                    <arg value="lua-libs.x86_64" />
+                                    <arg value="libzstd.x86_64" />
+                                    <arg value="rpm.x86_64" />
+                                    <arg value="curl.x86_64" />
+                                    <arg value="libmetalink.x86_64" />
+                                    <arg value="libyaml.x86_64" />
+                                    <arg value="python3-gpg.x86_64" />
+                                    <arg value="gpgme.x86_64" />
+                                    <arg value="gnupg2.x86_64" />
+                                    <arg value="libksba.x86_64" />
+                                    <arg value="gnupg2-smime.x86_64" />
+                                    <arg value="npth.x86_64" />
+                                    <arg value="libusbx.x86_64" />
+                                    <arg value="libassuan.x86_64" />
+                                    <arg value="libgpg-error.x86_64" />
+                                    <arg value="python3-hawkey.x86_64" />
+                                    <arg value="libdnf.x86_64" />
+                                    <arg value="json-c.x86_64" />
+                                    <arg value="librepo.x86_64" />
+                                    <arg value="libxml2.x86_64" />
+                                    <arg value="libsolv.x86_64" />
+                                    <arg value="python3-libcomps.x86_64" />
+                                    <arg value="libcomps.x86_64" />
+                                    <arg value="python3-libdnf.x86_64" />
+                                    <arg value="python3-rpm.x86_64" />
+                                    <arg value="ima-evm-utils.x86_64" />
+                                    <arg value="keyutils.x86_64" />
+                                    <arg value="tpm2-tss.x86_64" />
+
+                                </exec>
+
+                                <mkdir dir="${rpm.path}/isofs/distro-epel"/>
+                                <exec dir="${rpm.path}/isofs/distro-epel" executable="${rpm.path}/../xbin/dl-from-repo.sh" resolveexecutable="true">
+                                    <arg value="-R" />
+                                    <arg value="${epel.baseurl}" />
+                                    <arg value="-D" />
+                                    <arg value="./" />
+                                    <arg value="--" />
+                                    <arg value="pam_radius" />
+                                    <arg value="pam_url" />
+                                    <arg value="monit.x86_64" />
+                                    <arg value="daemonize.x86_64" />
+                                    <arg value="fping.x86_64" />
+                                    <arg value="google-authenticator.x86_64" />
+                                    <arg value="ifstat.x86_64" />
+                                    <arg value="iftop.x86_64" />
+                                    <arg value="iotop-c.x86_64" />
+                                    <arg value="msmtp.x86_64" />
+                                    <arg value="libgsasl.x86_64" />
+                                    <arg value="libntlm.x86_64" />
+                                    <arg value="nagios-common.x86_64" />
+                                    <arg value="nagios-plugins.x86_64" />
+                                    <arg value="nagios-plugins-tcp.x86_64" />
+                                    <arg value="nrpe.x86_64" />
+                                    <arg value="radsecproxy.x86_64" />
+                                    <arg value="spawn-fcgi.x86_64" />
+                                    <arg value="rootsh.x86_64" />
+                                    <arg value="tcping.x86_64" />
+                                    <arg value="ngrep.x86_64" />
+                                    <arg value="rclone.x86_64" />
+                                    <arg value="vile.x86_64" />
+                                    <arg value="vile-common.x86_64" />
+                                    <arg value="pam_oath.x86_64" />
+                                    <arg value="liboath.x86_64" />
+                                    <arg value="oathtool.x86_64" />
+
+                                </exec>
+
+                                <mkdir dir="${rpm.path}/isofs/distro-appstream"/>
+                                <exec dir="${rpm.path}/isofs/distro-appstream" executable="${rpm.path}/../xbin/dl-from-repo.sh" resolveexecutable="true">
+                                    <arg value="-R" />
+                                    <arg value="${appstream.baseurl}" />
+                                    <arg value="-D" />
+                                    <arg value="./" />
+                                    <arg value="--" />
+                                    <arg value="libidn.x86_64" />
+                                    <arg value="mariadb.x86_64" />
+                                    <arg value="mariadb-connector-c.x86_64" />
+                                    <arg value="mariadb-common.x86_64" />
+                                    <arg value="libpq.x86_64" />
+                                    <arg value="jq.x86_64" />
+                                    <arg value="oniguruma.x86_64" />
+                                    <arg value="gnutls-utils.x86_64" />
+                                    <arg value="gnutls-dane.x86_64" />
+                                    <arg value="autogen-libopts.x86_64" />
+                                    <arg value="unbound-libs.x86_64" />
+                                    <arg value="libnet.x86_64" />
+                                    <arg value="lua.x86_64" />
+                                    <arg value="libXi.x86_64" />
+                                    <arg value="libXdmcp.x86_64" />
+                                    <arg value="libX11.x86_64" />
+                                    <arg value="libX11-common.noarch" />
+                                    <arg value="libxcb.x86_64" />
+                                    <arg value="libXau.x86_64" />
+                                    <arg value="libXext.x86_64" />
+                                    <arg value="nss-pam-ldapd.x86_64" />
+                                    <!--arg value="java-1.8.0-openjdk-headless.x86_64" /-->
+                                    <!--arg value="copy-jdk-configs.noarch" /-->
+                                    <!--arg value="javapackages-filesystem.noarch" /-->
+                                    <arg value="libjpeg-turbo.x86_64" />
+                                    <arg value="nspr.x86_64" />
+                                    <arg value="nss.x86_64" />
+                                    <arg value="nss-softokn.x86_64" />
+                                    <arg value="nss-softokn-freebl.x86_64" />
+                                    <arg value="nss-sysinit.x86_64" />
+                                    <arg value="nss-util.x86_64" />
+                                    <arg value="tzdata-java.noarch" />
+                                </exec>
+
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

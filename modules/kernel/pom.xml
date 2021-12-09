@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- LTS KERNELS
+        4.19 - https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.206.tar.gz
+        5.4  - https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.144.tar.gz
+        5.10 - https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.63.tar.gz
+
+        LATEST KERNEL
+        https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.2.tar.gz
+    -->
+
+    <artifactId>kernel</artifactId>
+    <version>4.19.206</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <kernel.tag>linux-${project.version}</kernel.tag>
+        <kernel.tar>${kernel.tag}.tar</kernel.tar>
+        <kernel.archive>${kernel.tar}.gz</kernel.archive>
+        <kernel.url>https://cdn.kernel.org/pub/linux/kernel/v4.x/${kernel.archive}</kernel.url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target  xmlns:if="ant:if" xmlns:unless="ant:unless" >
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <mkdir dir="${rpm.path}"/>
+                                <mkdir dir="${project.build.directory}/kernel"/>
+                                <mkdir dir="${project.build.directory}/kmods"/>
+                                <mkdir dir="${project.build.directory}/kheader"/>
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${kernel.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <condition property="binary.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/bzImage-${project.version}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <!-- FETCH KERNEL SOURCE FROM INTERNET -->
+
+                                <get unless:true="${archive.exists}" src="${kernel.url}" dest="${project.basedir}/src/main/dist/${kernel.archive}"/>
+
+                                <!-- COMPILE KERNEL FROM SOURCE -->
+
+                                <exec unless:true="${binary.exists}" dir="./" executable="tar">
+                                    <arg line="-xvf src/main/dist/${kernel.archive} -C ${project.build.directory}/kernel" />
+                                </exec>
+                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
+                                    <arg value="clean" />
+                                    <arg value="defconfig" />
+                                </exec>
+                                <echo unless:true="${binary.exists}" file="${project.build.directory}/kernel/${kernel.tag}/.config" append="true"><![CDATA[
+CONFIG_RETPOLINE=n
+CONFIG_FB_VESA=y
+CONFIG_SOUND=n
+CONFIG_FB_VIRTUAL=y
+CONFIG_VIRT_DRIVERS=y
+CONFIG_VIRTIO_PCI=y
+CONFIG_VIRTIO_MMIO=y
+CONFIG_DEVTMPFS_MOUNT=n
+CONFIG_BLK_DEV_INITRD=y
+CONFIG_VIRTIO_BLK=y
+CONFIG_VIRTIO_BLK_SCSI=y
+CONFIG_VIRTIO_NET=y
+CONFIG_VIRTIO_CONSOLE=y
+CONFIG_HW_RANDOM_VIRTIO=y
+CONFIG_DRM_VIRTIO_GPU=y
+CONFIG_VIRTIO_INPUT=y
+CONFIG_INTEGRITY_SIGNATURE=n
+CONFIG_CHECK_SIGNATURE=n
+CONFIG_SIGNATURE=n
+CONFIG_OVERLAY_FS=y
+CONFIG_OVERLAY_FS_REDIRECT_DIR=y
+CONFIG_OVERLAY_FS_INDEX=y
+CONFIG_OVERLAY_FS_REDIRECT_ALWAYS_FOLLOW=y
+CONFIG_OVERLAY_FS_NFS_EXPORT=y
+CONFIG_OVERLAY_FS_XINO_AUTO=y
+CONFIG_OVERLAY_FS_METACOPY=y
+CONFIG_EFI_MIXED=y
+CONFIG_EFI_STUB=y
+CONFIG_FUSION=y
+CONFIG_FUSION_SPI=y
+CONFIG_FUSION_MAX_SGE=128
+CONFIG_SCSI=y
+CONFIG_SCSI_NETLINK=y
+CONFIG_BLK_DEV_SD=y
+CONFIG_SCSI_SPI_ATTRS=y
+CONFIG_SCSI_FC_ATTRS=y
+CONFIG_SCSI_ISCSI_ATTRS=y
+CONFIG_SCSI_SAS_ATTRS=y
+CONFIG_NFS_FS=n
+CONFIG_WIMAX=n
+CONFIG_WIRELESS=n
+CONFIG_WLAN=n
+
+                                ]]></echo>
+                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
+                                    <arg value="olddefconfig" />
+                                    <arg value="certs" />
+                                </exec>
+                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
+                                    <arg line="-j 8 bzImage" />
+                                </exec>
+                                <copy unless:true="${binary.exists}" tofile="src/main/dist/bzImage-${project.version}">
+                                    <fileset file="${project.build.directory}/kernel/${kernel.tag}/arch/x86/boot/bzImage" />
+                                </copy>
+
+                                <!--
+
+                                <exec dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
+                                    <arg line="-j 8 modules" />
+                                </exec>
+                                <exec dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
+                                    <arg line="-j 8 modules_install INSTALL_MOD_PATH=${project.build.directory}/kmods" />
+                                </exec>
+                                <tar destfile="${rpm.path}/kmods.tar" basedir="${project.build.directory}/kmods" />
+
+                                <exec dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
+                                    <arg line="-j 8 mrproper" />
+                                </exec>
+                                <exec dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
+                                    <arg line="-j 8 INSTALL_HDR_PATH=${project.build.directory}/kheader headers_install" />
+                                </exec>
+                                <tar destfile="${rpm.path}/kheader.tar" basedir="${project.build.directory}/kheader">
+                                    <exclude name="**/.install" />
+                                    <exclude name="**/..install.cmd" />
+                                </tar>
+
+                                -->
+
+                                <copy tofile="${rpm.path}/bzImage" overwrite="true">
+                                    <fileset file="src/main/dist/bzImage-${project.version}" />
+                                </copy>
+
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
