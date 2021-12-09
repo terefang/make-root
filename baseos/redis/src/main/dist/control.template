@@ -1,0 +1,6 @@
+Package: @artifactId@
+Version: @version@
+Architecture: @arch@
+Section: apps
+Maintainer: apps
+Description: @artifactId@

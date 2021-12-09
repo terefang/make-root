@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.baseos</groupId>
+    <artifactId>rc-system</artifactId>
+    <version>2021.9.0</version>
+    <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <mkdir dir="${rpm.path}"/>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${rpm.path}"
+                                        license="GPLv2"
+                                        group="baseos"
+                                        name="baseos-${project.artifactId}"
+                                        summary="generic system start."
+                                        distribution="nos"
+                                        packager="nos"
+                                        url="none"
+                                        vendor="nos"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.nos.${project.parent.version}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/etc/" filemode='555' file="src/main/dist/inittab" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/etc/network/interfaces.d" filemode='555'  dirmode='755' dir="src/main/dist/if.d" username="root" group="root"/>
+
+                                    <emptydir path="/etc/rc-system/rc.d" filemode='644' dirmode='755' username="root" group="root"/>
+                                    <emptydir path="/apps/etc/rc-system/rc.d" filemode='644' dirmode='755' username="root" group="root"/>
+
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/startup.sh" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/shutdown.sh" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/restart.sh" username="root" group="root" addParents="false" />
+                                    <link path="/usr/sbin/restart" target="/etc/rc-system/init.d/restart.sh" />
+
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/filesystem.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/01_filesystem" target="/etc/rc-system/init.d/filesystem.sh" />
+
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/basics.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/02_basics" target="/etc/rc-system/init.d/basics.sh" />
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/python.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/02_python" target="/etc/rc-system/init.d/python.sh" />
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/p11-kit.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/02_p11kit" target="/etc/rc-system/init.d/p11-kit.sh" />
+
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/network.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/03_network" target="/etc/rc-system/init.d/network.sh" />
+
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/syslog.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/04_syslog" target="/etc/rc-system/init.d/syslog.sh" />
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/dns.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/04_dns" target="/etc/rc-system/init.d/dns.sh" />
+
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/time.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/05_time" target="/etc/rc-system/init.d/time.sh" />
+
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/ttyd.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/06_ttyd" target="/etc/rc-system/init.d/ttyd.sh" />
+
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/ssh.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/07_ssh" target="/etc/rc-system/init.d/ssh.sh" />
+
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/cron.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/08_cron" target="/etc/rc-system/init.d/cron.sh" />
+
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/monit.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/98_monit" target="/etc/rc-system/init.d/monit.sh" />
+
+                                    <rpmfileset prefix="/etc/rc-system/init.d" filemode='500' file="src/main/dist/apps.sh" username="root" group="root" addParents="false" />
+                                    <link path="/etc/rc-system/rc.d/99_apps" target="/etc/rc-system/init.d/apps.sh" />
+
+
+                                </xrpm>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CLISH_MODULE xmlns="http://clish.sourceforge.net/XMLSchema"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://clish.sourceforge.net/XMLSchema
+                     http://clish.sourceforge.net/XMLSchema/clish.xsd">
+
+  <COMMAND name="quit"
+           help="Quit this shell">
+    <ACTION builtin="clish_nested_up"/>
+  </COMMAND>
+
+  <COMMAND name="exit"
+           help="Quit the shell entirely">
+    <ACTION builtin="clish_close"/>
+  </COMMAND>
+
+  <COMMAND name="show"
+           help="Show system information"/>
+
+
+
+</CLISH_MODULE>

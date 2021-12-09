@@ -1,0 +1,6 @@
+#inittab
+::sysinit:/etc/rc-system/init.d/startup.sh
+tty1::respawn:getty 38400 tty1
+tty2::respawn:getty 38400 tty2
+::ctrlaltdel:reboot
+::shutdown:/etc/rc-system/init.d/shutdown.sh

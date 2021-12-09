@@ -1,0 +1,16 @@
+
+<CLISH_MODULE xmlns="http://clish.sourceforge.net/XMLSchema"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://clish.sourceforge.net/XMLSchema
+                     http://clish.sourceforge.net/XMLSchema/clish.xsd">
+
+  <COMMAND name="system" help="system operation"/>
+  <COMMAND name="system shell" help="the system shell">
+    <ACTION>PS1='\u@\h:\w # ' sigexec /usr/bin/busybox hush</ACTION>
+  </COMMAND>
+
+  <COMMAND name="system bash" help="the system bash">
+    <ACTION>PS1='\u@\h:\w # ' sigexec /usr/bin/bash</ACTION>
+  </COMMAND>
+
+</CLISH_MODULE>

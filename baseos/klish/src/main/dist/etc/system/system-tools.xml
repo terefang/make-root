@@ -1,0 +1,56 @@
+
+<CLISH_MODULE xmlns="http://clish.sourceforge.net/XMLSchema"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://clish.sourceforge.net/XMLSchema
+                     http://clish.sourceforge.net/XMLSchema/clish.xsd">
+
+  <COMMAND name="ping" args="argv" args_help="ping args" help="ping command">
+    <ACTION>sigexec /usr/bin/busybox ping ${argv}</ACTION>
+  </COMMAND>
+  <COMMAND name="ping6" args="argv" args_help="ping6 args" help="ping6 command">
+    <ACTION>sigexec /usr/bin/busybox ping6 ${argv}</ACTION>
+  </COMMAND>
+  <COMMAND name="traceroute" args="argv" args_help="traceroute args" help="traceroute command">
+    <ACTION>sigexec /usr/bin/busybox traceroute ${argv}</ACTION>
+  </COMMAND>
+  <COMMAND name="traceroute6" args="argv" args_help="traceroute6 args" help="traceroute6 command">
+    <ACTION>sigexec /usr/bin/busybox traceroute6 ${argv}</ACTION>
+  </COMMAND>
+  <COMMAND name="fping" args="argv" args_help="fping args" help="fping command">
+    <ACTION>sigexec /usr/sbin/fping ${argv}</ACTION>
+  </COMMAND>
+  <COMMAND name="ssh" args="argv" args_help="ssh args" help="ssh command">
+    <ACTION>sigexec /usr/bin/ssh ${argv}</ACTION>
+  </COMMAND>
+  <COMMAND name="telnet" args="argv" args_help="telnet args" help="telnet command">
+    <ACTION>sigexec /usr/bin/telnet ${argv}</ACTION>
+  </COMMAND>
+
+  <COMMAND name="tools test" help="some.">
+    <ACTION>
+      while IFS='' read -r LINE; do
+        if [ "x$LINE" = "x_EOF_" ]; then
+          exit 0;
+        fi
+      echo "$LINE"
+      done
+    </ACTION>
+  </COMMAND>
+
+
+<!--
+
+<COMMAND name="def" help="">
+  <PARAM ... ... completion="${myvar}" ... />
+</COMMAND>
+
+<VAR name="myvar" dynamic="true" ... >
+<ACTION>
+   # Analyze your konfd by "konf" utility and generate completion list like "g1 g2 g3"
+</ACTION>
+</VAR>
+
+-->
+
+
+</CLISH_MODULE>

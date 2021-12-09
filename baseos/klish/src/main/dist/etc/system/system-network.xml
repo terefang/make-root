@@ -1,0 +1,113 @@
+
+<CLISH_MODULE xmlns="http://clish.sourceforge.net/XMLSchema"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://clish.sourceforge.net/XMLSchema
+                     http://clish.sourceforge.net/XMLSchema/clish.xsd">
+
+  <COMMAND name="network" help="network operation"/>
+
+  <COMMAND name="network ifup" help="network interface up">
+    <PARAM name="device"
+           help="interface device"
+           ptype="STRING"/>
+    <ACTION>exec /usr/bin/busybox ifup ${device}</ACTION>
+  </COMMAND>
+
+  <COMMAND name="network ifup all" help="network interface up">
+    <ACTION>exec /usr/bin/busybox ifup -a</ACTION>
+  </COMMAND>
+
+  <COMMAND name="network ifdown" help="network interface down">
+    <PARAM name="device"
+           help="interface device"
+           ptype="IFDEVICE"/>
+    <ACTION>exec /usr/bin/busybox ifdown ${device}</ACTION>
+  </COMMAND>
+
+  <COMMAND name="network ifdown all" help="network interface down">
+    <ACTION>exec /usr/bin/busybox ifdown -a</ACTION>
+  </COMMAND>
+
+  <COMMAND name="network ifstatus" help="network interface status">
+    <PARAM name="device"
+           help="interface device"
+           ptype="IFDEVICE"  optional="true"/>
+    <ACTION>exec /usr/bin/busybox ifconfig ${device}</ACTION>
+  </COMMAND>
+
+  <COMMAND name="network ifstatus all" help="network interface status">
+    <ACTION>exec /usr/bin/busybox ifconfig -a</ACTION>
+  </COMMAND>
+
+  <COMMAND name="network ifconfig" args="argv" args_help="ifconfig args" help="ifconfig command">
+    <ACTION>exec /usr/bin/busybox ifconfig ${argv}</ACTION>
+  </COMMAND>
+
+  <COMMAND name="network interface" help="network interface operation"/>
+  <COMMAND name="network interface static-ipv4" help="network interface">
+    <PARAM name="device"
+           help="interface device"
+           ptype="IFDEVICE"/>
+    <PARAM name="addr"
+           help="interface address"
+           ptype="IP_ADDR"/>
+    <PARAM name="mask"
+           help="interface mask"
+           ptype="IP_ADDR_MASK"/>
+    <PARAM name="gateway"
+           help="interface gateway"
+           ptype="IP_ADDR" optional="true"/>
+    <ACTION><![CDATA[
+      echo "auto ${device}" > /etc/network/interfaces.d/${device}
+      echo "iface ${device} inet static" >> /etc/network/interfaces.d/${device}
+      [ ! -z "${addr}" ] && echo "  address ${addr}" >> /etc/network/interfaces.d/${device}
+      [ ! -z "${mask}" ] && echo "  netmask ${mask}" >> /etc/network/interfaces.d/${device}
+      [ ! -z "${gateway}" ] && echo "  gateway ${gateway}" >> /etc/network/interfaces.d/${device}
+    ]]></ACTION>
+  </COMMAND>
+  <COMMAND name="network interface dhcp-ipv4" help="network interface">
+    <PARAM name="device"
+           help="interface device"
+           ptype="IFDEVICE"/>
+    <ACTION><![CDATA[
+      echo "auto ${device}" > /etc/network/interfaces.d/${device}
+      echo "iface ${device} inet dhcp" >> /etc/network/interfaces.d/${device}
+      ]]></ACTION>
+  </COMMAND>
+  <COMMAND name="network interface delete" help="network interface">
+    <PARAM name="device"
+           help="interface device"
+           ptype="IFDEVICE"/>
+    <ACTION>
+      rm /etc/network/interfaces.d/${device}
+    </ACTION>
+  </COMMAND>
+
+  <COMMAND name="network test" help="network interface">
+    <ACTION>
+      while IFS='' read -r LINE; do
+        if [ "x$LINE" = "x_EOF_" ]; then
+          exit 0;
+        fi
+      echo "$LINE"
+      done
+    </ACTION>
+  </COMMAND>
+
+
+<!--
+
+<COMMAND name="def" help="">
+  <PARAM ... ... completion="${myvar}" ... />
+</COMMAND>
+
+<VAR name="myvar" dynamic="true" ... >
+<ACTION>
+   # Analyze your konfd by "konf" utility and generate completion list like "g1 g2 g3"
+</ACTION>
+</VAR>
+
+-->
+
+
+</CLISH_MODULE>

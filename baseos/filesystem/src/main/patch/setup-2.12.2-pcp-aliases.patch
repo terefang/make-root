@@ -1,0 +1,12 @@
+diff --git a/aliases b/aliases
+index 7f99300..5d7b9e2 100644
+--- a/aliases
++++ b/aliases
+@@ -63,6 +63,7 @@ desktop:	root
+ rpcuser:	root
+ rpc:		root
+ nfsnobody:	root
++pcp:		root
+ 
+ ingres:		root
+ system:		root

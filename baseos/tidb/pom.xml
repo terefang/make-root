@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.bootos</groupId>
+    <artifactId>tidb</artifactId>
+    <version>5.2.1</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prog.tag>${project.artifactId}-${project.version}</prog.tag>
+        <prog.url>https://download.pingcap.org/${project.artifactId}-v${project.version}-linux-amd64.tar.gz</prog.url>
+        <prog.archive>${prog.tag}.tar.gz</prog.archive>
+
+        <tool.url>https://download.pingcap.org/${project.artifactId}-toolkit-v${project.version}-linux-amd64.tar.gz</tool.url>
+        <tool.archive>${project.artifactId}-toolkit-v${project.version}-linux-amd64.tar.gz</tool.archive>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <mkdir dir="${rpm.path}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prog.tag}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/root"/>
+                                <mkdir dir="${toolchain.dir}"/>
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prog.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <condition property="tool.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${tool.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <condition property="binary.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/xbin/tidb"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <mkdir unless:true="${archive.exists}" dir="${project.basedir}/src/main/dist"/>
+                                <get unless:true="${archive.exists}" src="${prog.url}" dest="${project.basedir}/src/main/dist/${prog.archive}"/>
+                                <get unless:true="${tool.exists}" src="${tool.url}" dest="${project.basedir}/src/main/dist/${tool.archive}"/>
+
+                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}/${prog.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prog.archive} --strip 1" />
+                                </exec>
+
+                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}/${prog.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${tool.archive} --strip 1" />
+                                </exec>
+
+                                <mkdir unless:true="${binary.exists}" dir="${project.basedir}/src/main/dist/xbin"/>
+                                <copy unless:true="${binary.exists}" todir="${project.basedir}/src/main/dist/xbin/" flatten="true">
+                                    <fileset dir="${project.build.directory}/${project.artifactId}/${prog.tag}">
+                                        <include name="bin/*" />
+                                    </fileset>
+                                </copy>
+
+                                  <xrpm
+                                        architecture="X86_64"
+                                        destination="${rpm.path}"
+                                        license="BSD"
+                                        group="baseos"
+                                        name="baseos-${project.artifactId}"
+                                        summary="${project.artifactId}."
+                                        distribution="nos"
+                                        packager="nos"
+                                        url="none"
+                                        vendor="nos"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.nos.${project.parent.version}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/tidb/bin" filemode='750' dirmode="750" dir="src/main/dist/xbin" username="root" group="root" addParents="false" />
+
+                                </xrpm>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

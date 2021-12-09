@@ -1,0 +1,127 @@
+#!/bin/sh
+#
+# /etc/network/if-up.d/addresses
+# /etc/network/if-down.d/addresses
+#
+# Stefan Tomanek <stefan.tomanek+ifupdown@wertarbyte.de>
+# http://wertarbyte.de/debian/
+#
+# Place in /etc/network/if-up.d/ and link to
+# /etc/network/if-down.d/
+#
+# Configure additional addresses by specifying
+# "addresses" in your /etc/network/interfaces file:
+#
+# iface eth0 inet dhcp
+#   addresses 10.0.0.1/8 192.168.10.4/24
+#   addresses-foo 192.168.2.4/24
+#   addresses-bar 172.17.2.1/16
+#
+# To make the addresses visible in legacy commands like
+# "ifconfig", the script can create the deprecated alias
+# devices (e.g. eth0:1) for you. To achieve this bevahiour,
+# specify "create_alias_devices yes" in your configuration
+# stanca.
+#
+# You can also use the labels used in /etc/network/interfaces
+# to distinguish the configured addresses in the output of
+# "ifconfig" and "ip addr". Simply set the configuration
+# option "label_addresses yes". This option can also be
+# combined with "create_alias_devices": While any addresses
+# line accompanied by a label will be marked with it, anonymous
+# addresses will be enumerated by the script.
+#
+# NOTE!
+# Due to kernel limitations, the complete label of an address
+# must not exceed 16 characters. This includes the device name
+# and the : separating device name und custom string.
+#
+# To allow the inclusion of selfexplaining labels in the configuration,
+# a short alias label can be specified:
+#
+# iface eth0 inet dhcp
+#   label_addresses yes
+#   addresses-www-webserver 10.0.0.3/24
+#   addresses-smtp-mailrelay 10.0.0.4/24
+#   addresses-dns 10.0.0.5/24
+#
+# With this configuration, the addresses will be labeled "www", "smtp",
+# and "dns", ignoring the (optional) longer descriptions following
+#
+# This script is published under the rules of the GPLv3
+# http://www.gnu.org/licenses/gpl.html
+
+CMD_IP=/bin/ip
+
+
+if [ ! -x $CMD_IP ]; then
+  exit 0
+fi
+
+if [ "$MODE" = "start" ]; then
+  OP="add"
+else
+  OP="del"
+fi
+COMPAT_DEVS=""
+LABEL_ADDRESSES=""
+
+if [ "$IF_CREATE_ALIAS_DEVICES" = "yes" ]; then
+    # create enumerated labels (eth0:1, eth0:2...)
+    COMPAT_DEVS="1"
+fi
+
+if [ "$IF_LABEL_ADDRESSES" = "yes" ]; then
+    # use labels specifed in the configation (eth0:https, eth0:vserver...)
+    LABEL_ADDRESSES="1"
+fi
+
+
+# print all addresses with the label next to it
+ADDRESSES="$(/usr/bin/awk 'BEGIN {
+    for (key in ENVIRON) {
+        if (key ~ /^IF_ADDRESSES(_|$)/) {
+            # we just use the third item of the splitted key and
+            # consider it the "short" label - since device names are limited
+            # to 16 characters, a short label can be placed there while adding
+            # a more elaborate one to the config as well
+            # (e.g. addresses-www-webserver 10.0.0.1/24)
+            split( key, L, "_" );
+            label = tolower( L[3] );
+            split(ENVIRON[key], A);
+            for (j in A) {
+                addr = A[j];
+                print addr " " label;
+            }
+        }
+    }
+}')"
+
+# Nothing to do?
+if [ -z "$ADDRESSES" ]; then
+    exit 0
+fi
+
+N=1
+echo "$ADDRESSES" | while read ADDR ALABEL; do
+  LABEL=""
+  # we don't want to specify the label when removing addresses
+  if [ "del" != "$OP" ]; then
+    # we don't want to use the supplied labels
+    if [ ! "$LABEL_ADDRESSES" ]; then
+        ALABEL=""
+    fi
+    # Numeric labels (old style eth0:X)
+    if [ "$COMPAT_DEVS" -a -z "$ALABEL" ]; then
+        ALABEL="$N"
+        N=$(($N+1))
+    fi
+    # If we have a label and want it...
+    if [ "$ALABEL" ] && [ "$COMPAT_DEVS" -o "$LABEL_ADDRESSES" ]; then
+        LABEL="label $IFACE:$ALABEL"
+    fi
+  fi
+  FULL_CMD="$CMD_IP addr $OP $ADDR dev $IFACE $LABEL"
+  $FULL_CMD || \
+  echo "Error executing: $FULL_CMD" >&2
+done

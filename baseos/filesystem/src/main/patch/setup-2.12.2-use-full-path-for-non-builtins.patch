@@ -1,0 +1,113 @@
+diff --git a/bashrc b/bashrc
+index ddc4699..d19a7c1 100644
+--- a/bashrc
++++ b/bashrc
+@@ -71,7 +71,7 @@ if [ -z "$BASHRCSOURCED" ]; then
+     # Current threshold for system reserved uid/gids is 200
+     # You could check uidgid reservation validity in
+     # /usr/share/doc/setup-*/uidgid file
+-    if [ $UID -gt 199 ] && [ "`id -gn`" = "`id -un`" ]; then
++    if [ $UID -gt 199 ] && [ "`/usr/bin/id -gn`" = "`/usr/bin/id -un`" ]; then
+        umask 002
+     else
+        umask 022
+diff --git a/csh.cshrc b/csh.cshrc
+index d6fae9d..b83d5da 100644
+--- a/csh.cshrc
++++ b/csh.cshrc
+@@ -7,7 +7,7 @@
+ # Current threshold for system reserved uid/gids is 200
+ # You could check uidgid reservation validity in
+ # /usr/share/doc/setup-*/uidgid file
+-if ($uid > 199 && "`id -gn`" == "`id -un`") then
++if ($uid > 199 && "`/usr/bin/id -gn`" == "`/usr/bin/id -un`") then
+     umask 002
+ else
+     umask 022
+@@ -20,7 +20,7 @@ if ($?prompt) then
+     # make completion work better by default
+     set autolist
+   else
+-    set prompt=\[$user@`hostname -s`\]\$\ 
++    set prompt=\[$user@`/usr/bin/hostname -s`\]\$\ 
+   endif
+ endif
+ 
+diff --git a/lang.csh b/lang.csh
+index 695c1bc..94c4625 100644
+--- a/lang.csh
++++ b/lang.csh
+@@ -8,7 +8,7 @@ endif
+ foreach config (/etc/locale.conf "${HOME}/.i18n")
+     if (-f "${config}") then
+         # NOTE: We are using eval & sed here to avoid invoking of any commands & functions from those files.
+-        eval `sed -r -e 's/^[[:blank:]]*([[:upper:]_]+)=([[:print:][:digit:]\._-]+|"[[:print:][:digit:]\._-]+")/setenv \1 \2;/;t;d' ${config}`
++        eval `/usr/bin/sed -r -e 's/^[[:blank:]]*([[:upper:]_]+)=([[:print:][:digit:]\._-]+|"[[:print:][:digit:]\._-]+")/setenv \1 \2;/;t;d' ${config}`
+     endif
+ end
+ 
+@@ -32,11 +32,11 @@ if (${?LC_ALL}) then
+ endif
+ 
+ # The ${LANG} manipulation is necessary only in virtual terminal (a.k.a. console - /dev/tty*):
+-set in_console=`tty | grep -vc -e '/dev/tty'`
++set in_console=`/usr/bin/tty | /usr/bin/grep -vc -e '/dev/tty'`
+ 
+ if (${?LANG} && ${?TERM}) then
+     if (${TERM} == 'linux' && $in_console == 0) then
+-        set utf8_used=`echo ${LANG} | grep -vc -E -i -e '^.+\.utf-?8$'`
++        set utf8_used=`echo ${LANG} | /usr/bin/grep -vc -E -i -e '^.+\.utf-?8$'`
+ 
+         if (${utf8_used} == 0) then
+             switch (${LANG})
+diff --git a/lang.sh b/lang.sh
+index 0252b0f..c9022d0 100644
+--- a/lang.sh
++++ b/lang.sh
+@@ -8,7 +8,7 @@ fi
+ for config in /etc/locale.conf "${HOME}/.i18n"; do
+     # NOTE: We are using eval & sed here to avoid invoking of any commands & functions from those files.
+     if [ -f "${config}" ]; then
+-        eval $(sed -r -e 's/^[[:blank:]]*([[:upper:]_]+)=([[:print:][:digit:]\._-]+|"[[:print:][:digit:]\._-]+")/export \1=\2/;t;d' ${config})
++        eval $(/usr/bin/sed -r -e 's/^[[:blank:]]*([[:upper:]_]+)=([[:print:][:digit:]\._-]+|"[[:print:][:digit:]\._-]+")/export \1=\2/;t;d' ${config})
+     fi
+ done
+ 
+@@ -32,8 +32,8 @@ if [ -n "${LC_ALL}" ]; then
+ fi
+ 
+ # The ${LANG} manipulation is necessary only in virtual terminal (a.k.a. console - /dev/tty*):
+-if [ -n "${LANG}" ] && [ "${TERM}" = 'linux' ] && tty | grep --quiet -e '/dev/tty'; then
+-    if grep --quiet -E -i -e '^.+\.utf-?8$' <<< "${LANG}"; then
++if [ -n "${LANG}" ] && [ "${TERM}" = 'linux' ] && /usr/bin/tty | /usr/bin/grep --quiet -e '/dev/tty'; then
++    if /usr/bin/grep --quiet -E -i -e '^.+\.utf-?8$' <<< "${LANG}"; then
+         case ${LANG} in
+             ja*)    LANG=en_US.UTF-8 ;;
+             ko*)    LANG=en_US.UTF-8 ;;
+diff --git a/profile b/profile
+index 1feb987..16b2e69 100644
+--- a/profile
++++ b/profile
+@@ -25,10 +25,10 @@ pathmunge () {
+ if [ -x /usr/bin/id ]; then
+     if [ -z "$EUID" ]; then
+         # ksh workaround
+-        EUID=`id -u`
+-        UID=`id -ru`
++        EUID=`/usr/bin/id -u`
++        UID=`/usr/bin/id -ru`
+     fi
+-    USER="`id -un`"
++    USER="`/usr/bin/id -un`"
+     LOGNAME=$USER
+     MAIL="/var/spool/mail/$USER"
+ fi
+@@ -56,7 +56,7 @@ export PATH USER LOGNAME MAIL HOSTNAME HISTSIZE HISTCONTROL
+ # Current threshold for system reserved uid/gids is 200
+ # You could check uidgid reservation validity in
+ # /usr/share/doc/setup-*/uidgid file
+-if [ $UID -gt 199 ] && [ "`id -gn`" = "`id -un`" ]; then
++if [ $UID -gt 199 ] && [ "`/usr/bin/id -gn`" = "`/usr/bin/id -un`" ]; then
+     umask 002
+ else
+     umask 022
