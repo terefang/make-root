@@ -7,7 +7,8 @@
 *.iml
 .idea
 /target
-*/*/target
+/target/**
+*/*/target/**
 */*/src/main/dist/xbin-*/*
 */*/src/main/dist/xbin/*
 */*/src/main/dist/*.tar.*

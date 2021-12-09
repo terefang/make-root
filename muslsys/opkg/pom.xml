@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.muslsys</groupId>
+    <artifactId>opkg</artifactId>
+    <version>0.5.0</version> <!-- 0.4.5 -->
+    <packaging>pom</packaging>
+
+    <properties>
+        <opkg.archive>${project.artifactId}-${project.version}.tar.gz</opkg.archive>
+        <opkg.tag>${project.artifactId}-${project.version}</opkg.tag>
+        <opkg.url>http://git.yoctoproject.org/cgit/cgit.cgi/opkg/snapshot/${opkg.archive}</opkg.url>
+        <opkgutils.tag>${project.artifactId}-utils-${project.version}</opkgutils.tag>
+        <opkgutils.archive>${project.artifactId}-utils-${project.version}.tar.gz</opkgutils.archive>
+        <opkgutils.url>http://git.yoctoproject.org/cgit/cgit.cgi/${project.artifactId}-utils/snapshot/${project.artifactId}-utils-${project.version}.tar.gz</opkgutils.url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <mkdir dir="${root.dir}"/>
+                                <mkdir dir="${toolchain.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${opkg.tag}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${opkgutils.tag}"/>
+                                <mkdir dir="${resources.target}"/>
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${opkg.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <condition property="final.exists">
+                                    <resourceexists>
+                                        <file file="${resources.target}/muslsys-${opkg.tag}.tgz"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-1.2.11.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-expat-2.4.1.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-zstd-1.5.0.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-xz-5.2.5.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-bzip2-1.0.8.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libressl-3.4.1-lib.tgz" />
+                                </exec>
+                                <delete unless:true="${final.exists}">
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/*.so*"/>
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/pkgconfig/*"/>
+                                </delete>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libarchive-3.5.2.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libsolv-0.7.20.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-curl-7.79.1.tgz" />
+                                </exec>
+
+                                <get unless:true="${archive.exists}" src="${opkg.url}" dest="${project.basedir}/src/main/dist/${opkg.archive}"/>
+                                <get unless:true="${archive.exists}" src="${opkgutils.url}" dest="${project.basedir}/src/main/dist/${opkgutils.archive}"/>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${opkg.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${opkg.archive} --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${opkgutils.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${opkgutils.archive} --strip 1" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${opkg.tag}" executable="autogen.sh" resolveexecutable="true">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${opkg.tag}" executable="configure" resolveexecutable="true">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="CFLAGS" value="--static" />
+                                    <env key="LDFLAGS" value="-static" />
+                                    <env key="LIBARCHIVE_CFLAGS" value="-I${toolchain.dir}/include -DLIBARCHIVE_STATIC" />
+                                    <env key="LIBARCHIVE_LIBS" value="-static -L${toolchain.dir}/lib -larchive -lcrypto -lexpat -lbz2 -llzma -lzstd -lz" />
+                                    <env key="CURL_CFLAGS" value="-I${toolchain.dir}/include -DCURL_STATICLIB" />
+                                    <env key="CURL_LIBS" value="-static -L${toolchain.dir}/lib -lcurl -ltls -lcrypto -lssl -lcrypto -lz" />
+                                    <env key="OPENSSL_CFLAGS" value="-I${toolchain.dir}/include " />
+                                    <env key="OPENSSL_LIBS" value="-static -L${toolchain.dir}/lib -ltls -lssl -lcrypto -lz" />
+                                    <env key="SOLVER_CFLAGS" value="-I${toolchain.dir}/include" />
+                                    <env key="SOLVER_LIBS" value="-L${toolchain.dir}/lib -lsolv -llzma -lzstd -lz" />
+                                    <arg value="--host=x86_64-linux-musl" />
+                                    <arg value="--target=x86_64-linux-musl" />
+                                    <arg value="--disable-rpath" />
+                                    <arg value="--disable-shared" />
+                                    <arg value="--enable-static" />
+                                    <arg value="--disable-gpg" />
+                                    <arg value="--with-static-libopkg" />
+                                    <arg value="--enable-curl" />
+                                    <arg value="--enable-ssl-curl" />
+                                    <arg value="--enable-xz" />
+                                    <arg value="--enable-zstd" />
+                                    <arg value="--enable-bzip2" />
+                                    <arg value="--with-libsolv" />
+                                    <arg value="--prefix=" />
+                                    <arg value="--exec-prefix=/usr" />
+                                    <arg value="--sysconfdir=/etc" />
+                                    <arg value="--sharedstatedir=/var" />
+                                    <arg value="--localstatedir=/var" />
+                                    <arg value="--runstatedir=/var/run" />
+                                    <arg value="--libdir=/usr/lib" />
+                                    <arg value="--includedir=/usr/include" />
+                                    <arg value="--oldincludedir=/usr/include" />
+                                    <arg value="--datarootdir=/usr/share" />
+                                    <arg value="--datadir=/usr/share" />
+                                    <arg value="--infodir=/usr/share/info" />
+                                    <arg value="--localedir=/usr/share/locale" />
+                                    <arg value="--mandir=/usr/share/man" />
+                                    <arg value="--docdir=/usr/share/doc/${opkg.tag}" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${opkg.tag}" executable="make">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <arg line="-j 8 CFLAGS=--static LDFLAGS=-static" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${opkg.tag}" executable="make">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <arg line="-j 1 DESTDIR=${root.dir} install" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${opkgutils.tag}" executable="make">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <arg line="-j 1 DESTDIR=${root.dir} PREFIX=/usr mandir=/usr/share/man install" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                    <arg line="-cvf ${resources.target}/muslsys-${opkg.tag}.tgz bin share/opkg" />
+                                </exec>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${resources.target}"
+                                        license="BSD"
+                                        group="base"
+                                        name="nos-${project.artifactId}"
+                                        summary="${project.artifactId}."
+                                        distribution="nos"
+                                        packager="nos"
+                                        url="none"
+                                        vendor="nos"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.nos.${project.parent.version}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/opkg" filemode='750' dirmode="750" file="${root.dir}/usr/bin/opkg" username="root" group="root" addParents="false" />
+                                    <link path="/usr/bin/opkg" target="/usr/libexec/opkg/opkg" />
+                                    <emptydir path="/var/lib/opkg" />
+                                    <emptydir path="/var/lib/opkg/lists" />
+                                    <emptydir path="/var/lib/opkg/info" />
+                                    <emptydir path="/var/cache/opkg" />
+                                    <emptydir path="/var/run/opkg" />
+                                    <emptydir path="/etc/opkg" />
+                                    <rpmfileset prefix="/usr/libexec/opkg" filemode='750' dirmode="750" file="${toolchain.dir}/bin/bsdcat" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/usr/libexec/opkg" filemode='750' dirmode="750" file="${toolchain.dir}/bin/bsdtar" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/usr/libexec/opkg" filemode='750' dirmode="750" file="${toolchain.dir}/bin/bsdcpio" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/etc" filemode='640' dirmode="750" file="src/main/dist/opkg.conf" username="root" group="root" config="true" />
+                                </xrpm>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
