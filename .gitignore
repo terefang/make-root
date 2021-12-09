@@ -6,6 +6,10 @@
 **/*.iml
 *.iml
 .idea
+/target
+*/*/target
 */*/src/main/dist/xbin-*/*
 */*/src/main/dist/xbin/*
 */*/src/main/dist/*.tar.*
+*/*/src/main/dist/*.tgz
+*/*/src/main/dist/*.zip
