@@ -1,0 +1,11 @@
+/resources/*.rpm
+/resources/*.tgz
+/resources/*.ipk
+/resources/*.opk
+/resources/*.pkg
+**/*.iml
+*.iml
+.idea
+*/*/src/main/dist/xbin-*/*
+*/*/src/main/dist/xbin/*
+*/*/src/main/dist/*.tar.*

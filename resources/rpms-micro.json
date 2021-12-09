@@ -1,0 +1,212 @@
+{
+  "_id": "61096e113d73db3b143ede06",
+  "_links": {
+    "image": {
+      "href": "/v1/images/id/61096e0d3d73db3b143ede04"
+    }
+  },
+  "creation_date": "2021-08-03T16:25:53.710000+00:00",
+  "image_id": "61096e0d3d73db3b143ede04",
+  "last_update_date": "2021-08-03T16:25:53.710000+00:00",
+  "object_type": "containerImageRPMManifest",
+  "rpms": [
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "redhat-release",
+      "nvra": "redhat-release-8.4-0.6.el8.x86_64",
+      "release": "0.6.el8",
+      "srpm_name": "redhat-release",
+      "srpm_nevra": "redhat-release-0:8.4-0.6.el8.src",
+      "summary": "Red Hat Enterprise Linux release file",
+      "version": "8.4"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "filesystem",
+      "nvra": "filesystem-3.8-3.el8.x86_64",
+      "release": "3.el8",
+      "srpm_name": "filesystem",
+      "srpm_nevra": "filesystem-0:3.8-3.el8.src",
+      "summary": "The basic directory layout for a Linux system",
+      "version": "3.8"
+    },
+    {
+      "architecture": "noarch",
+      "gpg": "199e2f91fd431d51",
+      "name": "ncurses-base",
+      "nvra": "ncurses-base-6.1-7.20180224.el8.noarch",
+      "release": "7.20180224.el8",
+      "srpm_name": "ncurses",
+      "srpm_nevra": "ncurses-0:6.1-7.20180224.el8.src",
+      "summary": "Descriptions of common terminals",
+      "version": "6.1"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "libselinux",
+      "nvra": "libselinux-2.9-5.el8.x86_64",
+      "release": "5.el8",
+      "srpm_name": "libselinux",
+      "srpm_nevra": "libselinux-0:2.9-5.el8.src",
+      "summary": "SELinux library and simple utilities",
+      "version": "2.9"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "glibc-minimal-langpack",
+      "nvra": "glibc-minimal-langpack-2.28-151.el8.x86_64",
+      "release": "151.el8",
+      "srpm_name": "glibc",
+      "srpm_nevra": "glibc-0:2.28-151.el8.src",
+      "summary": "Minimal language packs for glibc.",
+      "version": "2.28"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "glibc",
+      "nvra": "glibc-2.28-151.el8.x86_64",
+      "release": "151.el8",
+      "srpm_name": "glibc",
+      "srpm_nevra": "glibc-0:2.28-151.el8.src",
+      "summary": "The GNU libc libraries",
+      "version": "2.28"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "libsepol",
+      "nvra": "libsepol-2.9-2.el8.x86_64",
+      "release": "2.el8",
+      "srpm_name": "libsepol",
+      "srpm_nevra": "libsepol-0:2.9-2.el8.src",
+      "summary": "SELinux binary policy manipulation library",
+      "version": "2.9"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "libacl",
+      "nvra": "libacl-2.2.53-1.el8.x86_64",
+      "release": "1.el8",
+      "srpm_name": "acl",
+      "srpm_nevra": "acl-0:2.2.53-1.el8.src",
+      "summary": "Dynamic library for access control list support",
+      "version": "2.2.53"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "coreutils-single",
+      "nvra": "coreutils-single-8.30-8.el8.x86_64",
+      "release": "8.el8",
+      "srpm_name": "coreutils",
+      "srpm_nevra": "coreutils-0:8.30-8.el8.src",
+      "summary": "coreutils multicall binary",
+      "version": "8.30"
+    },
+    {
+      "architecture": "noarch",
+      "gpg": "199e2f91fd431d51",
+      "name": "tzdata",
+      "nvra": "tzdata-2021a-1.el8.noarch",
+      "release": "1.el8",
+      "srpm_name": "tzdata",
+      "srpm_nevra": "tzdata-0:2021a-1.el8.src",
+      "summary": "Timezone data",
+      "version": "2021a"
+    },
+    {
+      "architecture": "noarch",
+      "gpg": "199e2f91fd431d51",
+      "name": "setup",
+      "nvra": "setup-2.12.2-6.el8.noarch",
+      "release": "6.el8",
+      "srpm_name": "setup",
+      "srpm_nevra": "setup-0:2.12.2-6.el8.src",
+      "summary": "A set of system configuration and setup files",
+      "version": "2.12.2"
+    },
+    {
+      "architecture": "noarch",
+      "gpg": "199e2f91fd431d51",
+      "name": "basesystem",
+      "nvra": "basesystem-11-5.el8.noarch",
+      "release": "5.el8",
+      "srpm_name": "basesystem",
+      "srpm_nevra": "basesystem-0:11-5.el8.src",
+      "summary": "The skeleton package which defines a simple Red Hat Enterprise Linux system",
+      "version": "11"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "pcre2",
+      "nvra": "pcre2-10.32-2.el8.x86_64",
+      "release": "2.el8",
+      "srpm_name": "pcre2",
+      "srpm_nevra": "pcre2-0:10.32-2.el8.src",
+      "summary": "Perl-compatible regular expression library",
+      "version": "10.32"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "ncurses-libs",
+      "nvra": "ncurses-libs-6.1-7.20180224.el8.x86_64",
+      "release": "7.20180224.el8",
+      "srpm_name": "ncurses",
+      "srpm_nevra": "ncurses-0:6.1-7.20180224.el8.src",
+      "summary": "Ncurses libraries",
+      "version": "6.1"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "glibc-common",
+      "nvra": "glibc-common-2.28-151.el8.x86_64",
+      "release": "151.el8",
+      "srpm_name": "glibc",
+      "srpm_nevra": "glibc-0:2.28-151.el8.src",
+      "summary": "Common binaries and locale data for glibc",
+      "version": "2.28"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "bash",
+      "nvra": "bash-4.4.20-1.el8_4.x86_64",
+      "release": "1.el8_4",
+      "srpm_name": "bash",
+      "srpm_nevra": "bash-0:4.4.20-1.el8_4.src",
+      "summary": "The GNU Bourne Again shell",
+      "version": "4.4.20"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "libattr",
+      "nvra": "libattr-2.4.48-3.el8.x86_64",
+      "release": "3.el8",
+      "srpm_name": "attr",
+      "srpm_nevra": "attr-0:2.4.48-3.el8.src",
+      "summary": "Dynamic library for extended attribute support",
+      "version": "2.4.48"
+    },
+    {
+      "architecture": "x86_64",
+      "gpg": "199e2f91fd431d51",
+      "name": "libcap",
+      "nvra": "libcap-2.26-4.el8.x86_64",
+      "release": "4.el8",
+      "srpm_name": "libcap",
+      "srpm_nevra": "libcap-0:2.26-4.el8.src",
+      "summary": "Library for getting and setting POSIX.1e capabilities",
+      "version": "2.26"
+    }
+  ]
+}
