@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.muslsys</groupId>
+    <artifactId>libcap-ng</artifactId>
+    <version>0.8.2</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <libcap.archive>${project.artifactId}-${project.version}.tar.gz</libcap.archive>
+        <libcap.tag>${project.artifactId}-${project.version}</libcap.tag>
+        <libcap.url>http://people.redhat.com/sgrubb/${project.artifactId}/${project.artifactId}-${project.version}.tar.gz</libcap.url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <mkdir dir="${root.dir}"/>
+                                <mkdir dir="${toolchain.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${resources.target}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${libcap.tag}"/>
+
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${libcap.archive}"/>
+                                    </resourceexists>
+                                </condition>
+                                <condition property="final.exists">
+                                    <resourceexists>
+                                        <file file="${resources.target}/muslsys-${libcap.tag}.tgz"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <get unless:true="${archive.exists}" src="${libcap.url}" dest="${project.basedir}/src/main/dist/${libcap.archive}"/>
+
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libattr-2.5.1.tgz" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libcap.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${libcap.archive} --strip 1" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libcap.tag}" executable="configure" resolveexecutable="true">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <arg value="--prefix=/usr" />
+                                    <arg value="--host=x86_64-linux-musl" />
+                                    <arg value="--target=x86_64-linux-musl" />
+                                    <arg value="--disable-rpath" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libcap.tag}" executable="make">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <arg line="-j 8 " />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libcap.tag}" executable="make">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <arg value="DESTDIR=${root.dir}" />
+                                    <arg line="install" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                    <arg line="-cvf ${resources.target}/muslsys-${libcap.tag}.tgz bin include lib" />
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

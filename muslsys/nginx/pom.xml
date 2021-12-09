@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.muslsys</groupId>
+    <artifactId>nginx</artifactId>
+    <version>1.21.4</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <prg.url>https://nginx.org/download/${prg.archive}</prg.url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <mkdir dir="${root.dir}"/>
+                                <mkdir dir="${toolchain.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+                                <mkdir dir="${resources.target}"/>
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <condition property="final.exists">
+                                    <resourceexists>
+                                        <file file="${resources.target}/muslsys-${prg.tag}.tgz"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-1.2.11.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libressl-3.4.1-lib.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-pcre-8.45.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-4.4.26.tgz" />
+                                </exec>
+                                <delete unless:true="${final.exists}">
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/*.so*"/>
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/pkgconfig/*"/>
+                                </delete>
+
+                                <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="configure" resolveexecutable="true">
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
+                                    <arg value="--prefix=/usr/share/nginx" />
+                                    <arg value="--sbin-path=/usr/libexec/nginx/nginx" />
+                                    <arg value="--modules-path=/usr/libexec/nginx/modules" />
+                                    <arg value="--conf-path=/etc/nginx/nginx.conf" />
+                                    <arg value="--error-log-path=/var/log/nginx/error.log" />
+                                    <arg value="--http-log-path=/var/log/nginx/access.log" />
+                                    <arg value="--pid-path=/var/run/nginx.pid" />
+                                    <arg value="--lock-path=/var/run/nginx.lock" />
+                                    <arg value="--http-client-body-temp-path=/var/cache/nginx/client_body_temp" />
+                                    <arg value="--http-proxy-temp-path=/var/cache/nginx/proxy_temp" />
+                                    <arg value="--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp" />
+                                    <arg value="--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp" />
+                                    <arg value="--http-scgi-temp-path=/var/cache/nginx/scgi_temp" />
+                                    <arg value="--user=nginx" />
+                                    <arg value="--group=nginx" />
+                                    <!--arg value="-/-build=NAME set build name" /-->
+                                    <!--arg value="-/-builddir=DIR set build directory" /-->
+                                    <arg value="--with-select_module" />
+                                    <arg value="--with-poll_module" />
+                                    <arg value="--with-threads" />
+                                    <arg value="--with-file-aio" />
+                                    <arg value="--with-http_ssl_module" />
+                                    <arg value="--with-http_v2_module" />
+                                    <arg value="--with-http_realip_module" />
+                                    <arg value="--with-http_addition_module" />
+                                    <arg value="--with-http_sub_module" />
+                                    <arg value="--with-http_dav_module" />
+                                    <arg value="--with-http_gunzip_module" />
+                                    <arg value="--with-http_gzip_static_module" />
+                                    <arg value="--with-http_auth_request_module" />
+                                    <arg value="--with-http_random_index_module" />
+                                    <arg value="--with-http_secure_link_module" />
+                                    <arg value="--with-http_degradation_module" />
+                                    <arg value="--with-http_slice_module" />
+                                    <arg value="--with-http_stub_status_module" />
+                                    <arg value="--http-log-path=/var/log/nginx" />
+                                    <arg value="--with-mail" />
+                                    <arg value="--with-mail_ssl_module" />
+                                    <arg value="--with-stream" />
+                                    <arg value="--with-stream_ssl_module" />
+                                    <arg value="--with-stream_realip_module" />
+                                    <arg value="--with-stream_ssl_preread_module" />
+                                    <arg value="--with-cc=x86_64-linux-musl-gcc --static" />
+                                    <arg value="--with-cpp=x86_64-linux-musl-cpp" />
+                                    <arg value="--with-cc-opt=--static" />
+                                    <arg value="--with-ld-opt=--static -lcrypt -ltls" />
+                                    <arg value="--with-pcre" />
+                                    <arg value="--with-ipv6" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
+                                    <arg line="-j 8" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <arg line="-j 1 DESTDIR=${root.dir} install" />
+                                </exec>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${resources.target}"
+                                        license="ASL"
+                                        group="base"
+                                        name="${project.artifactId}-common"
+                                        summary="${project.artifactId}."
+                                        distribution="nos"
+                                        packager="nos"
+                                        url="none"
+                                        vendor="nos"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.nos.${project.parent.version}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="555" dir="${root.dir}/usr/share/nginx" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/etc/nginx" filemode='640' dirmode="755" dir="${root.dir}/etc/nginx" username="root" group="root" addParents="false" config="true">
+                                        <exclude name="**/*.default" />
+                                    </rpmfileset>>
+                                    <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="755" dir="${root.dir}/etc/nginx" username="root" group="root" addParents="false">
+                                        <include name="**/*.default" />
+                                    </rpmfileset>>
+                                    <emptydir path="/etc/nginx/conf.d" />
+                                </xrpm>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${resources.target}"
+                                        license="ASL"
+                                        group="base"
+                                        name="${project.artifactId}"
+                                        summary="${project.artifactId}."
+                                        distribution="nos"
+                                        packager="nos"
+                                        url="none"
+                                        vendor="nos"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.nos.${project.parent.version}"
+                                        version="${project.version}">
+                                    <depends name="${project.artifactId}-common" />
+                                    <rpmfileset prefix="/usr/libexec/nginx" filemode='755' dirmode="755" dir="${root.dir}/usr/libexec/nginx" username="root" group="root" addParents="false" />
+                                    <link path="/usr/sbin/nginx" target="/usr/libexec/nginx/nginx" />
+
+                                    <emptydir path="/var/log/nginx/" />
+                                    <emptydir path="/var/cache/nginx/client_body_temp" />
+                                    <emptydir path="/var/cache/nginx/proxy_temp" />
+                                    <emptydir path="/var/cache/nginx/fastcgi_temp" />
+                                    <emptydir path="/var/cache/nginx/uwsgi_temp" />
+                                    <emptydir path="/var/cache/nginx/scgi_temp" />
+                                </xrpm>
+
+                                <!--
+
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share/prg" />
+                                </exec>
+
+                                -->
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
