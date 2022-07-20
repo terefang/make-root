@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>lua</artifactId>
-    <version>5.4.3</version>
+    <version>${version.lua}</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -75,10 +75,10 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-zlib-1.2.11.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-4.4.26.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-${version.libxcrypt}.tgz" />
                                 </exec>
 
                                 <get unless:true="${archive.exists}" src="${lua.url}" dest="${project.basedir}/src/main/dist/${lua.archive}"/>

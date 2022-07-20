@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>opkg</artifactId>
-    <version>0.5.0</version> <!-- 0.4.5 -->
+    <version>${version.opkg}</version> <!-- 0.4.5 -->
     <packaging>pom</packaging>
 
     <properties>
@@ -84,22 +84,22 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-zlib-1.2.11.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-expat-2.4.1.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-expat>${version.expat}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-zstd-1.5.0.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-zstd-${version.zstd}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-xz-5.2.5.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-xz-${version.xz}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-bzip2-1.0.8.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-bzip2-${version.bzip2}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libressl-3.4.1-lib.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
                                 </exec>
                                 <delete unless:true="${final.exists}">
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
@@ -107,13 +107,13 @@
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/pkgconfig/*"/>
                                 </delete>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libarchive-3.5.2.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libarchive-${version.libarchive}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libsolv-0.7.20.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libsolv-${version.libsolv}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-curl-7.79.1.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-curl-${version.curl}.tgz" />
                                 </exec>
 
                                 <get unless:true="${archive.exists}" src="${opkg.url}" dest="${project.basedir}/src/main/dist/${opkg.archive}"/>
@@ -191,7 +191,7 @@
                                     <arg line="-cvf ${resources.target}/muslsys-${opkg.tag}.tgz bin share/opkg" />
                                 </exec>
 
-                                <xrpm
+                                <xrpm unless:true="${final.exists}"
                                         architecture="X86_64"
                                         destination="${resources.target}"
                                         license="BSD"

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.module-static</groupId>
+    <artifactId>cdisofs</artifactId>
+    <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+                                <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+                                <mkdir dir="${project.build.directory}/iso-root/linux"/>
+                                <mkdir dir="${project.build.directory}/iso-root/boot"/>
+                                <mkdir dir="${project.build.directory}/iso-root/EFI/BOOT"/>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/iso-root/" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/../limine/src/main/dist/limine.tar " />
+                                </exec>
+
+                                <copy todir="${project.build.directory}/iso-root/linux">
+                                    <fileset dir="${resources.target}/../target">
+                                        <include name="bzImage-${version.kernel3}"/>
+                                        <include name="bzImage-${version.kernel4}"/>
+                                        <include name="bzImage-${version.kernel5}"/>
+                                    </fileset>
+                                </copy>
+                                <for list="initrd-basefs,initrd-init,initrd-busybox,initrd-toybox,initrd-initiny,initrd-gfdisk,limine" delimiter="," trim="true" param="id">
+                                    <sequential>
+                                        <copy todir="${project.build.directory}/iso-root/linux" >
+                                            <fileset dir="${project.basedir}/../@{id}/src/main/dist">
+                                                <include name="*.cpio"/>
+                                            </fileset>
+                                        </copy>
+                                    </sequential>
+                                </for>
+
+                                <echo file="${project.build.directory}/iso-root/boot/limine.cfg"><![CDATA[
+TIMEOUT=5
+GRAPHICS=no
+VERBOSE=yes
+
+:Linux ${version.kernel3}
+
+PROTOCOL=linux
+KERNEL_PATH=boot:///linux/bzImage-${version.kernel3}
+MODULE_PATH=boot:///linux/basefs.cpio
+MODULE_PATH=boot:///linux/init.cpio
+MODULE_PATH=boot:///linux/busybox.cpio
+MODULE_PATH=boot:///linux/toybox.cpio
+MODULE_PATH=boot:///linux/gfdisk.cpio
+MODULE_PATH=boot:///linux/limine.cpio
+
+:Linux ${version.kernel4}
+
+PROTOCOL=linux
+KERNEL_PATH=boot:///linux/bzImage-${version.kernel4}
+MODULE_PATH=boot:///linux/basefs.cpio
+MODULE_PATH=boot:///linux/init.cpio
+MODULE_PATH=boot:///linux/busybox.cpio
+MODULE_PATH=boot:///linux/toybox.cpio
+MODULE_PATH=boot:///linux/gfdisk.cpio
+MODULE_PATH=boot:///linux/limine.cpio
+
+:Linux ${version.kernel5}
+
+PROTOCOL=linux
+KERNEL_PATH=boot:///linux/bzImage-${version.kernel5}
+MODULE_PATH=boot:///linux/basefs.cpio
+MODULE_PATH=boot:///linux/init.cpio
+MODULE_PATH=boot:///linux/busybox.cpio
+MODULE_PATH=boot:///linux/toybox.cpio
+MODULE_PATH=boot:///linux/gfdisk.cpio
+MODULE_PATH=boot:///linux/limine.cpio
+
+
+                                ]]></echo>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/iso-root" executable="xorriso">
+                                    <arg line=" -as mkisofs -v -v" />
+                                    <arg line=" -b limine/limine-cd.bin " />
+                                    <arg line=" -r -J -l -D -V CDLINUX " />
+                                    <arg line=" -no-emul-boot -boot-load-size 4 -boot-info-table " />
+                                    <arg line=" --efi-boot limine/limine-cd-efi.bin" />
+                                    <arg line=" -efi-boot-part --efi-boot-image --protective-msdos-label " />
+                                    <arg line=" -o ${project.build.directory}/iso-root/../iso-root.iso " />
+                                    <arg line=" . " />
+                                </exec>                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

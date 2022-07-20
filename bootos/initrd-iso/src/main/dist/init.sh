@@ -37,6 +37,11 @@ mknod -m 644 /dev/sda1 b 8 1
 mknod -m 644 /dev/sda2 b 8 2
 mknod -m 644 /dev/sda3 b 8 3
 mknod -m 644 /dev/sda4 b 8 4
+mknod -m 644 /dev/sda5 b 8 5
+mknod -m 644 /dev/sda6 b 8 6
+mknod -m 644 /dev/sda7 b 8 7
+mknod -m 644 /dev/sda8 b 8 8
+mknod -m 644 /dev/sda9 b 8 9
 mknod -m 644 /dev/sr0 b 11 0
 mkdir /dev/pts
 mount -t devpts devpts /dev/pts

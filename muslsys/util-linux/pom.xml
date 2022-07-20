@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>util-linux</artifactId>
-    <version>2.37.2</version>
+    <version>${version.util-linux}</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -75,19 +75,22 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-zlib-1.2.11.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-4.4.26.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-${version.libxcrypt}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libcap-ng-0.8.2.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libcap-ng-${version.libcap-ng}.tgz" />
                                 </exec>
-                                <!--delete unless:true="${final.exists}">
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-netbsd-curses-${version.netbsd-curses}.tgz" />
+                                </exec>
+                                <delete unless:true="${final.exists}">
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.so*"/>
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/pkgconfig/*"/>
-                                </delete-->
+                                </delete>
 
                                 <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
 
@@ -112,21 +115,23 @@
                                     <arg value="--enable-newgrp" />
                                     <arg value="--disable-chfn-chsh-password" />
                                     <arg value="--disable-chsh-only-listed" />
-                                    <arg value="--enable-pg" />
+                                    <arg value="--disable-makeinstall-chown" />
+                                    <arg value="--disable-more" />
+                                    <arg value="--disable-pg" />
                                     <arg value="--enable-write" />
                                     <arg value="--without-econf" />
                                     <arg value="--without-systemd" />
                                     <arg value="--disable-pylibmount" />
-                                    <arg value="--without-ncursesw" />
-                                    <arg value="--without-tinfo" />
                                     <arg value="--without-readline" />
+                                    <arg value="--without-tinfo" />
+                                    <arg value="--without-ncurses" />
                                     <arg value="--without-libmagic" />
                                     <arg value="--without-user" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <arg line="-j 8 check" />
+                                    <arg line="-j 8" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
@@ -134,16 +139,11 @@
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
                                 </exec>
 
-                                <!--
-                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prgutils.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <arg line="-j 1 DESTDIR=${root.dir} PREFIX=/usr mandir=/usr/share/man install" />
-                                </exec>
-
                                 <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
-                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share/prg" />
+                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin include lib sbin share ../bin ../sbin" />
                                 </exec>
 
+                                <!--
                                 <xrpm
                                         architecture="X86_64"
                                         destination="${project.build.directory}"

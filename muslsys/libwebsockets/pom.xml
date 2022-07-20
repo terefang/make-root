@@ -76,7 +76,7 @@
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libressl-3.3.5-lib.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">

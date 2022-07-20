@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>make</artifactId>
-    <version>4.3</version>
+    <version>${version.make}</version>
     <packaging>pom</packaging>
 
     <properties>

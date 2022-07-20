@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>readline</artifactId>
-    <version>8.1</version>
+    <version>${version.readline}</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -80,7 +80,7 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-ncurses-6.1.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-netbsd-curses-${version.netbsd-curses}.tgz" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${readline.tag}" executable="configure" resolveexecutable="true">

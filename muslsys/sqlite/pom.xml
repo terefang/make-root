@@ -12,13 +12,13 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>sqlite</artifactId>
-    <version>3.36.0</version>
+    <version>${version.sqlite}</version>
     <packaging>pom</packaging>
 
     <properties>
         <sqlite.archive>${project.artifactId}-${project.version}.tar.gz</sqlite.archive>
         <sqlite.tag>${project.artifactId}-${project.version}</sqlite.tag>
-        <sqlite.url>https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz</sqlite.url>
+        <sqlite.url>https://www.sqlite.org/${version.sqlite.year}/sqlite-autoconf-${version.sqlite.pkg}.tar.gz</sqlite.url>
     </properties>
 
     <build>
@@ -80,13 +80,13 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-zlib-1.2.11.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-ncurses-6.1.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-netbsd-curses-${version.netbsd-curses}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-readline-8.1.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-readline-${version.readline}.tgz" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${sqlite.tag}" executable="configure" resolveexecutable="true">

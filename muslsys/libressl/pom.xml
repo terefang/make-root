@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>libressl</artifactId>
-    <version>3.4.1</version>
+    <version>${version.libressl}</version>
     <packaging>pom</packaging>
 
     <properties>

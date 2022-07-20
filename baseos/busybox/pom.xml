@@ -104,7 +104,7 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${binary.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-4.4.26.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-${version.libxcrypt}.tgz" />
                                 </exec>
                                 <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${busybox.archive}" />

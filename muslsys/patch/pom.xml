@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>patch</artifactId>
-    <version>2.7.6</version>
+    <version>${version.patch}</version>
     <packaging>pom</packaging>
 
     <properties>

@@ -12,13 +12,14 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>tinysshd</artifactId>
-    <version>20210601</version>
+    <version>20220101</version>
     <packaging>pom</packaging>
 
     <properties>
         <tinysshd.archive>${project.artifactId}-${project.version}.tar.gz</tinysshd.archive>
         <tinysshd.tag>${project.artifactId}-${project.version}</tinysshd.tag>
-        <tinysshd.url>https://github.com/janmojzis/tinyssh/archive/refs/tags/${project.version}.tar.gz</tinysshd.url>
+        <!--tinysshd.url>https://github.com/janmojzis/tinyssh/archive/refs/tags/${project.version}.tar.gz</tinysshd.url-->
+        <tinysshd.url>https://github.com/janmojzis/tinyssh/archive/refs/heads/master.tar.gz</tinysshd.url>
     </properties>
 
     <build>
@@ -79,6 +80,11 @@
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${tinysshd.tag}" executable="patch">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <arg line=" --verbose -u -i ${project.basedir}/src/main/dist/tinysshd.patch tinyssh/packet_auth.c" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${tinysshd.tag}" executable="make">

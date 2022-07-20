@@ -101,7 +101,7 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${binary.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libressl-3.4.1-lib.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
                                 </exec>
                                 <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}/${prog.tag}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${prog.archive} --strip 1" />

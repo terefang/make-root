@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>libc-musl</artifactId>
-    <version>1.2.2</version>
+    <version>${version.libcmusl}</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -115,7 +115,7 @@
                                     <arg line="-cvf ${resources.target}/muslsys-${musl.tag}-devel.tgz usr" />
                                 </exec>
 
-                                <ipkg destfile="${pkg.path}/${project.artifactId}_${project.version}_${os.detected.arch}.ipk">
+                                <!--ipkg destfile="${pkg.path}/${project.artifactId}_${project.version}_${os.detected.arch}.ipk">
                                     <ipkg-control packageName="${project.artifactId}" version="${project.version}" architecture="x86_64"/>
                                     <tarfileset prefix="/usr" dir="${root.dir}/usr" >
                                         <include name="lib/*.so" />
@@ -131,7 +131,7 @@
                                         <include name="lib/*.o" />
                                         <include name="lib/*.specs" />
                                     </tarfileset>
-                                </ipkg>
+                                </ipkg-->
                             </target>
                         </configuration>
                     </execution>

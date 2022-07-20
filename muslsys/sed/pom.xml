@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>sed</artifactId>
-    <version>4.8</version>
+    <version>${version.sed}</version>
     <packaging>pom</packaging>
 
     <properties>

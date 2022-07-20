@@ -54,7 +54,7 @@
                                 <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
 
                                 <mkdir dir="${rpm.path}"/>
-                                <mkdir dir="${project.build.directory}/gfdisk"/>
+                                <mkdir dir="${project.build.directory}/gfdisk/${gfdisk.tag}"/>
 
                                 <condition property="archive.exists">
                                     <resourceexists>
@@ -71,8 +71,8 @@
                                 <mkdir unless:true="${archive.exists}" dir="${project.basedir}/src/main/dist"/>
                                 <get unless:true="${archive.exists}" src="${gfdisk.url}" dest="${project.basedir}/src/main/dist/${gfdisk.archive}"/>
 
-                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/gfdisk" executable="tar">
-                                    <arg line="-xvf ${project.basedir}/src/main/dist/${gfdisk.archive}" />
+                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/gfdisk/${gfdisk.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${gfdisk.archive} --strip 1" />
                                 </exec>
 
                                 <exec unless:true="${binary.exists}" dir="${project.build.directory}/gfdisk/${gfdisk.tag}" executable="make">

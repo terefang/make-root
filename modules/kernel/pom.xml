@@ -10,24 +10,30 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- LTS KERNELS
-        4.19 - https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.206.tar.gz
-        5.4  - https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.144.tar.gz
-        5.10 - https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.63.tar.gz
-
-        LATEST KERNEL
-        https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.2.tar.gz
-    -->
-
     <artifactId>kernel</artifactId>
-    <version>4.19.206</version>
     <packaging>pom</packaging>
 
     <properties>
-        <kernel.tag>linux-${project.version}</kernel.tag>
-        <kernel.tar>${kernel.tag}.tar</kernel.tar>
-        <kernel.archive>${kernel.tar}.gz</kernel.archive>
-        <kernel.url>https://cdn.kernel.org/pub/linux/kernel/v4.x/${kernel.archive}</kernel.url>
+        <!-- LTS KERNELS
+        https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-3.16.85.tar.gz
+        https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-3.18.140.tar.gz
+
+            https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.9.319.tar.xz
+            https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.14.284.tar.xz
+            https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.248.tar.xz
+            https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.206.tar.xz
+            https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.131.tar.xz
+            https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.49.tar.xz
+            https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.17.15.tar.xz
+            https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.18.6.tar.xz
+
+
+        -->
+        <urls>
+            https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-${version.kernel3}.tar.gz
+            https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-${version.kernel4}.tar.xz
+            https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version.kernel5}.tar.xz
+        </urls>
     </properties>
 
     <build>
@@ -44,6 +50,36 @@
                         <version>1.2.9</version>
                         <classifier>jar-with-dependencies</classifier>
                     </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-apache-bsf -->
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-apache-bsf</artifactId>
+                        <version>1.10.12</version>
+                    </dependency>
+
+                    <!-- https://mvnrepository.com/artifact/org.beanshell/bsh -->
+                    <dependency>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh</artifactId>
+                        <version>2.0b5</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.2</version>
+                    </dependency>
+
                 </dependencies>
                 <executions>
                     <execution>
@@ -55,37 +91,58 @@
                         <configuration>
                             <target  xmlns:if="ant:if" xmlns:unless="ant:unless" >
                                 <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
                                 <mkdir dir="${rpm.path}"/>
-                                <mkdir dir="${project.build.directory}/kernel"/>
-                                <mkdir dir="${project.build.directory}/kmods"/>
-                                <mkdir dir="${project.build.directory}/kheader"/>
 
-                                <condition property="archive.exists">
-                                    <resourceexists>
-                                        <file file="${project.basedir}/src/main/dist/${kernel.archive}"/>
-                                    </resourceexists>
-                                </condition>
+                                <for list="${urls}" delimiter=" &#10;" trim="true" param="id">
+                                    <sequential>
+                                        <script manager="bsf" language="beanshell"><![CDATA[
+                                            String _path = "@{id}";
+                                            String _tag = _path.substring(_path.lastIndexOf('/')+1, _path.lastIndexOf(".tar"));
+                                            String _file = _path.substring(_path.lastIndexOf('/')+1);
+                                            String _version = _tag.substring(_tag.indexOf('-')+1);
+                                            project.setProperty("_url",_path);
+                                            project.setProperty("_file",_file);
+                                            project.setProperty("_tag",_tag);
+                                            project.setProperty("_version",_version);
+                                        ]]></script>
 
-                                <condition property="binary.exists">
-                                    <resourceexists>
-                                        <file file="${project.basedir}/src/main/dist/bzImage-${project.version}"/>
-                                    </resourceexists>
-                                </condition>
+                                        <echo> URL = ${_url}</echo>
+                                        <echo> TAG = ${_tag}</echo>
+                                        <echo> FILE = ${_file}</echo>
+                                        <echo> VERSION = ${_version}</echo>
 
-                                <!-- FETCH KERNEL SOURCE FROM INTERNET -->
+                                        <condition property="archive.exists">
+                                            <resourceexists>
+                                                <file file="${project.basedir}/src/main/dist/${_file}"/>
+                                            </resourceexists>
+                                        </condition>
 
-                                <get unless:true="${archive.exists}" src="${kernel.url}" dest="${project.basedir}/src/main/dist/${kernel.archive}"/>
+                                        <condition property="binary.exists">
+                                            <resourceexists>
+                                                <file file="${project.basedir}/src/main/dist/bzImage-${_version}"/>
+                                            </resourceexists>
+                                        </condition>
 
-                                <!-- COMPILE KERNEL FROM SOURCE -->
+                                        <!-- FETCH KERNEL SOURCE FROM INTERNET -->
 
-                                <exec unless:true="${binary.exists}" dir="./" executable="tar">
-                                    <arg line="-xvf src/main/dist/${kernel.archive} -C ${project.build.directory}/kernel" />
-                                </exec>
-                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
-                                    <arg value="clean" />
-                                    <arg value="defconfig" />
-                                </exec>
-                                <echo unless:true="${binary.exists}" file="${project.build.directory}/kernel/${kernel.tag}/.config" append="true"><![CDATA[
+                                        <get unless:true="${archive.exists}" src="${_url}" dest="${project.basedir}/src/main/dist/${_file}"/>
+
+                                        <mkdir dir="${project.build.directory}/kernel/${_version}"/>
+                                        <mkdir dir="${project.build.directory}/kmods/${_version}"/>
+                                        <mkdir dir="${project.build.directory}/kheader/${_version}"/>
+
+                                        <!-- COMPILE KERNEL FROM SOURCE -->
+
+                                        <exec unless:true="${binary.exists}" dir="./" executable="tar">
+                                            <arg line="-xvf src/main/dist/${_file} -C ${project.build.directory}/kernel/${_version}" />
+                                        </exec>
+                                        <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${_version}/${_tag}" executable="make">
+                                            <arg value="clean" />
+                                            <arg value="defconfig" />
+                                        </exec>
+                                        <echo unless:true="${binary.exists}" file="${project.build.directory}/kernel/${_version}/${_tag}/.config" append="true"><![CDATA[
 CONFIG_RETPOLINE=n
 CONFIG_FB_VESA=y
 CONFIG_SOUND=n
@@ -128,45 +185,49 @@ CONFIG_NFS_FS=n
 CONFIG_WIMAX=n
 CONFIG_WIRELESS=n
 CONFIG_WLAN=n
-
                                 ]]></echo>
-                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
-                                    <arg value="olddefconfig" />
-                                    <arg value="certs" />
-                                </exec>
-                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
-                                    <arg line="-j 8 bzImage" />
-                                </exec>
-                                <copy unless:true="${binary.exists}" tofile="src/main/dist/bzImage-${project.version}">
-                                    <fileset file="${project.build.directory}/kernel/${kernel.tag}/arch/x86/boot/bzImage" />
-                                </copy>
+                                        <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${_version}/${_tag}" executable="make">
+                                            <arg value="olddefconfig" />
+                                            <arg value="certs" />
+                                        </exec>
+                                        <copy unless:true="${binary.exists}"  tofile="src/main/dist/cp${_tag}.config">
+                                            <fileset file="${project.build.directory}/kernel/${_version}/${_tag}/.config" />
+                                        </copy>
 
-                                <!--
+                                        <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${_version}/${_tag}" executable="make">
+                                            <arg line="-j 6 bzImage" />
+                                        </exec>
+                                        <copy unless:true="${binary.exists}" tofile="${rpm.path}/bzImage-${_version}">
+                                            <fileset file="${project.build.directory}/kernel/${_version}/${_tag}/arch/x86/boot/bzImage" />
+                                        </copy>
+                                        <copy unless:true="${binary.exists}"  tofile="src/main/dist/bzImage-${_tag}">
+                                            <fileset file="${project.build.directory}/kernel/${_version}/${_tag}/arch/x86/boot/bzImage" />
+                                        </copy>
 
-                                <exec dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
-                                    <arg line="-j 8 modules" />
-                                </exec>
-                                <exec dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
-                                    <arg line="-j 8 modules_install INSTALL_MOD_PATH=${project.build.directory}/kmods" />
-                                </exec>
-                                <tar destfile="${rpm.path}/kmods.tar" basedir="${project.build.directory}/kmods" />
+                                        <!--
+                                        <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${_version}/${_tag}" executable="make">
+                                            <arg line="-j 6 modules" />
+                                        </exec>
+                                        <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${_version}/${_tag}" executable="make">
+                                            <arg line="-j 6 modules_install INSTALL_MOD_PATH=${project.build.directory}/kmods/${_version}" />
+                                        </exec>
+                                        <tar unless:true="${binary.exists}" destfile="${rpm.path}/kmods-${_tag}.tar" basedir="${project.build.directory}/kmods/${_version}" />
+                                        -->
 
-                                <exec dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
-                                    <arg line="-j 8 mrproper" />
-                                </exec>
-                                <exec dir="${project.build.directory}/kernel/${kernel.tag}" executable="make">
-                                    <arg line="-j 8 INSTALL_HDR_PATH=${project.build.directory}/kheader headers_install" />
-                                </exec>
-                                <tar destfile="${rpm.path}/kheader.tar" basedir="${project.build.directory}/kheader">
-                                    <exclude name="**/.install" />
-                                    <exclude name="**/..install.cmd" />
-                                </tar>
+                                        <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${_version}/${_tag}" executable="make">
+                                            <arg line="-j 6 mrproper" />
+                                        </exec>
+                                        <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${_version}/${_tag}" executable="make">
+                                            <arg line="-j 6 INSTALL_HDR_PATH=${project.build.directory}/kheader/${_version} headers_install" />
+                                        </exec>
+                                        <tar unless:true="${binary.exists}" destfile="${rpm.path}/kheader-${_tag}.tar" basedir="${project.build.directory}/kheader/${_version}">
+                                            <exclude name="**/.install" />
+                                            <exclude name="**/..install.cmd" />
+                                        </tar>
 
-                                -->
 
-                                <copy tofile="${rpm.path}/bzImage" overwrite="true">
-                                    <fileset file="src/main/dist/bzImage-${project.version}" />
-                                </copy>
+                                    </sequential>
+                                </for>
 
                             </target>
                         </configuration>

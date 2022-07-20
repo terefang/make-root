@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>libxcrypt</artifactId>
-    <version>4.4.26</version>
+    <version>${version.libxcrypt}</version>
     <packaging>pom</packaging>
 
     <properties>

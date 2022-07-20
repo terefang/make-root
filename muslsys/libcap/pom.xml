@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>libcap</artifactId>
-    <version>2.33</version>
+    <version>${version.libcap}</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -78,7 +78,7 @@
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libattr-2.5.1.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libattr-${version.libattr}.tgz" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libcap.tag}" executable="tar">
@@ -86,23 +86,28 @@
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libcap.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
                                     <arg value="DESTDIR=${root.dir}" />
                                     <arg value="prefix=/usr" />
                                     <arg value="lib=lib" />
-                                    <arg value="CROSS_COMPILE=x86_64-linux-musl-" />
-                                    <arg line="PAM_CAP=no V=1" />
+                                    <arg value="PAM_CAP=no" />
+                                    <arg value="V=1" />
+                                    <arg value="BUILD_CC=x86_64-linux-musl-gcc --static" />
+                                    <arg value="CC=x86_64-linux-musl-gcc" />
+                                    <arg value="CXX=x86_64-linux-musl-g++" />
+                                    <arg value="CFLAGS=-D_FORTIFY_SOURCE=0 -pthread" />
+                                    <arg value="LDFLAGS=-lpthread" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libcap.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
                                     <arg value="DESTDIR=${root.dir}" />
                                     <arg value="prefix=/usr" />
                                     <arg value="lib=lib" />
                                     <arg line="install" />
                                 </exec>
-                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                <!--exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
                                     <arg line="-cvf ${resources.target}/muslsys-${libcap.tag}.tgz sbin include lib" />
-                                </exec>
+                                </exec-->
                             </target>
                         </configuration>
                     </execution>

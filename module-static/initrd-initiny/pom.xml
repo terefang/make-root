@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.bootos</groupId>
+    <artifactId>initrd-initiny</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <initiny.url>http://ftp.br.debian.org/debian/pool/main/t/tiny-initramfs/tiny-initramfs-core_0.1-5+b11_amd64.deb</initiny.url>
+        <prog.version>0.1</prog.version>
+        <prog.name>tiny-initramfs</prog.name>
+        <prog.tag>${prog.name}-${prog.version}</prog.tag>
+        <prog.archive>${prog.name}-${prog.version}.tar.xz</prog.archive>
+        <prog.url>https://github.com/chris-se/${prog.name}/releases/download/v${prog.version}/${prog.tag}.tar.xz</prog.url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target  xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <mkdir dir="${rpm.path}"/>
+                                <mkdir dir="${project.build.directory}/${prog.name}"/>
+                                <mkdir dir="${project.build.directory}/root"/>
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prog.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <condition property="binary.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/xbin/init-tiny"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <mkdir unless:true="${binary.exists}" dir="${project.basedir}/src/main/dist/xbin"/>
+                                <get unless:true="${archive.exists}" src="${prog.url}" dest="${project.basedir}/src/main/dist/${prog.archive}"/>
+                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/${prog.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prog.archive}" />
+                                </exec>
+
+                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/${prog.name}/${prog.tag}"  executable="configure" resolveexecutable="true">
+                                    <env key="CFLAGS" value='-g -Os -static'/>
+                                    <env key="LDFLAGS" value=' -static '/>
+                                    <arg value="--enable-uuid" />
+                                </exec>
+
+                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/${prog.name}/${prog.tag}"  executable="make"/>
+
+                                <copy unless:true="${binary.exists}" tofile="${project.basedir}/src/main/dist/xbin/init-tiny">
+                                    <fileset file="${project.build.directory}/${prog.name}/${prog.tag}/tiny_initramfs" />
+                                </copy>
+                                <exec unless:true="${final.exists}" dir="${project.basedir}/src/main/dist" executable="chmod" >
+                                    <arg line=" +x xbin/init-tiny" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.basedir}/src/main/dist" executable="bsdtar" >
+                                    <arg line=" --null --uid 0 --gid 0 --format=newc -cvf ${project.basedir}/src/main/dist/initiny.cpio xbin/init-tiny" />
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

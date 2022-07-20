@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>grep</artifactId>
-    <version>3.7</version>
+    <version>${version.grep}</version>
     <packaging>pom</packaging>
 
     <properties>

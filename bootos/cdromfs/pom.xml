@@ -52,7 +52,7 @@
                                 <mkdir dir="${rpm.path}/initfs/usr"/>
                                 <mkdir dir="${rpm.path}/usrfs/usr"/>
 
-                                <exec dir="${rpm.path}/usrfs/usr" executable="tar" input="${resources.target}/muslsys-ncurses-6.1.tgz">
+                                <exec dir="${rpm.path}/usrfs/usr" executable="tar" input="${resources.target}/muslsys-netbsd-curses-${version.netbsd-curses}.tgz">
                                     <arg line="-xvf - share/terminfo/l"/>
                                 </exec>
 

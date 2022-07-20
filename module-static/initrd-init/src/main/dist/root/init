@@ -1,0 +1,33 @@
+#!/bin/sh
+
+/xbin/busybox mount -t proc none /proc
+/xbin/busybox mount -t sysfs none /sys
+/xbin/busybox mount -t tmpfs none /tmp
+/xbin/busybox mount -t tmpfs none /run
+/xbin/busybox mount -t devfs none /dev
+
+/xbin/busybox --install -s
+
+for x in $(/xbin/toybox --long); do
+  cd / && ln -s /xbin/toybox "${x}"
+done
+
+export PATH=/bin:/sbin:/xbin
+
+mdev -s
+echo /bin/mdev >/proc/sys/kernel/hotplug
+
+/xbin/busybox cat <<!!!
+
+Boot took $(/xbin/busybox cut -d' ' -f1 /proc/uptime) seconds
+        _       _     __ _
+  /\/\ (_)_ __ (_)   / /(_)_ __  _   ___  __
+ /    \| | '_ \| |  / / | | '_ \| | | \ \/ /
+/ /\/\ \ | | | | | / /__| | | | | |_| |>  <
+\/    \/_|_| |_|_| \____/_|_| |_|\__,_/_/\_\
+
+Welcome to mini_linux
+
+!!!
+
+exec oneit hush

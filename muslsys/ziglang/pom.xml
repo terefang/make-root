@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.muslsys</groupId>
+    <artifactId>ziglang</artifactId>
+    <version>${version.ziglang}</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <pkg.url>https://ziglang.org/download/${project.version}/zig-linux-x86_64-${project.version}.tar.xz</pkg.url>
+        <pkg.tag>${project.artifactId}-${project.version}</pkg.tag>
+        <pkg.archive>${pkg.tag}.tar.gz</pkg.archive>
+        <pkg.dist>${project.basedir}/src/main/dist/${pkg.archive}</pkg.dist>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${project.artifactId}"/>
+                                <mkdir dir="${resources.target}"/>
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${pkg.dist}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <get unless:true="${archive.exists}" src="${pkg.url}" dest="${pkg.dist}"/>
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="tar">
+                                    <arg line="-xvf ${pkg.dist} --strip 1" />
+                                </exec>
+
+                                <echo file="${project.build.directory}/${project.artifactId}/${project.artifactId}/zcc"><![CDATA[#!/bin/sh
+echo -- "EXEC: zig-cc $@"
+zig cc -target x86_64-linux-musl $@
+]]></echo>
+                                <echo file="${project.build.directory}/${project.artifactId}/${project.artifactId}/zcxx"><![CDATA[#!/bin/sh
+echo -- "EXEC: zig-c++ $@"
+zig c++ -target x86_64-linux-musl $@
+]]></echo>
+                                <chmod perm="555" file="${project.build.directory}/${project.artifactId}/${project.artifactId}/zcc" />
+                                <chmod perm="555" file="${project.build.directory}/${project.artifactId}/${project.artifactId}/zcxx" />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}" executable="tar">
+                                    <arg line="-zcvf ${resources.target}/${pkg.archive} ." />
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>libarchive</artifactId>
-    <version>3.5.2</version>
+    <version>${version.libarchive}</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -75,22 +75,22 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-zlib-1.2.11.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-expat-2.4.1.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-expat-${version.expat}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libressl-3.3.5-lib.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-zstd-1.5.0.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-zstd-${version.zstd}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-xz-5.2.5.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-xz-${version.xz}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-bzip2-1.0.8.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-bzip2-${version.bzip2}.tgz" />
                                 </exec>
                                 <delete unless:true="${final.exists}">
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>

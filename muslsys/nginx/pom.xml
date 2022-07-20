@@ -12,13 +12,19 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>nginx</artifactId>
-    <version>1.21.4</version>
+    <version>${version.nginx}</version>
     <packaging>pom</packaging>
 
     <properties>
         <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
         <prg.url>https://nginx.org/download/${prg.archive}</prg.url>
+        <!-- https://github.com/wandenberg/nginx-push-stream-module -->
+        <stream.url-1-22>https://github.com/wandenberg/nginx-push-stream-module/archive/refs/tags/0.5.5.tar.gz</stream.url-1-22>
+        <stream.name-1-22>nginx-push-stream-module-0.5.5</stream.name-1-22>
+        <stream.url>https://github.com/wandenberg/nginx-push-stream-module/archive/refs/heads/master.tar.gz</stream.url>
+        <stream.name>nginx-push-stream-module</stream.name>
+
     </properties>
 
     <build>
@@ -62,6 +68,7 @@
                                 <mkdir dir="${toolchain.dir}"/>
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${stream.name}"/>
                                 <mkdir dir="${resources.target}"/>
 
                                 <condition property="archive.exists">
@@ -80,17 +87,18 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-zlib-1.2.11.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libressl-3.4.1-lib.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-pcre-8.45.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-pcre-${version.pcre}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-4.4.26.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-${version.libxcrypt}.tgz" />
                                 </exec>
+
                                 <delete unless:true="${final.exists}">
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.so*"/>
@@ -98,9 +106,13 @@
                                 </delete>
 
                                 <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
+                                <get unless:true="${archive.exists}" src="${stream.url}" dest="${project.basedir}/src/main/dist/${stream.name}.tgz"/>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${stream.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${stream.name}.tgz --strip 1" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="configure" resolveexecutable="true">
@@ -118,6 +130,7 @@
                                     <arg value="--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp" />
                                     <arg value="--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp" />
                                     <arg value="--http-scgi-temp-path=/var/cache/nginx/scgi_temp" />
+                                    <arg value="--http-log-path=/var/log/nginx" />
                                     <arg value="--user=nginx" />
                                     <arg value="--group=nginx" />
                                     <!--arg value="-/-build=NAME set build name" /-->
@@ -140,7 +153,6 @@
                                     <arg value="--with-http_degradation_module" />
                                     <arg value="--with-http_slice_module" />
                                     <arg value="--with-http_stub_status_module" />
-                                    <arg value="--http-log-path=/var/log/nginx" />
                                     <arg value="--with-mail" />
                                     <arg value="--with-mail_ssl_module" />
                                     <arg value="--with-stream" />
@@ -153,6 +165,7 @@
                                     <arg value="--with-ld-opt=--static -lcrypt -ltls" />
                                     <arg value="--with-pcre" />
                                     <arg value="--with-ipv6" />
+                                    <arg value="--add-module=${project.build.directory}/${project.artifactId}/${stream.name}" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
@@ -165,6 +178,12 @@
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
                                 </exec>
 
+
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz libexec share ../etc ../var" />
+                                </exec>
+
+                                <!--
                                 <xrpm
                                         architecture="X86_64"
                                         destination="${resources.target}"
@@ -189,7 +208,6 @@
                                     </rpmfileset>>
                                     <emptydir path="/etc/nginx/conf.d" />
                                 </xrpm>
-
                                 <xrpm
                                         architecture="X86_64"
                                         destination="${resources.target}"
@@ -216,11 +234,7 @@
                                     <emptydir path="/var/cache/nginx/scgi_temp" />
                                 </xrpm>
 
-                                <!--
 
-                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
-                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share/prg" />
-                                </exec>
 
                                 -->
                             </target>

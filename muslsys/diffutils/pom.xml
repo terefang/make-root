@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>diffutils</artifactId>
-    <version>3.8</version>
+    <version>${version.diffutils}</version>
     <packaging>pom</packaging>
 
     <properties>

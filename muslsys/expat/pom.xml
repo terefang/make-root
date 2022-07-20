@@ -12,13 +12,13 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>expat</artifactId>
-    <version>2.4.1</version>
+    <version>${version.expat}</version>
     <packaging>pom</packaging>
 
     <properties>
         <expat.archive>${project.artifactId}-${project.version}.tar.gz</expat.archive>
         <expat.tag>${project.artifactId}-${project.version}</expat.tag>
-        <expat.url>https://github.com/libexpat/libexpat/releases/download/R_2_4_1/${project.artifactId}-${project.version}.tar.gz</expat.url>
+        <expat.url>https://github.com/libexpat/libexpat/releases/download/R_${version.expat.release}/${project.artifactId}-${project.version}.tar.gz</expat.url>
     </properties>
 
     <build>

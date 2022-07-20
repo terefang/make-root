@@ -13,6 +13,15 @@
     <groupId>terefang.makeroot.bootos</groupId>
     <artifactId>tidb</artifactId>
     <version>5.2.1</version>
+    <!-- TODO
+    * 5.3.0 (stable) already exists
+        https://download.pingcap.org/tidb-v5.3.0-linux-amd64.tar.gz
+        https://download.pingcap.org/tidb-toolkit-v5.3.0-linux-amd64.tar.gz
+
+    * tiup cluster manager
+        https://tiup-mirrors.pingcap.com/tiup-linux-amd64.tar.gz (latest)
+        https://tiup-mirrors.pingcap.com/tiup-v1.8.0-linux-amd64.tar.gz
+    -->
     <packaging>pom</packaging>
 
     <properties>

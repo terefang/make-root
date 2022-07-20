@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>libattr</artifactId>
-    <version>2.5.1</version>
+    <version>${version.libattr}</version>
     <packaging>pom</packaging>
 
     <properties>

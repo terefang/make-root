@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>zstd</artifactId>
-    <version>1.5.0</version>
+    <version>${version.zstd}</version>
     <packaging>pom</packaging>
 
     <properties>

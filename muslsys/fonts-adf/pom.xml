@@ -18,29 +18,31 @@
     <properties>
         <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
-        <font1.url>https://arkandis.tuxfamily.org/fonts/Accanthis-Std-20101124.zip</font1.url>
-        <font2.url>https://arkandis.tuxfamily.org/fonts/AurelisNo2-Std-20110311.zip</font2.url>
-        <font3.url>https://arkandis.tuxfamily.org/fonts/Baskervald-Std-20150322.zip</font3.url>
-        <font4.url>https://arkandis.tuxfamily.org/fonts/Berenis-Pro-20150322.zip</font4.url>
-        <font5.url>https://arkandis.tuxfamily.org/fonts/Electrum-Exp-20100711.zip</font5.url>
-        <font6.url>https://arkandis.tuxfamily.org/fonts/Gillius-Collection-20110312.zip</font6.url>
-        <font7.url>https://arkandis.tuxfamily.org/fonts/Ikarius-Serie-20111024.zip</font7.url>
-        <font8.url>https://arkandis.tuxfamily.org/fonts/Switzera-Collection-20110305.zip</font8.url>
-        <font9.url>https://arkandis.tuxfamily.org/fonts/Irianis-Std-20100729.zip</font9.url>
-        <font10.url>https://arkandis.tuxfamily.org/fonts/Libris-Std-20110117.zip</font10.url>
-        <font11.url>https://arkandis.tuxfamily.org/fonts/Verana-20110731.zip</font11.url>
-        <font12.url>https://arkandis.tuxfamily.org/fonts/Mekanus-Std-20111025.zip</font12.url>
-        <font13.url>https://arkandis.tuxfamily.org/fonts/VeranaSans-20110731.zip</font13.url>
-        <font14.url>https://arkandis.tuxfamily.org/fonts/Romande-Collection-20110730.zip</font14.url>
-        <font15.url>https://arkandis.tuxfamily.org/fonts/Solothurn-Std-20111228.zip</font15.url>
-        <font16.url>https://arkandis.tuxfamily.org/fonts/Tribun-Std-20120228.zip</font16.url>
-        <font17.url>https://arkandis.tuxfamily.org/fonts/Universalis-Std-20110904.zip</font17.url>
-        <font18.url>https://arkandis.tuxfamily.org/fonts/OrnementsADF.zip</font18.url>
-        <font19.url>https://arkandis.tuxfamily.org/fonts/SymbolADF.zip</font19.url>
-        <font20.url>https://arkandis.tuxfamily.org/fonts/Keypad-20101223.zip</font20.url>
-        <font21.url>https://arkandis.tuxfamily.org/fonts/MintSpirit-20150322.zip</font21.url>
-        <font22.url>https://arkandis.tuxfamily.org/fonts/Oldania-Std-20150406.tar.gz</font22.url>
-        <font23.url>https://arkandis.tuxfamily.org/fonts/NeoGothis-Std-20150405.tar.gz</font23.url>
+        <font.urls>
+            https://arkandis.tuxfamily.org/fonts/Accanthis-Std-20101124.zip
+            https://arkandis.tuxfamily.org/fonts/AurelisNo2-Std-20110311.zip
+            https://arkandis.tuxfamily.org/fonts/Baskervald-Std-20150322.zip
+            https://arkandis.tuxfamily.org/fonts/Berenis-Pro-20150322.zip
+            https://arkandis.tuxfamily.org/fonts/Electrum-Exp-20100711.zip
+            https://arkandis.tuxfamily.org/fonts/Gillius-Collection-20110312.zip
+            https://arkandis.tuxfamily.org/fonts/Ikarius-Serie-20111024.zip
+            https://arkandis.tuxfamily.org/fonts/Switzera-Collection-20110305.zip
+            https://arkandis.tuxfamily.org/fonts/Irianis-Std-20100729.zip
+            https://arkandis.tuxfamily.org/fonts/Libris-Std-20110117.zip
+            https://arkandis.tuxfamily.org/fonts/Verana-20110731.zip
+            https://arkandis.tuxfamily.org/fonts/Mekanus-Std-20111025.zip
+            https://arkandis.tuxfamily.org/fonts/VeranaSans-20110731.zip
+            https://arkandis.tuxfamily.org/fonts/Romande-Collection-20110730.zip
+            https://arkandis.tuxfamily.org/fonts/Solothurn-Std-20111228.zip
+            https://arkandis.tuxfamily.org/fonts/Tribun-Std-20120228.zip
+            https://arkandis.tuxfamily.org/fonts/Universalis-Std-20110904.zip
+            https://arkandis.tuxfamily.org/fonts/OrnementsADF.zip
+            https://arkandis.tuxfamily.org/fonts/SymbolADF.zip
+            https://arkandis.tuxfamily.org/fonts/Keypad-20101223.zip
+            https://arkandis.tuxfamily.org/fonts/MintSpirit-20150322.zip
+            https://arkandis.tuxfamily.org/fonts/Oldania-Std-20150406.tar.gz
+            https://arkandis.tuxfamily.org/fonts/NeoGothis-Std-20150405.tar.gz
+        </font.urls>
     </properties>
 
     <build>
@@ -65,12 +67,31 @@
                     <dependency>
                         <groupId>com.github.terefang</groupId>
                         <artifactId>ant-archive-plus</artifactId>
-                        <version>1.5.3</version>
+                        <version>1.5.2</version>
                     </dependency>
                     <dependency>
                         <groupId>ant-contrib</groupId>
                         <artifactId>ant-contrib</artifactId>
                         <version>1.0b3</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-apache-bsf -->
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-apache-bsf</artifactId>
+                        <version>1.10.12</version>
+                    </dependency>
+
+                    <!-- https://mvnrepository.com/artifact/org.beanshell/bsh -->
+                    <dependency>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh</artifactId>
+                        <version>2.0b5</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.2</version>
                     </dependency>
                 </dependencies>
                 <executions>
@@ -89,79 +110,57 @@
 
                                 <mkdir dir="${root.dir}"/>
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
-                                <mkdir dir="${root.dir}/usr/share/fonts/adf/opentype"/>
-                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
                                 <mkdir dir="${resources.target}"/>
 
-                                <condition property="archive.exists">
-                                    <resourceexists>
-                                        <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
-                                    </resourceexists>
-                                </condition>
-
-                                <condition property="final.exists">
-                                    <resourceexists>
-                                        <file file="${resources.target}/muslsys-${prg.tag}.tgz"/>
-                                    </resourceexists>
-                                </condition>
-                                <get unless:true="${archive.exists}" src="${font1.url}" dest="${project.basedir}/src/main/dist/font1.zip"/>
-                                <get unless:true="${archive.exists}" src="${font2.url}" dest="${project.basedir}/src/main/dist/font2.zip"/>
-                                <get unless:true="${archive.exists}" src="${font3.url}" dest="${project.basedir}/src/main/dist/font3.zip"/>
-                                <get unless:true="${archive.exists}" src="${font4.url}" dest="${project.basedir}/src/main/dist/font4.zip"/>
-                                <get unless:true="${archive.exists}" src="${font5.url}" dest="${project.basedir}/src/main/dist/font5.zip"/>
-                                <get unless:true="${archive.exists}" src="${font6.url}" dest="${project.basedir}/src/main/dist/font6.zip"/>
-                                <get unless:true="${archive.exists}" src="${font7.url}" dest="${project.basedir}/src/main/dist/font7.zip"/>
-                                <get unless:true="${archive.exists}" src="${font8.url}" dest="${project.basedir}/src/main/dist/font8.zip"/>
-                                <get unless:true="${archive.exists}" src="${font9.url}" dest="${project.basedir}/src/main/dist/font9.zip"/>
-                                <get unless:true="${archive.exists}" src="${font10.url}" dest="${project.basedir}/src/main/dist/font10.zip"/>
-                                <get unless:true="${archive.exists}" src="${font11.url}" dest="${project.basedir}/src/main/dist/font11.zip"/>
-                                <get unless:true="${archive.exists}" src="${font12.url}" dest="${project.basedir}/src/main/dist/font12.zip"/>
-                                <get unless:true="${archive.exists}" src="${font13.url}" dest="${project.basedir}/src/main/dist/font13.zip"/>
-                                <get unless:true="${archive.exists}" src="${font14.url}" dest="${project.basedir}/src/main/dist/font14.zip"/>
-                                <get unless:true="${archive.exists}" src="${font15.url}" dest="${project.basedir}/src/main/dist/font15.zip"/>
-                                <get unless:true="${archive.exists}" src="${font16.url}" dest="${project.basedir}/src/main/dist/font16.zip"/>
-                                <get unless:true="${archive.exists}" src="${font17.url}" dest="${project.basedir}/src/main/dist/font17.zip"/>
-                                <get unless:true="${archive.exists}" src="${font18.url}" dest="${project.basedir}/src/main/dist/font18.zip"/>
-                                <get unless:true="${archive.exists}" src="${font19.url}" dest="${project.basedir}/src/main/dist/font19.zip"/>
-                                <get unless:true="${archive.exists}" src="${font20.url}" dest="${project.basedir}/src/main/dist/font20.zip"/>
-                                <get unless:true="${archive.exists}" src="${font21.url}" dest="${project.basedir}/src/main/dist/font21.zip"/>
-                                <get unless:true="${archive.exists}" src="${font22.url}" dest="${project.basedir}/src/main/dist/font22.zip"/>
-                                <get unless:true="${archive.exists}" src="${font23.url}" dest="${project.basedir}/src/main/dist/font23.zip"/>
-                                <for list="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21" param="id">
+                                <for list="${font.urls}" delimiter="&#10;" trim="true" param="url">
                                     <sequential>
-                                        <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="unzip">
-                                            <arg line="-j -o ${project.basedir}/src/main/dist/font@{id}.zip *.otf" />
-                                        </exec>
+                                        <script manager="bsf" language="beanshell"><![CDATA[
+                                            baseName = "@{url}".substring("@{url}".lastIndexOf('/')+1);
+                                            isZip = baseName.endsWith(".zip");
+                                            nameBase = baseName;
+                                            ofs = nameBase.lastIndexOf('-');
+                                            if(ofs>0)
+                                            {
+                                            nameBase = nameBase.substring(0,ofs);
+                                            }
+                                            else
+                                            {
+                                            nameBase = nameBase.substring(0,nameBase.indexOf('.'));
+                                            }
 
+                                            project.setProperty("baseName",baseName);
+                                            project.setProperty("nameBase",nameBase.toLowerCase());
+                                            project.setProperty("isZip",isZip ? "true" : "false");
+                                        ]]></script>
+                                        <delete dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+                                        <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}/${nameBase}"/>
+                                        <get src="@{url}" dest="${project.build.directory}/${baseName}"/>
+                                        <exec if:true="${isZip}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="unzip">
+                                            <arg line="-j -o ${project.build.directory}/${baseName}" />
+                                        </exec>
+                                        <exec unless:true="${isZip}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                            <arg line="-xvf ${project.build.directory}/${baseName}" />
+                                        </exec>
+                                        <delete dir="${root.dir}/usr/share/fonts/"/>
+                                        <mkdir dir="${root.dir}/usr/share/fonts/adf/${nameBase}"/>
+                                        <copy todir="${root.dir}/usr/share/fonts/adf/${nameBase}" flatten="true">
+                                            <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}">
+                                                <include name="**/*.otf" />
+                                                <include name="**/*.txt" />
+                                                <include name="**/COPYING" />
+                                            </fileset>
+                                        </copy>
+                                        <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                            <arg line="-czvf ${resources.target}/${project.artifactId}-${nameBase}-${project.version}.tar.gz share/fonts" />
+                                        </exec>
+                                        <!--ipkg format="ar" destfile="${resources.target}/${project.artifactId}-otf_${project.version}_noarch.ipk">
+                                            <ipkg-control packageName="${project.artifactId}-otf" version="${project.version}" architecture="noarch"/>
+                                            <tarfileset prefix="/usr/share/fonts/adf/opentype" dir="${root.dir}/usr/share/fonts/adf/opentype" username="root" group="root" filemode="444">
+                                                <include name="**.otf" />
+                                            </tarfileset>
+                                        </ipkg-->
                                     </sequential>
                                 </for>
-                                <for list="22,23" param="id">
-                                    <sequential>
-                                        <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
-                                            <arg line="-xvf ${project.basedir}/src/main/dist/font@{id}.zip" />
-                                        </exec>
-
-                                    </sequential>
-                                </for>
-
-
-                                <copy todir="${root.dir}/usr/share/fonts/adf/opentype" flatten="true">
-                                    <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}">
-                                        <include name="**/*.otf" />
-                                    </fileset>
-                                </copy>
-
-
-                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
-                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz share/fonts" />
-                                </exec>
-
-                                <ipkg format="ar" destfile="${resources.target}/${project.artifactId}-otf_${project.version}_noarch.ipk">
-                                    <ipkg-control packageName="${project.artifactId}-otf" version="${project.version}" architecture="noarch"/>
-                                    <tarfileset prefix="/usr/share/fonts/adf/opentype" dir="${root.dir}/usr/share/fonts/adf/opentype" username="root" group="root" filemode="444">
-                                        <include name="**.otf" />
-                                    </tarfileset>
-                                </ipkg>
                             </target>
                         </configuration>
                     </execution>
