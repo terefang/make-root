@@ -7,6 +7,103 @@
     <groupId>terefang.makeroot</groupId>
     <artifactId>parent</artifactId>
     <version>2021.1.0</version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <version.java>8</version.java>
+        <maven.compiler.source>${version.java}</maven.compiler.source>
+        <maven.compiler.target>${version.java}</maven.compiler.target>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+        <rpm.path>${project.basedir}/../../target</rpm.path>
+        <xbin.path>${project.basedir}/../../xbin</xbin.path>
+
+        <root.dir>${project.build.directory}/${project.artifactId}/root</root.dir>
+        <toolchain.dir>${project.build.directory}/${project.artifactId}/toolchain</toolchain.dir>
+        <resources.target>${project.basedir}/../../resources</resources.target>
+
+        <baseos.baseurl>http://download.rockylinux.org/pub/rocky/8/BaseOS/x86_64/os/</baseos.baseurl>
+        <appstream.baseurl>http://dl.rockylinux.org/pub/rocky/8/AppStream/x86_64/os/</appstream.baseurl>
+        <epel.baseurl>http://centos.anexia.at/epel/8/Everything/x86_64/</epel.baseurl>
+
+        <version.limine>3.12</version.limine>
+
+        <version.kernel5>5.10.131</version.kernel5>
+        <version.kernel4>4.19.248</version.kernel4>
+        <version.kernel3>3.16.85</version.kernel3>
+
+        <version.glibc>2.35</version.glibc>
+        <version.mc>4.8.28</version.mc>
+        <version.binutils>2.38</version.binutils>
+        <version.diffutils>3.8</version.diffutils>
+        <version.file>5.41</version.file>
+        <version.gawk>5.1.1</version.gawk>
+        <version.grep>3.7</version.grep>
+        <version.make>4.3</version.make>
+        <version.patch>2.7.6</version.patch>
+        <version.sed>4.8</version.sed>
+        <version.tar>1.34</version.tar>
+        <version.findutils>4.9.0</version.findutils>
+
+        <version.libgcrypt>1.10.1</version.libgcrypt>
+        <version.libgpg-error>1.45</version.libgpg-error>
+
+        <version.bash>5.1.16</version.bash>
+        <version.dash>0.5.11.5</version.dash>
+        <version.nginx>1.23.0</version.nginx>
+        <version.openldap>2.6.2</version.openldap>
+        <version.sqlite>3.39.0</version.sqlite>
+        <version.sqlite.pkg>3390000</version.sqlite.pkg>
+        <version.sqlite.year>2022</version.sqlite.year>
+
+        <version.libressl>3.5.3</version.libressl>
+        <version.libcmusl>1.2.3</version.libcmusl>
+        <version.zlib>1.2.11</version.zlib>
+        <version.pcre>8.45</version.pcre>
+        <version.pcre2>10.39</version.pcre2>
+
+        <version.expat>2.4.8</version.expat>
+        <version.expat.release>2_4_8</version.expat.release>
+
+        <version.zstd>1.5.0</version.zstd>
+        <version.xz>5.2.5</version.xz>
+        <version.bzip2>1.0.8</version.bzip2>
+
+        <version.libarchive>3.5.2</version.libarchive>
+        <version.libsolv>0.7.20</version.libsolv>
+
+        <version.curl>7.79.1</version.curl>
+
+        <version.opkg>0.5.0</version.opkg>
+
+        <version.netbsd-curses>0.3.2</version.netbsd-curses>
+
+        <version.libxcrypt>4.4.28</version.libxcrypt>
+        <version.libcap>2.33</version.libcap>
+        <version.bubblewrap>0.6.1</version.bubblewrap>
+        <version.lua>5.4.3</version.lua>
+        <version.openssh>8.8p1</version.openssh>
+        <version.editline>1.17.1</version.editline>
+        <version.readline>8.1</version.readline>
+
+        <version.util-linux>2.37.2</version.util-linux>
+        <version.libcap-ng>0.8.2</version.libcap-ng>
+        <version.libattr>2.5.1</version.libattr>
+        <version.golang>1.18.2</version.golang>
+        <version.ziglang>0.9.1</version.ziglang>
+        <version.gpp>2.27</version.gpp>
+        <version.dateutils>0.4.10</version.dateutils>
+        <version.gnutls>3.6.16</version.gnutls>
+        <version.gmp>6.2.1</version.gmp>
+        <version.nettle>3.8</version.nettle>
+        <version.vim>9.0</version.vim>
+        <version.glib2>2.73.2</version.glib2>
+        <version.glib2.major>2.73</version.glib2.major>
+        <version.msmtp>1.8.22</version.msmtp>
+        <version.talloc>2.3.4</version.talloc>
+        <version.proot>5.3.1</version.proot>
+    </properties>
+
     <modules>
         <module>muslsys/toolchain</module>
 
@@ -26,10 +123,13 @@
         <module>muslsys/gpp</module>
         <module>muslsys/libc-musl</module>
         <module>muslsys/libxcrypt</module>
+        <module>muslsys/talloc</module>
+        <module>muslsys/proot</module>
         <module>muslsys/gmp</module>
         <module>muslsys/nettle</module>
         <module>muslsys/gnutls</module>
         <module>muslsys/embedtls</module>
+        <module>muslsys/msmtp</module>
         <module>muslsys/hostctl</module>
         <module>muslsys/jq</module>
         <module>muslsys/m4</module>
@@ -84,6 +184,7 @@
         <module>muslsys/iselect</module>
         <module>muslsys/vim</module>
         <module>muslsys/editline</module>
+        <module>muslsys/dash</module>
         <module>muslsys/readline</module>
         <module>muslsys/dialog</module>
         <module>muslsys/smenu</module>
@@ -93,6 +194,9 @@
         <module>muslsys/openssh</module>
         <module>muslsys/glib2</module>
         <module>muslsys/mc</module>
+
+        <!--module>muslsys/libgpg-error</module>
+        <module>muslsys/libgcrypt</module-->
 
         <module>baseos/filesystem</module>
         <module>bootos/gfdisk</module>
@@ -113,102 +217,17 @@
         <module>modules/distro-pkgs</module>
         <module>modules/perl-pkgs</module>
         <module>modules/java</module>
+
+
+        <!--module>hashicorp/....</module-->
+
+
         <module>bootos/cdromfs</module>
 
     </modules>
 
     <packaging>pom</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.java>8</version.java>
-        <maven.compiler.source>${version.java}</maven.compiler.source>
-        <maven.compiler.target>${version.java}</maven.compiler.target>
-        <timestamp>${maven.build.timestamp}</timestamp>
-        <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
-        <rpm.path>${project.basedir}/../../target</rpm.path>
-        <xbin.path>${project.basedir}/../../xbin</xbin.path>
-
-        <root.dir>${project.build.directory}/${project.artifactId}/root</root.dir>
-        <toolchain.dir>${project.build.directory}/${project.artifactId}/toolchain</toolchain.dir>
-        <resources.target>${project.basedir}/../../resources</resources.target>
-
-        <baseos.baseurl>http://download.rockylinux.org/pub/rocky/8/BaseOS/x86_64/os/</baseos.baseurl>
-        <appstream.baseurl>http://dl.rockylinux.org/pub/rocky/8/AppStream/x86_64/os/</appstream.baseurl>
-        <epel.baseurl>http://centos.anexia.at/epel/8/Everything/x86_64/</epel.baseurl>
-
-        <version.limine>3.12</version.limine>
-
-        <version.kernel5>5.10.131</version.kernel5>
-        <version.kernel4>4.19.248</version.kernel4>
-        <version.kernel3>3.16.85</version.kernel3>
-
-        <version.glibc>2.35</version.glibc>
-        <version.mc>4.8.28</version.mc>
-        <version.binutils>2.38</version.binutils>
-        <version.diffutils>3.8</version.diffutils>
-        <version.file>5.41</version.file>
-        <version.gawk>5.1.1</version.gawk>
-        <version.grep>3.7</version.grep>
-        <version.make>4.3</version.make>
-        <version.patch>2.7.6</version.patch>
-        <version.sed>4.8</version.sed>
-        <version.tar>1.34</version.tar>
-        <version.findutils>4.9.0</version.findutils>
-
-
-        <version.bash>5.1.16</version.bash>
-        <version.nginx>1.23.0</version.nginx>
-        <version.openldap>2.6.2</version.openldap>
-        <version.sqlite>3.39.0</version.sqlite>
-        <version.sqlite.pkg>3390000</version.sqlite.pkg>
-        <version.sqlite.year>2022</version.sqlite.year>
-
-        <version.libressl>3.5.3</version.libressl>
-        <version.libcmusl>1.2.3</version.libcmusl>
-        <version.zlib>1.2.11</version.zlib>
-        <version.pcre>8.45</version.pcre>
-        <version.pcre2>10.39</version.pcre2>
-
-        <version.expat>2.4.8</version.expat>
-        <version.expat.release>2_4_8</version.expat.release>
-
-        <version.zstd>1.5.0</version.zstd>
-        <version.xz>5.2.5</version.xz>
-        <version.bzip2>1.0.8</version.bzip2>
-
-        <version.libarchive>3.5.2</version.libarchive>
-        <version.libsolv>0.7.20</version.libsolv>
-
-        <version.curl>7.79.1</version.curl>
-
-        <version.opkg>0.5.0</version.opkg>
-
-        <version.netbsd-curses>0.3.2</version.netbsd-curses>
-
-        <version.libxcrypt>4.4.28</version.libxcrypt>
-        <version.libcap>2.33</version.libcap>
-        <version.bubblewrap>0.6.1</version.bubblewrap>
-        <version.lua>5.4.3</version.lua>
-        <version.openssh>8.8p1</version.openssh>
-        <version.editline>1.17.1</version.editline>
-        <version.readline>8.1</version.readline>
-
-        <version.util-linux>2.37.2</version.util-linux>
-        <version.libcap-ng>0.8.2</version.libcap-ng>
-        <version.libattr>2.5.1</version.libattr>
-        <version.golang>1.18.2</version.golang>
-        <version.ziglang>0.9.1</version.ziglang>
-        <version.gpp>2.27</version.gpp>
-        <version.dateutils>0.4.10</version.dateutils>
-        <version.gnutls>3.6.16</version.gnutls>
-        <version.gmp>6.2.1</version.gmp>
-        <version.nettle>3.8</version.nettle>
-        <version.vim>9.0</version.vim>
-        <version.glib2>2.73.2</version.glib2>
-        <version.glib2.major>2.73</version.glib2.major>
-    </properties>
 
     <build>
     <extensions>

@@ -100,6 +100,10 @@
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/x86_64-linux-musl-native/bin" executable="ln"><arg line="-sfT strings   x86_64-linux-musl-strings  " /></exec>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/x86_64-linux-musl-native/bin" executable="ln"><arg line="-sfT strip     x86_64-linux-musl-strip    " /></exec>
 
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/x86_64-linux-musl-native/bin" executable="cp"><arg line="${project.basedir}/src/main/dist/bsd/cdefs.h ${project.build.directory}/${project.artifactId}/x86_64-linux-musl-native/include/sys/" /></exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/x86_64-linux-musl-native/bin" executable="cp"><arg line="${project.basedir}/src/main/dist/bsd/queue.h ${project.build.directory}/${project.artifactId}/x86_64-linux-musl-native/include/sys/" /></exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/x86_64-linux-musl-native/bin" executable="cp"><arg line="${project.basedir}/src/main/dist/bsd/tree.h ${project.build.directory}/${project.artifactId}/x86_64-linux-musl-native/include/sys/" /></exec>
+
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/x86_64-linux-musl-native/" executable="tar">
                                     <arg line="-zcvf ${resources.target}/${toolchain.archive} ." />
                                 </exec>
