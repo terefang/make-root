@@ -1,0 +1,9 @@
+:80 {
+    redir https://{host}:443/
+    import /etc/caddy/common/header-sanity.cf
+}
+
+:8080 {
+    redir https://{host}:8443/
+    import /etc/caddy/common/header-sanity.cf
+}

@@ -47,7 +47,7 @@
                                 <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
 
                                 <exec unless:true="${final.exists}" dir="${project.basedir}/src/main/dist/root" executable="bsdtar" >
-                                    <arg line="  --uid 0 --gid 0 --format=newc -cvf ${project.basedir}/src/main/dist/init.cpio init" />
+                                    <arg line="  --uid 0 --gid 0 --format=newc -cvf ${project.basedir}/src/main/dist/init.cpio init install.sh" />
                                 </exec>
                             </target>
                         </configuration>

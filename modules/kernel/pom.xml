@@ -14,26 +14,15 @@
     <packaging>pom</packaging>
 
     <properties>
-        <!-- LTS KERNELS
-        https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-3.16.85.tar.gz
-        https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-3.18.140.tar.gz
-
-            https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.9.319.tar.xz
-            https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.14.284.tar.xz
-            https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.248.tar.xz
-            https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.206.tar.xz
-            https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.131.tar.xz
-            https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.49.tar.xz
-            https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.17.15.tar.xz
-            https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.18.6.tar.xz
-
-            2022-08 — 5.19.1, 5.18.17, 5.15.60, 5.10.136, 5.4.210, and 4.19.255
-        -->
         <urls>
-            https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-${version.kernel3}.tar.gz
-            https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-${version.kernel4}.tar.xz
+            https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${version.kernel6}.tar.xz
             https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version.kernel5}.tar.xz
+            https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-${version.kernel4}.tar.xz
+            https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-${version.kernel3}.tar.gz
         </urls>
+        <!--
+        https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.45.tar.xz
+        -->
     </properties>
 
     <build>
@@ -185,6 +174,7 @@ CONFIG_NFS_FS=n
 CONFIG_WIMAX=n
 CONFIG_WIRELESS=n
 CONFIG_WLAN=n
+CONFIG_SECURITY_SELINUX_DISABLE=y
                                 ]]></echo>
                                         <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${_version}/${_tag}" executable="make">
                                             <arg value="olddefconfig" />

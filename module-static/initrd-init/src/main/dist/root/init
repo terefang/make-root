@@ -1,12 +1,31 @@
 #!/bin/sh
 
+/xbin/busybox --install -s
+
 /xbin/busybox mount -t proc none /proc
 /xbin/busybox mount -t sysfs none /sys
 /xbin/busybox mount -t tmpfs none /tmp
 /xbin/busybox mount -t tmpfs none /run
-/xbin/busybox mount -t devfs none /dev
+/xbin/busybox mount -t tmpfs devtmpfs /dev
+/xbin/busybox mknod -m 644 /dev/sda  b 8 0
+/xbin/busybox mknod -m 644 /dev/sda1 b 8 1
+/xbin/busybox mknod -m 644 /dev/sda2 b 8 2
+/xbin/busybox mknod -m 644 /dev/sda3 b 8 3
+/xbin/busybox mknod -m 644 /dev/sda4 b 8 4
+/xbin/busybox mknod -m 644 /dev/sda5 b 8 5
+/xbin/busybox mknod -m 644 /dev/sda6 b 8 6
+/xbin/busybox mknod -m 644 /dev/sda7 b 8 7
+/xbin/busybox mknod -m 644 /dev/sda8 b 8 8
+/xbin/busybox mknod -m 644 /dev/sda9 b 8 9
+/xbin/busybox mkdir /dev/pts
+/xbin/busybox mount -t devpts devpts /dev/pts
+/xbin/busybox mkdir /dev/shm
+/xbin/busybox mount -t tmpfs tmpfs /dev/shm
 
-/xbin/busybox --install -s
+
+for x in boot cdrom root data; do
+/xbin/busybox mkdir -p /mnt/${x}
+done
 
 for x in $(/xbin/toybox --long); do
   cd / && ln -s /xbin/toybox "${x}"

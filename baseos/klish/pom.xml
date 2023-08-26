@@ -17,8 +17,8 @@
 
     <properties>
         <prog.tag>${project.artifactId}-${project.version}</prog.tag>
-        <prog.archive>${prog.tag}.tar.gz</prog.archive>
-        <prog.url>https://src.libcode.org/pkun/klish/archive/2.2.tar.gz</prog.url>
+        <prog.archive>${prog.tag}.tar.xz</prog.archive>
+        <prog.url>https://src.libcode.org/download/${project.artifactId}/${prog.tag}.tar.xz</prog.url>
         <!-- https://src.libcode.org/pkun/klish/archive/${project.version}.tar.gz -->
     </properties>
 

@@ -200,13 +200,13 @@ https://www.linuxfromscratch.org/lfs/view/stable/chapter08/chapter08.html
 [_] Man-pages-5.13
 [_] Iana-Etc-20220207
 [_] Glibc-2.35
-[_] Zlib-1.2.11
-[_] Bzip2-1.0.8
-[_] Xz-5.2.5
-[_] Zstd-1.5.2
+[x] Zlib-1.2.11
+[x] Bzip2-1.0.8
+[x] Xz-5.2.5
+[x] Zstd-1.5.2
 [_] File-5.41
-[_] Readline-8.1.2
-[_] M4-1.4.19
+[x] Readline-8.1.2
+[x] M4-1.4.19
 [_] Bc-5.2.2
 [_] Flex-2.6.4
 [_] Tcl-8.6.12
@@ -218,21 +218,21 @@ https://www.linuxfromscratch.org/lfs/view/stable/chapter08/chapter08.html
 [_] MPC-1.2.1
 [_] Attr-2.5.1
 [_] Acl-2.3.1
-[_] Libcap-2.63
+[x] Libcap-2.63
 [_] Shadow-4.11.1
 [_] GCC-11.2.0
 [_] Pkg-config-0.29.2
-[_] Ncurses-6.3
-[_] Sed-4.8
+[x] Ncurses-6.3
+[x] Sed-4.8
 [_] Psmisc-23.4
 [_] Gettext-0.21
 [_] Bison-3.8.2
 [_] Grep-3.7
-[_] Bash-5.1.16
+[x] Bash-5.1.16
 [_] Libtool-2.4.6
 [_] GDBM-1.23
 [_] Gperf-3.1
-[_] Expat-2.4.6
+[x] Expat-2.4.6
 [_] Inetutils-2.2
 [_] Less-590
 [_] Perl-5.34.0
@@ -240,7 +240,7 @@ https://www.linuxfromscratch.org/lfs/view/stable/chapter08/chapter08.html
 [_] Intltool-0.51.0
 [_] Autoconf-2.71
 [_] Automake-1.16.5
-[_] OpenSSL-3.0.1
+[x] OpenSSL-3.0.1
 [_] Kmod-29
 [_] Libelf from Elfutils-0.186
 [_] Libffi-3.4.2
@@ -258,7 +258,7 @@ https://www.linuxfromscratch.org/lfs/view/stable/chapter08/chapter08.html
 [_] IPRoute2-5.16.0
 [_] Kbd-2.4.0
 [_] Libpipeline-1.5.5
-[_] Make-4.3
+[x] Make-4.3
 [_] Patch-2.7.6
 [_] Tar-1.34
 [_] Texinfo-6.8
@@ -270,3 +270,15 @@ https://www.linuxfromscratch.org/lfs/view/stable/chapter08/chapter08.html
 [_] E2fsprogs-1.46.5
 [_] Sysklogd-1.5.1
 [_] Sysvinit-3.01
+
+
+# MISC
+
+https://github.com/kakwa/libvisio2svg
+https://github.com/LibreOffice/libvisio
+https://github.com/caolanm/libwmf
+https://github.com/kakwa/libemf2svg
+
+https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.1.tar.gz
+https://download.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz
+

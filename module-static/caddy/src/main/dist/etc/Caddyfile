@@ -1,0 +1,14 @@
+#
+# run --config Caddyfile  --adapter caddyfile
+#
+{
+    admin off
+    debug
+    http_port 80
+    https_port 443
+    storage file_system {
+        root /var/lib/caddy2
+    }
+}
+
+import /etc/caddy/vhosts/*.cf

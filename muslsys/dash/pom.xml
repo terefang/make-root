@@ -18,7 +18,7 @@
     <properties>
         <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
-        <prg.url>http://gondor.apana.org.au/~herbert/dash/files/${prg.archive}</prg.url>
+        <prg.url>https://git.kernel.org/pub/scm/utils/dash/dash.git/snapshot/${prg.archive}</prg.url>
     </properties>
 
     <build>
@@ -80,14 +80,27 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-editline-${version.editline}.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libedit-${version.libedit}.tgz" />
                                 </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-netbsd-curses-${version.netbsd-curses}.tgz" />
+                                </exec>
+
+                                <delete unless:true="${final.exists}">
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/*.so*"/>
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/pkgconfig/*"/>
+                                </delete>
 
                                 <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
                                 </exec>
+
+                                <replace file="${project.build.directory}/${project.artifactId}/${prg.tag}/src/options.c" token="optlist[i] = 0;" value="optlist[i] = 0; Eflag = 1;"/>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="autogen.sh" resolveexecutable="true" />
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="configure" resolveexecutable="true">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
@@ -98,13 +111,15 @@
                                     <arg value="--prefix=/usr" />
                                     <arg value="--host=x86_64-linux-musl" />
                                     <arg value="--target=x86_64-linux-musl" />
-                                    <arg value="--disable-shared" />
                                     <arg value="--enable-static" />
+                                    <arg value="--enable-fnmatch" />
+                                    <arg value="--with-libedit" />
+
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
-                                    <arg line="V=1 -j 1" />
+                                    <arg line="V=1 -j 1 LIBS='-ledit -lncursesw -ltermcap'" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">

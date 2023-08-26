@@ -1,0 +1,15 @@
+[Unit]
+Description=TTYD
+After=syslog.target
+After=network.target
+
+[Service]
+##ExecStart=/usr/sbin/ttyd -p 8443 --ssl --ssl-cert /etc/ttyd/server.crt --ssl-key /etc/ttyd/server.key --ssl-ca /etc/ttyd/server.ca login
+ExecStart=/usr/sbin/ttyd -p 8443 --ssl --ssl-cert /etc/ttyd/server.crt --ssl-key /etc/ttyd/server.key login
+Type=simple
+Restart=always
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

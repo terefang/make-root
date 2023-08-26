@@ -1,0 +1,18 @@
+[Unit]
+Description=caddy
+Requires=network.target
+
+[Service]
+Type=notify
+WorkingDirectory=/var/lib/caddy
+ExecStart=/usr/libexec/caddy/caddy run --config /etc/caddy/Caddyfile --envfile /etc/caddy/CaddyEnv --pidfile /var/run/caddy.pid
+TimeoutStopSec=60
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=caddy
+User=root
+
+[Install]
+WantedBy=default.target

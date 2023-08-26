@@ -1,0 +1,20 @@
+header {
+	# enable HSTS
+	Strict-Transport-Security       "max-age=31536000; includeSubDomains; preload"
+
+	# disable clients from sniffing the media type
+	X-Content-Type-Options          nosniff
+
+	# Only allow my site to frame itself
+    Content-Security-Policy         "frame-ancestors 'self'"
+    X-Frame-Options                 SAMEORIGIN
+
+	# keep referrer data off of HTTP connections
+	Referrer-Policy                 no-referrer-when-downgrade
+
+    X-XSS-Protection                "1; mode=block"
+    Access-Control-Allow-Origin     "{scheme}://{hostport}"
+    #Set-Cookie                      "X-SITE-ID=fc2b9378-68c3-4868-b23c-02c3f71727c9; Path=/; Secure; HttpOnly"
+    Referrer-Policy                 "no-referrer, strict-origin-when-cross-origin"
+	-Server
+}

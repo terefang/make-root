@@ -1,0 +1,13 @@
+#
+# vlan info api
+#
+https://sample.server:443 {
+    import /etc/caddy/common/tls.cf
+    reverse_proxy 127.0.0.1:8101 {
+        header_up Host              {host}
+        header_up X-Forwarded-Port  443
+        header_up X-Forwarded-Proto {scheme}
+    }
+    import /etc/caddy/common/proxy-errors.cf
+    import /etc/caddy/common/header-sanity.cf
+}

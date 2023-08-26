@@ -1,0 +1,46 @@
+order authenticate before respond
+	order authorize before basicauth
+
+	security {
+		local identity store localdb {
+			realm local
+			path users.json
+		}
+
+
+		authentication portal myportal {
+			crypto default token lifetime 3600
+			crypto key sign-verify 12345678901234567890123456789012
+			enable identity store localdb
+			cookie domain 127.0.0.1
+			ui {
+                theme basic
+				links {
+					"My Website" / icon "las la-star"
+				}
+
+    		}
+			transform user {
+				match origin local
+				action add role authp/user
+				ui link "Portal Settings" /settings icon "las la-cog"
+			}
+		}
+
+		authorization policy users_policy {
+			set auth url /8045c706-d273-448a-a3fb-a462673e63cd
+			allow roles authp/admin authp/user
+			crypto key verify 12345678901234567890123456789012
+			acl rule {
+				comment allow users
+				match role authp/user
+				allow stop log info
+			}
+			acl rule {
+				comment default deny
+				match any
+				deny log warn
+			}
+		}
+
+	}

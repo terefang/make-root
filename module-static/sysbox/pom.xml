@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.baseos</groupId>
+    <artifactId>sysbox</artifactId>
+    <version>${version.sysbox}</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <taskdef name="xtar" classname="com.github.terefang.ant.archiveplus.taskdefs.Tar" />
+                                <typedef name="symlink" classname="com.github.terefang.ant.archiveplus.resources.SymbolicLink" />
+
+                                <mkdir dir="${rpm.path}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}"/>
+                                <mkdir dir="${toolchain.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+
+                                <condition property="binary.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prg.tag}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <get unless:true="${binary.exists}" src="https://github.com/skx/sysbox/releases/download/release-${project.version}/sysbox-linux-amd64" dest="${project.basedir}/src/main/dist/${prg.tag}" />
+
+                                <copy tofile="${project.build.directory}/${project.artifactId}/${project.artifactId}">
+                                    <fileset file="${project.basedir}/src/main/dist/${prg.tag}" />
+                                </copy>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="ASL"
+                                        group="${project.artifactId}"
+                                        name="${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/${project.artifactId}" filemode='555' file="${project.build.directory}/${project.artifactId}/${project.artifactId}" username="root" group="root" addParents="false" />
+
+                                    <link path="/usr/libexec/${project.artifactId}/calc" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/choose-file" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/choose-stdin" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/chronic" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/collapse" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/comments" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/cpp" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/env-template" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/exec-stdin" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/expect" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/fingerd" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/html2text" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/http-get" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/httpd" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/ips" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/make-password" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/markdown-toc" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/peerd" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/run-directory" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/splay" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/ssl-expiry" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/timeout" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/todo" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/tree" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/urls" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/validate-json" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/validate-xml" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/validate-yaml" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/watch" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/usr/libexec/${project.artifactId}/with-lock" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+
+                                </xrpm>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

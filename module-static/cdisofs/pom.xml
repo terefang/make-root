@@ -127,7 +127,8 @@ MODULE_PATH=boot:///linux/limine.cpio
                                     <arg line=" -efi-boot-part --efi-boot-image --protective-msdos-label " />
                                     <arg line=" -o ${project.build.directory}/iso-root/../iso-root.iso " />
                                     <arg line=" . " />
-                                </exec>                            </target>
+                                </exec>
+                            </target>
                         </configuration>
                     </execution>
                 </executions>

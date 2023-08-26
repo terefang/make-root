@@ -53,7 +53,7 @@
                                 <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
                                 <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
 
-                                <mkdir dir="${root.dir}"/>
+                                <mkdir dir="${root.dir}/usr"/>
                                 <mkdir dir="${toolchain.dir}"/>
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
                                 <mkdir dir="${resources.target}"/>
@@ -70,29 +70,33 @@
                                     </resourceexists>
                                 </condition>
 
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-bsdcompat-0.1.tgz" />
+                                </exec>
+
+
                                 <get unless:true="${archive.exists}" src="${libxcrypt.url}" dest="${project.basedir}/src/main/dist/${libxcrypt.archive}"/>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${libxcrypt.archive}" />
                                 </exec>
 
-                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
-                                </exec>
-
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libxcrypt.tag}" executable="configure" resolveexecutable="true">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
                                     <arg value="--prefix=/usr" />
                                     <arg value="--host=x86_64-linux-musl" />
                                     <arg value="--target=x86_64-linux-musl" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libxcrypt.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <arg line="-j 8" />
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
+                                    <arg line="-j 1" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libxcrypt.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.baseos</groupId>
+    <artifactId>micro</artifactId>
+    <version>${version.micro}</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
+        <prg.url>https://github.com/zyedidia/${project.artifactId}/releases/download/v${project.version}/${project.artifactId}-${project.version}-linux64-static.tar.gz</prg.url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <taskdef name="xtar" classname="com.github.terefang.ant.archiveplus.taskdefs.Tar" />
+                                <typedef name="symlink" classname="com.github.terefang.ant.archiveplus.resources.SymbolicLink" />
+
+                                <mkdir dir="${root.dir}"/>
+                                <mkdir dir="${toolchain.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+                                <mkdir dir="${resources.target}"/>
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <condition property="binary.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prg.tag}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}" />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
+                                </exec>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="ASL"
+                                        group="${project.artifactId}"
+                                        name="${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/${project.artifactId}" filemode='555' file="${project.build.directory}/${project.artifactId}/${project.artifactId}" username="root" group="root" addParents="false" />
+
+                                    <link path="/usr/bin/micro" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                </xrpm>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

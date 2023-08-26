@@ -16,9 +16,9 @@
     <packaging>pom</packaging>
 
     <properties>
-        <prg.archive>${project.artifactId}-${project.version}.tar.bz2</prg.archive>
+        <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
-        <prg.url>ftp://ftp.vim.org/pub/vim/unix/${prg.archive}</prg.url>
+        <prg.url>https://github.com/vim/vim/archive/refs/tags/v${project.version}.tar.gz</prg.url>
     </properties>
 
     <build>

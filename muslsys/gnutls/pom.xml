@@ -18,7 +18,7 @@
     <properties>
         <prg.archive>${project.artifactId}-${project.version}.tar.xz</prg.archive>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
-        <prg.url>https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/${prg.archive}</prg.url>
+        <prg.url>https://www.gnupg.org/ftp/gcrypt/gnutls/v${version.gnutls-short}/${prg.archive}</prg.url>
     </properties>
 
     <build>
@@ -85,6 +85,9 @@
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-nettle-${version.nettle}.tgz" />
                                 </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libtasn1-${version.libtasn1}.tgz" />
+                                </exec>
 
                                 <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
 
@@ -98,7 +101,7 @@
                                     <env key="CXX" value="x86_64-linux-musl-g++ --static" />
                                     <env key="CFLAGS" value="-fPIC -I${toolchain.dir}/include" />
                                     <env key="LDFLAGS" value="-static -L${toolchain.dir}/lib" />
-                                    <env key="PKG_CONFIG_PATH" value="${toolchain.dir}/lib/pkgconfig" />
+                                    <env key="PKG_CONFIG" value="/bin/true" />
                                     <env key="NETTLE_CFLAGS" value="" />
                                     <env key="NETTLE_LIBS" value="-lnettle -lgmp" />
                                     <env key="HOGWEED_CFLAGS" value="" />
@@ -119,7 +122,12 @@
                                     <arg value="--without-idn" />
                                     <arg value="--without-p11-kit" />
                                     <arg value="--without-tpm" />
+                                    <arg value="--without-tpm2" />
                                     <arg value="--disable-cxx" />
+                                    <arg value="--disable-guile" />
+                                    <arg value="--without-brotli" />
+                                    <arg value="--without-zlib" />
+                                    <arg value="--without-zstd" />
                                 </exec>
 
 

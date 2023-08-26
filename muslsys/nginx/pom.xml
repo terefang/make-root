@@ -24,7 +24,17 @@
         <stream.name-1-22>nginx-push-stream-module-0.5.5</stream.name-1-22>
         <stream.url>https://github.com/wandenberg/nginx-push-stream-module/archive/refs/heads/master.tar.gz</stream.url>
         <stream.name>nginx-push-stream-module</stream.name>
+        <jwt.url>https://github.com/max-lt/nginx-jwt-module/archive/refs/tags/v3.2.0.tar.gz</jwt.url>
+        <jwt.name>nginx-jwt-module</jwt.name>
 
+        <ngx_devel_kit.name>ngx_devel_kit</ngx_devel_kit.name>
+        <ngx_devel_kit.url>https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v0.3.2.tar.gz</ngx_devel_kit.url>
+
+        <ngx_set_misc.name>ngx_set_misc</ngx_set_misc.name>
+        <ngx_set_misc.url>https://github.com/openresty/set-misc-nginx-module/archive/refs/tags/v0.33.tar.gz</ngx_set_misc.url>
+
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     </properties>
 
     <build>
@@ -69,6 +79,9 @@
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${stream.name}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${jwt.name}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${ngx_set_misc.name}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${ngx_devel_kit.name}"/>
                                 <mkdir dir="${resources.target}"/>
 
                                 <condition property="archive.exists">
@@ -77,15 +90,19 @@
                                     </resourceexists>
                                 </condition>
 
-                                <condition property="final.exists">
+                                <!--condition property="final.exists">
                                     <resourceexists>
                                         <file file="${resources.target}/muslsys-${prg.tag}.tgz"/>
                                     </resourceexists>
-                                </condition>
+                                </condition-->
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-bsdcompat-0.1.tgz" />
+                                </exec>
+
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
                                 </exec>
@@ -98,6 +115,15 @@
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-libxcrypt-${version.libxcrypt}.tgz" />
                                 </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-jansson-${version.jansson}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libjwt-${version.libjwt}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-openldap-${version.openldap}.tgz" />
+                                </exec>
 
                                 <delete unless:true="${final.exists}">
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
@@ -107,12 +133,24 @@
 
                                 <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
                                 <get unless:true="${archive.exists}" src="${stream.url}" dest="${project.basedir}/src/main/dist/${stream.name}.tgz"/>
+                                <get unless:true="${archive.exists}" src="${jwt.url}" dest="${project.basedir}/src/main/dist/${jwt.name}.tgz"/>
+                                <get unless:true="${archive.exists}" src="${ngx_set_misc.url}" dest="${project.basedir}/src/main/dist/${ngx_set_misc.name}.tgz"/>
+                                <get unless:true="${archive.exists}" src="${ngx_devel_kit.url}" dest="${project.basedir}/src/main/dist/${ngx_devel_kit.name}.tgz"/>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${stream.name}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${stream.name}.tgz --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${jwt.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${jwt.name}.tgz --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${ngx_set_misc.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${ngx_set_misc.name}.tgz --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${ngx_devel_kit.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${ngx_devel_kit.name}.tgz --strip 1" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="configure" resolveexecutable="true">
@@ -165,7 +203,10 @@
                                     <arg value="--with-ld-opt=--static -lcrypt -ltls" />
                                     <arg value="--with-pcre" />
                                     <arg value="--with-ipv6" />
-                                    <arg value="--add-module=${project.build.directory}/${project.artifactId}/${stream.name}" />
+                                    <arg value="--add-module=../${stream.name}" />
+                                    <arg value="--add-module=../${jwt.name}" />
+                                    <arg value="--add-module=../${ngx_devel_kit.name}" />
+                                    <arg value="--add-module=../${ngx_set_misc.name}" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
@@ -178,36 +219,14 @@
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
                                 </exec>
 
+                                <copy todir="${root.dir}/etc" overwrite="true">
+                                    <fileset dir="src/main/dist/etc"/>
+                                </copy>
 
                                 <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
                                     <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz libexec share ../etc ../var" />
                                 </exec>
 
-                                <!--
-                                <xrpm
-                                        architecture="X86_64"
-                                        destination="${resources.target}"
-                                        license="ASL"
-                                        group="base"
-                                        name="${project.artifactId}-common"
-                                        summary="${project.artifactId}."
-                                        distribution="nos"
-                                        packager="nos"
-                                        url="none"
-                                        vendor="nos"
-                                        epoch="${buildNumber}"
-                                        release="${buildNumber}.nos.${project.parent.version}"
-                                        version="${project.version}">
-
-                                    <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="555" dir="${root.dir}/usr/share/nginx" username="root" group="root" addParents="false" />
-                                    <rpmfileset prefix="/etc/nginx" filemode='640' dirmode="755" dir="${root.dir}/etc/nginx" username="root" group="root" addParents="false" config="true">
-                                        <exclude name="**/*.default" />
-                                    </rpmfileset>>
-                                    <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="755" dir="${root.dir}/etc/nginx" username="root" group="root" addParents="false">
-                                        <include name="**/*.default" />
-                                    </rpmfileset>>
-                                    <emptydir path="/etc/nginx/conf.d" />
-                                </xrpm>
                                 <xrpm
                                         architecture="X86_64"
                                         destination="${resources.target}"
@@ -220,23 +239,34 @@
                                         url="none"
                                         vendor="nos"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.nos.${project.parent.version}"
-                                        version="${project.version}">
-                                    <depends name="${project.artifactId}-common" />
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}"
+                                        preInstallScript="src/main/dist/pre-install.sh" >
+
+                                    <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="555" dir="${root.dir}/usr/share/nginx" username="root" group="root" addParents="false" />
+
+                                    <rpmfileset prefix="/etc/nginx" filemode='640' dirmode="755" dir="${root.dir}/etc/nginx" username="root" group="root" addParents="false" config="true">
+                                        <exclude name="**/*.default" />
+                                    </rpmfileset>>
+
+                                    <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="755" dir="${root.dir}/etc/nginx" username="root" group="root" addParents="false">
+                                        <include name="**/*.default" />
+                                    </rpmfileset>>
+
                                     <rpmfileset prefix="/usr/libexec/nginx" filemode='755' dirmode="755" dir="${root.dir}/usr/libexec/nginx" username="root" group="root" addParents="false" />
+
                                     <link path="/usr/sbin/nginx" target="/usr/libexec/nginx/nginx" />
 
+                                    <emptydir path="/etc/nginx/conf.d" />
                                     <emptydir path="/var/log/nginx/" />
                                     <emptydir path="/var/cache/nginx/client_body_temp" />
                                     <emptydir path="/var/cache/nginx/proxy_temp" />
                                     <emptydir path="/var/cache/nginx/fastcgi_temp" />
                                     <emptydir path="/var/cache/nginx/uwsgi_temp" />
                                     <emptydir path="/var/cache/nginx/scgi_temp" />
+
                                 </xrpm>
 
-
-
-                                -->
                             </target>
                         </configuration>
                     </execution>

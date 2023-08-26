@@ -12,22 +12,14 @@
 
     <groupId>terefang.makeroot.baseos</groupId>
     <artifactId>ttyd</artifactId>
-    <version>1.6.3</version>
+    <version>1.7.3</version>
     <packaging>pom</packaging>
 
     <properties>
-        <static.url>https://github.com/tsl0922/${project.artifactId}/releases/download/${project.version}/${project.artifactId}.x86_64</static.url>
         <prog.tag>${project.artifactId}-${project.version}</prog.tag>
         <prog.archive>${prog.tag}.tar.gz</prog.archive>
-        <prog.url>https://github.com/tsl0922/ttyd/archive/refs/heads/main.tar.gz</prog.url>
+        <prog.url>https://github.com/tsl0922/ttyd/releases/download/${project.version}/${project.artifactId}.x86_64</prog.url>
 
-        <!--
-    <artifactId>gotty</artifactId>
-    <version>1.0.1</version>
-        <static.url>https://github.com/yudai/${project.artifactId}/releases/download/v${project.version}/${project.artifactId}_linux_amd64.tar.gz</static.url>
-        <prog.tag>${project.artifactId}-${project.version}</prog.tag>
-        <prog.archive>${prog.tag}.tar.gz</prog.archive>
-        -->
     </properties>
 
     <build>
@@ -80,38 +72,29 @@
                                     </resourceexists>
                                 </condition>
 
-                                <mkdir unless:true="${archive.exists}" dir="${project.basedir}/src/main/dist"/>
-                                <get unless:true="${archive.exists}" src="${prog.url}" dest="${project.basedir}/src/main/dist/${prog.archive}"/>
+                                <mkdir unless:true="${archive.exists}" dir="${project.basedir}/src/main/dist/xbin"/>
+                                <get unless:true="${archive.exists}" src="${prog.url}" dest="${project.basedir}/src/main/dist/xbin/${project.artifactId}"/>
 
-                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}" executable="tar">
-                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prog.archive}" />
-                                </exec>
-                                <exec unless:true="${binary.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
-                                </exec>
-
-
-                                <!--
-                                <mkdir unless:true="${binary.exists}" dir="${project.basedir}/src/main/dist/xbin"/>
-                                <get unless:true="${archive.exists}" src="${static.url}" dest="${project.basedir}/src/main/dist/xbin/${project.artifactId}"/>
                                 <xrpm
                                         architecture="X86_64"
-                                        destination="${rpm.path}"
+                                        destination="${project.build.directory}"
                                         license="ASLv2"
-                                        group="baseos"
-                                        name="baseos-${project.artifactId}"
+                                        group="nos"
+                                        name="${project.artifactId}"
                                         summary="${project.artifactId}."
                                         distribution="nos"
                                         packager="nos"
-                                        url="${static.url}"
+                                        url="${prog.url}"
                                         vendor="nos"
                                         epoch="${buildNumber}"
                                         release="${buildNumber}.nos.${project.parent.version}"
                                         version="${project.version}">
 
+                                    <rpmfileset prefix="/etc/${project.artifactId}" filemode='555' dir="${project.basedir}/src/main/dist/etc/${project.artifactId}" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/etc/systemd" filemode='555' dir="${project.basedir}/src/main/dist/etc/systemd" username="root" group="root" addParents="false" />
                                     <rpmfileset prefix="/usr/sbin" filemode='555' file="${project.basedir}/src/main/dist/xbin/${project.artifactId}" username="root" group="root" addParents="false" />
                                 </xrpm>
-                                -->
+
                             </target>
                         </configuration>
                     </execution>

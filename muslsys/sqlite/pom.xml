@@ -95,6 +95,8 @@
                                     <arg value="--prefix=/usr" />
                                     <arg value="--host=x86_64-linux-musl" />
                                     <arg value="--disable-dynamic-extensions" />
+                                    <arg value="--enable-threadsafe" />
+                                    <arg value="--enable-math" />
                                     <arg value="--disable-shared" />
                                     <arg value="--enable-static-shell" />
                                 </exec>

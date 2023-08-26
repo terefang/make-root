@@ -96,12 +96,16 @@
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="configure" resolveexecutable="true">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
+                                    <env key="CC" value="x86_64-linux-musl-gcc" />
+                                    <env key="AR" value="x86_64-linux-musl-ar" />
+                                    <env key="LD" value="x86_64-linux-musl-ld" />
+                                    <env key="RANLIB" value="x86_64-linux-musl-ranlib" />
                                     <env key="CFLAGS" value="--static" />
                                     <env key="LDFLAGS" value="-static" />
                                     <arg value="--prefix=/usr" />
-                                    <arg value="--host=x86_64-linux-musl" />
-                                    <arg value="--target=x86_64-elf" />
+                                    <!--arg value="- -host=x86_64-linux-musl" />
+                                    <arg value="- -target=x86_64-elf" /-->
                                     <arg value="--disable-rpath" />
                                     <arg value="--disable-shared" />
                                     <arg value="--enable-static" />
@@ -113,12 +117,12 @@
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
                                     <arg line="-j 8" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
                                 </exec>
 

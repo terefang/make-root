@@ -81,6 +81,9 @@
                                     <arg line="-xvf ${resources.target}/muslsys-expat-${version.expat}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-bsdcompat-0.1.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
@@ -90,8 +93,15 @@
                                     <arg line="-xvf ${resources.target}/muslsys-xz-${version.xz}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-lz4-${version.lz4}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-bzip2-${version.bzip2}.tgz" />
                                 </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-liblzo2-${version.liblzo2}.tgz" />
+                                </exec>
+
                                 <delete unless:true="${final.exists}">
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.so*"/>
@@ -118,10 +128,10 @@
                                     <arg value="--with-bz2lib" />
                                     <arg value="--without-libb2" />
                                     <arg value="--without-iconv" />
-                                    <arg value="--without-lz4" />
+                                    <arg value="--with-lz4" />
                                     <arg value="--with-zstd" />
                                     <arg value="--with-lzma" />
-                                    <arg value="--without-lzo2" />
+                                    <arg value="--with-lzo2" />
                                     <arg value="--without-cng" />
                                     <arg value="--with-openssl" />
                                     <arg value="--without-xml2" />
@@ -131,7 +141,7 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libarchive.tag}" executable="make">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <arg line="-j 8 CFLAGS=--static LDFLAGS=-static" />
+                                    <arg line="-j 8 V=1 CFLAGS=--static LDFLAGS=-static" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libarchive.tag}" executable="make">

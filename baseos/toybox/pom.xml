@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.baseos</groupId>
     <artifactId>toybox</artifactId>
-    <version>0.8.5</version>
+    <version>0.8.8</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -78,6 +78,13 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
 
+                                <exec unless:true="${binary.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
+                                </exec>
+                                <exec unless:true="${binary.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
+                                </exec>
+
                                 <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${toybox.archive}" />
                                 </exec>
@@ -90,7 +97,7 @@
                                     <arg line="defconfig" />
                                 </exec>
 
-                                <copy tofile="${project.build.directory}/${project.artifactId}/${toybox.tag}/.config">
+                                <copy tofile="${project.build.directory}/${project.artifactId}/${toybox.tag}/.config" overwrite="true">
                                     <fileset file="${project.basedir}/src/main/dist/config.${project.version}" />
                                 </copy>
 
@@ -105,7 +112,7 @@
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
                                     <env key="LDFLAGS" value="--static" />
                                     <env key="CROSS_COMPILE" value="x86_64-linux-musl-" />
-                                    <arg line="toybox" />
+                                    <arg line="toybox V=1" />
                                 </exec>
 
                                 <copy unless:true="${binary.exists}" tofile="${project.basedir}/src/main/dist/${toybox.tag}">

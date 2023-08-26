@@ -1,0 +1,1 @@
+tls /etc/caddy/ssl/server.crt.pem /etc/caddy/ssl/server.key.pem
