@@ -1,0 +1,173 @@
+#!/usr/bin/env bash
+
+XCACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}/.mcrypt-session"
+XID=${MCRYPT_SESSION:-$(uuidgen)}
+XCACHE="$XCACHE_HOME/$XID"
+
+XRC="${HOME}/.mcrypt-session"
+mkdir -p $XRC
+
+
+function setup_new() {
+  XID=$(uuidgen)
+  XCACHE="$XCACHE_HOME/$XID"
+  setup
+}
+
+function setup() {
+  mkdir -p $XCACHE
+  dd if=/dev/urandom bs=1024 count=8 2>/dev/null | tr -d -c '[:alnum:]*$!%&/' >$XCACHE/keyfile
+  echo "no-openpgp" >$XCACHE/mcryptrc
+  echo "algorithm rijndael-256" >>$XCACHE/mcryptrc
+  echo "mode ctr" >>$XCACHE/mcryptrc
+  echo "keyfile $XCACHE/keyfile" >>$XCACHE/mcryptrc
+  echo "hash sha512" >>$XCACHE/mcryptrc
+  echo "keymode mcrypt-sha1" >>$XCACHE/mcryptrc
+  echo $XID
+}
+
+function login() {
+  read -p "Mcrypt Session Username:" UNAME rest
+  read -s -p "Mcrypt Session Password:" UPASS rest
+  echo
+  echo "{ \"MCRYPT_SESSION_USERNAME\": \"$UNAME\", \"MCRYPT_SESSION_PASSWORD\": \"$UPASS\" }" \
+    | mcrypt -q -c $XCACHE/mcryptrc - > $XCACHE/sessionrc
+}
+
+function info() {
+	cat $XCACHE/sessionrc | mcrypt -q -d -c $XCACHE/mcryptrc -
+}
+
+function save_session() {
+	OUT="$1"
+	if [ -z "$OUT" ]; then
+		OUT=$(cd $XRC && sysbox choose-file -execute 'echo {}' .)
+	fi
+	info | mcrypt - > $XRC/$OUT
+}
+
+function save_store() {
+	OUT="$1"
+	if [ -z "$OUT" ]; then
+		OUT=$(cd $XRC && sysbox choose-file -execute 'echo {}' .)
+	fi
+  read -p "Mcrypt Store Username:" UNAME rest
+  read -s -p "Mcrypt Store Password:" UPASS rest
+  echo
+  echo "{ \"MCRYPT_SESSION_USERNAME\": \"$UNAME\", \"MCRYPT_SESSION_PASSWORD\": \"$UPASS\" }" \
+    | mcrypt - > $XRC/$OUT
+}
+
+function restore_session() {
+    [ -e $XCACHE/keyfile ] || echo "session missing ..." && exit 1
+    IN="$1"
+    if [ -z "$IN" ]; then
+	    IN=$(cd $XRC && sysbox choose-file -execute 'echo {}' .)
+    fi
+    mcrypt -d - < $XRC/$IN |mcrypt -q -c $XCACHE/mcryptrc - > $XCACHE/sessionrc
+}
+
+
+function print_username() {
+	info | jq -r '.MCRYPT_SESSION_USERNAME'
+}
+
+function print_password() {
+        info | jq -r '.MCRYPT_SESSION_PASSWORD'
+}
+
+function dispose() {
+  rm -rf $XCACHE
+}
+
+function dispose_all() {
+  rm -rf $XCACHE_HOME
+}
+
+function usage()
+{
+cat <<EOT
+Usage: mcrypt-session { -setup | -dispose | ... }
+
+  -setup        ... set up an mcrypt session returns the session id for the
+                     MCRYPT_SESSION environment variable.
+                     (an existing session will be reused)
+  -new          ... set up a new mcrypt session returns the session id for the
+                     MCRYPT_SESSION environment variable.
+                     (an existing session will NOT be reused)
+  -login        ... ask for user/password and encrypts it into the session.
+  -username     ... retrieve session username
+  -password     ... retrieve seesion password
+  -save [ID]    ... save current session to backup
+                     if ID is not given an existing id will be asked.
+  -restore [ID] ... save current session to backup
+                     if ID is not given an existing id will be asked.
+  -dispose      ... deletes the session data.
+  -dispose-all  ... deletes all sessions.
+
+HowTo install/use:
+
+1 - add the following lines to your .bash_profile:
+# ---
+export PATH="/usr/libexec/toolbox/xbin:\$PATH"
+export MCRYPT_SESSION=\$(mcrypt-session -setup)
+# ---
+
+2 - add the following lines to your .bash_logout:
+# ---
+mcrypt-session -dispose
+# ---
+
+3 - load/update credentials into session:
+# ---
+mcrypt-session -login
+# ---
+
+4 - use credetials with sshpass:
+# ---
+sshpass -p "\$(mcrypt-session -password)" ssh -l "\$(mcrypt-session -username)" [hostname]
+
+SSHPASS="\$(mcrypt-session -password)" sshpass -e ssh -l "\$(mcrypt-session -username)" [hostname]
+# ---
+
+EOT
+}
+
+case "$1" in
+  -set*)
+      setup ; exit
+    ;;
+  -new*)
+      setup_new ; exit
+    ;;
+  -login*)
+      login ; exit
+    ;;
+  -info*)
+      info ; exit
+    ;;
+  -user*)
+      print_username ; exit
+    ;;
+  -pass*)
+      print_password ; exit
+    ;;
+  -save*)
+      save_session "$2" ; exit
+    ;;
+  -store*)
+      save_store "$2" ; exit
+    ;;
+  -rest*)
+      restore_session "$2" ;  exit
+    ;;
+  -disp*-all)
+      dispose_all ; exit
+    ;;
+  -disp*)
+      dispose ; exit
+    ;;
+  *)
+    usage ; exit
+    ;;
+esac
