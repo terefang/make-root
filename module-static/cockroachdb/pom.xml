@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.baseos</groupId>
+    <artifactId>cockroachdb</artifactId>
+    <version>23.1.11</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <prg.archive>${prg.tag}.tar.gz</prg.archive>
+        <prg.url>https://binaries.cockroachdb.com/cockroach-v${project.version}.linux-amd64.tgz</prg.url>
+        <prg2.url>https://binaries.cockroachdb.com/cockroach-sql-v${project.version}.linux-amd64.tgz</prg2.url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <taskdef name="xtar" classname="com.github.terefang.ant.archiveplus.taskdefs.Tar" />
+                                <typedef name="symlink" classname="com.github.terefang.ant.archiveplus.resources.SymbolicLink" />
+
+                                <mkdir dir="${rpm.path}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}" />
+                                <get unless:true="${archive.exists}" src="${prg2.url}" dest="${project.basedir}/src/main/dist/cmd-${prg.archive}" />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
+                                </exec>
+                                <exec dir="${project.build.directory}/${project.artifactId}/" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/cmd-${prg.archive} --strip 1" />
+                                </exec>
+
+                                <mkdir dir="${root.dir}/usr/bin/"/>
+                                <copy todir="${root.dir}/usr/bin">
+                                    <fileset file="${project.build.directory}/${project.artifactId}/cockroach" />
+                                    <fileset file="${project.build.directory}/${project.artifactId}/cockroach-sql" />
+                                </copy>
+                                <mkdir dir="${root.dir}/usr/etc/ssl/ca"/>
+                                <exec dir="${root.dir}/usr/bin/" executable="chmod">
+                                    <arg line="+x cockroach cockroach-sql" />
+                                </exec>
+                                <exec dir="${root.dir}/usr/etc/ssl/" executable="${root.dir}/usr/bin/cockroach" resolveexecutable="true">
+                                    <arg line="cert create-ca --certs-dir=${root.dir}/usr/etc/ssl --ca-key=${root.dir}/usr/etc/ssl/ca/ca.key" />
+                                </exec>
+                                <exec dir="${root.dir}/usr/etc/ssl/" executable="${root.dir}/usr/bin/cockroach" resolveexecutable="true">
+                                    <arg line="cert create-node localhost 127.0.0.1 --certs-dir=${root.dir}/usr/etc/ssl --ca-key=${root.dir}/usr/etc/ssl/ca/ca.key" />
+                                </exec>
+                                <exec dir="${root.dir}/usr/etc/ssl/" executable="${root.dir}/usr/bin/cockroach" resolveexecutable="true">
+                                    <arg line="cert create-client root --certs-dir=${root.dir}/usr/etc/ssl --ca-key=${root.dir}/usr/etc/ssl/ca/ca.key" />
+                                </exec>
+                                <exec dir="${root.dir}/usr/etc/ssl/" executable="${root.dir}/usr/bin/cockroach" resolveexecutable="true">
+                                    <arg line="cert create-client user --certs-dir=${root.dir}/usr/etc/ssl --ca-key=${root.dir}/usr/etc/ssl/ca/ca.key" />
+                                </exec>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="GNU"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}"
+                                        preInstallScript="src/main/dist/pre-install.sh"
+                                >
+
+                                    <rpmfileset prefix="/usr/${project.artifactId}/bin" filemode='555' dir="${root.dir}/usr/bin/" username="${project.artifactId}" group="${project.artifactId}" addParents="false" />
+                                    <rpmfileset prefix="/usr/${project.artifactId}/lib" filemode='555' dir="${root.dir}/../lib/" username="${project.artifactId}" group="${project.artifactId}" addParents="false" />
+                                    <rpmfileset prefix="/etc/${project.artifactId}/" filemode='640' dir="${root.dir}/usr/etc/" username="${project.artifactId}" group="${project.artifactId}" addParents="false" />
+                                    <rpmfileset prefix="/etc/${project.artifactId}/" filemode='640' dir="${project.basedir}/src/main/dist/etc/" username="${project.artifactId}" group="${project.artifactId}" addParents="false" />
+
+                                    <rpmfileset prefix="/usr/lib/systemd/system/" filemode='644' file="src/main/dist/${project.artifactId}.service" username="${project.artifactId}" group="${project.artifactId}" addParents="false" />
+
+                                    <emptydir path="/data/${project.artifactId}/tmp" filemode='640' dirmode='750' username="${project.artifactId}" group="${project.artifactId}"/>
+                                    <emptydir path="/data/${project.artifactId}/var" filemode='640' dirmode='750' username="${project.artifactId}" group="${project.artifactId}"/>
+                                    <emptydir path="/data/${project.artifactId}/store" filemode='640' dirmode='750' username="${project.artifactId}" group="${project.artifactId}"/>
+                                    <emptydir path="/data/${project.artifactId}/extern" filemode='640' dirmode='750' username="${project.artifactId}" group="${project.artifactId}"/>
+                                </xrpm>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

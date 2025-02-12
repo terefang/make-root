@@ -84,7 +84,7 @@
                                     <arg line="-xvf ${resources.target}/muslsys-udns-${version.udns}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-pcre-${version.pcre}.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-pcre2-${version.pcre2}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-libev-${version.libev}.tgz" />
@@ -94,6 +94,10 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="patch">
+                                    <arg line="-p1 -i ${project.basedir}/src/main/dist/sniproxy_pcre2.patch" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="autogen.sh" resolveexecutable="true"/>
@@ -162,7 +166,7 @@ index 9b3b1c4..14602c3 100644
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
                                     <arg line="-j 8 V=1" />
-                                    <arg value="LIBS=-ludns -lev -lpcre" />
+                                    <arg value="LIBS=-ludns -lev -lpcre2-8" />
                                 </exec>
 
                                 <mkdir dir="${root.dir}/usr/bin"/>

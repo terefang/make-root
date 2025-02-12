@@ -16,6 +16,8 @@
     <packaging>pom</packaging>
 
     <properties>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyyMMdd+HHmm</maven.build.timestamp.format>
         <dialog.archive>${project.artifactId}-${project.version}.tar.gz</dialog.archive>
         <dialog.tag>${project.artifactId}-${project.version}</dialog.tag>
         <dialog.url>https://invisible-mirror.net/archives/dialog/dialog.tar.gz</dialog.url>
@@ -71,26 +73,37 @@
                                     </resourceexists>
                                 </condition>
 
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xf ${resources.target}/muslsys-netbsd-curses-${version.netbsd-curses}.tgz" />
+                                </exec>
+
+                                <delete unless:true="${final.exists}">
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/*.so*"/>
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/pkgconfig/*"/>
+                                </delete>
+
                                 <get unless:true="${archive.exists}" src="${dialog.url}" dest="${project.basedir}/src/main/dist/${dialog.archive}"/>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${dialog.tag}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${dialog.archive} --strip 1" />
                                 </exec>
 
-                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
-                                </exec>
-                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-ncurses-6.1.tgz" />
-                                </exec>
+
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${dialog.tag}" executable="configure" resolveexecutable="true">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <env key="LDFLAGS" value="--static" />
+                                    <env key="CFLAGS" value="-static --static -I${toolchain.dir}/include" />
+                                    <env key="LDFLAGS" value="--static -L ${toolchain.dir}/lib" />
                                     <arg value="--prefix=/usr" />
                                     <arg value="--host=x86_64-linux-musl" />
                                     <arg value="--target=x86_64-linux-musl" />
                                     <arg value="--disable-nls" />
-                                    <arg value="--with-ncurses" />
+                                    <arg value="--with-curses" />
+                                    <arg value="--with-curses-dir=${toolchain.dir}" />
+                                    <arg value="--disable-rpath-hack" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${dialog.tag}" executable="make">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
@@ -111,6 +124,26 @@
                                 <cpio destfile="${rpm.path}/bootos-${project.artifactId}.cpio" >
                                     <tarfileset fullpath="/bin/dialog" file="${root.dir}/usr/bin/dialog" filemode="555"/>
                                 </cpio>
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="ASL"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${root.dir}/usr/bin/dialog" username="root" group="root" addParents="false" />
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/man" filemode='444' dir="${root.dir}/usr/share/man/" username="root" group="root" addParents="false" />
+
+                                </xrpm>
                             </target>
                         </configuration>
                     </execution>

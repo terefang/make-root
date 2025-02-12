@@ -1,0 +1,17 @@
+[Unit]
+Description=frankenphp
+Requires=network.target
+
+[Service]
+WorkingDirectory=/tmp
+ExecStart=/usr/frankenphp/bin/start.sh
+Restart=on-failure
+RestartSec=5s
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=frankenphp
+User=frankenphp
+Group=frankenphp
+
+[Install]
+WantedBy=default.target

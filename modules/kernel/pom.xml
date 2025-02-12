@@ -18,11 +18,8 @@
             https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${version.kernel6}.tar.xz
             https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version.kernel5}.tar.xz
             https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-${version.kernel4}.tar.xz
-            https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-${version.kernel3}.tar.gz
         </urls>
-        <!--
-        https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.45.tar.xz
-        -->
+        <!--https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-${version.kernel3}.tar.gz-->
     </properties>
 
     <build>
@@ -114,9 +111,20 @@
                                             </resourceexists>
                                         </condition>
 
+                                        <mkdir dir="${toolchain.dir}"/>
+
+                                        <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                            <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                        </exec>
+                                        <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                            <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
+                                        </exec>
+                                        <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                            <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
+                                        </exec>
                                         <!-- FETCH KERNEL SOURCE FROM INTERNET -->
 
-                                        <get unless:true="${archive.exists}" src="${_url}" dest="${project.basedir}/src/main/dist/${_file}"/>
+                                        <get src="${_url}" dest="${project.basedir}/src/main/dist/${_file}"/>
 
                                         <mkdir dir="${project.build.directory}/kernel/${_version}"/>
                                         <mkdir dir="${project.build.directory}/kmods/${_version}"/>
@@ -185,6 +193,7 @@ CONFIG_SECURITY_SELINUX_DISABLE=y
                                         </copy>
 
                                         <exec unless:true="${binary.exists}" dir="${project.build.directory}/kernel/${_version}/${_tag}" executable="make">
+                                            <!--env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" /-->
                                             <arg line="-j 6 bzImage" />
                                         </exec>
                                         <copy unless:true="${binary.exists}" tofile="${rpm.path}/bzImage-${_version}">
@@ -214,6 +223,9 @@ CONFIG_SECURITY_SELINUX_DISABLE=y
                                             <exclude name="**/.install" />
                                             <exclude name="**/..install.cmd" />
                                         </tar>
+                                        <exec unless:true="${binary.exists}" dir="${rpm.path}" executable="xz">
+                                            <arg line="-9 kheader-${_tag}.tar" />
+                                        </exec>
 
 
                                     </sequential>

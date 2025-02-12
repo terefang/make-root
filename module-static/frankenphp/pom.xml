@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.module</groupId>
+    <artifactId>frankenphp</artifactId>
+    <version>${version.frankenphp}</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <prg.archive>${prg.tag}.tar.gz</prg.archive>
+        <prg.url>https://github.com/dunglas/frankenphp/releases/download/v${project.version}/frankenphp-linux-x86_64</prg.url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-apache-bsf -->
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-apache-bsf</artifactId>
+                        <version>1.10.12</version>
+                    </dependency>
+
+                    <!-- https://mvnrepository.com/artifact/org.beanshell/bsh -->
+                    <dependency>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh</artifactId>
+                        <version>2.0b5</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+                                <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+                                <script manager="bsf" language="beanshell"><![CDATA[
+                                  baseVersion = "${version.frankenphp}".replace("-",".");
+                                  project.setProperty("xversion.frankenphp",baseVersion);
+                                ]]></script>
+
+                                <mkdir dir="${rpm.path}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist/php"/>
+                                <mkdir dir="${project.basedir}/src/main/dist/html"/>
+                                <mkdir dir="${project.basedir}/src/main/dist/lib"/>
+                                <mkdir dir="${project.basedir}/src/main/dist/etc/ini.d"/>
+
+                                <condition property="binary.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prg.tag}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <get unless:true="${binary.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.tag}" />
+                                <get unless:true="${binary.exists}" src="https://raw.githubusercontent.com/tcdent/php-restclient/master/restclient.php" dest="${project.basedir}/src/main/dist/php/restclient.php" />
+
+
+                                <mkdir dir="${root.dir}/usr/${project.artifactId}/bin"/>
+                                <mkdir dir="${root.dir}/etc/${project.artifactId}/"/>
+                                <copy file="${project.basedir}/src/main/dist/${prg.tag}" tofile="${root.dir}/usr/${project.artifactId}/bin/${project.artifactId}" />
+                                <copy file="${project.basedir}/src/main/dist/start.sh" todir="${root.dir}/usr/${project.artifactId}/bin/" />
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="GNU"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${xversion.frankenphp}"
+                                        preInstallScript="src/main/dist/pre-install.sh"
+                                >
+                                    <rpmfileset prefix="/usr/lib/systemd/system/" filemode='644' file="src/main/dist/${project.artifactId}.service" username="${project.artifactId}" group="${project.artifactId}" addParents="false" />
+
+                                    <rpmfileset prefix="/usr/${project.artifactId}/bin" filemode='555' dir="${root.dir}/usr/${project.artifactId}/bin" username="${project.artifactId}" group="${project.artifactId}" addParents="false" />
+
+                                    <rpmfileset prefix="/var/${project.artifactId}/html" filemode='640' dir="src/main/dist/html" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true"/>
+                                    <rpmfileset prefix="/var/${project.artifactId}/etc" filemode='640' dir="src/main/dist/etc" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true"/>
+                                    <rpmfileset prefix="/var/${project.artifactId}/lib" filemode='640' dir="src/main/dist/lib" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true"/>
+                                    <rpmfileset prefix="/var/${project.artifactId}/php" filemode='640' dir="src/main/dist/php" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true"/>
+
+
+                                    <emptydir path="/var/${project.artifactId}/common" filemode='640' dirmode='750' username="${project.artifactId}" group="${project.artifactId}"/>
+
+                                    <rpmfileset prefix="/etc/nginx/conf.d" filemode='640' file="src/main/dist/020_fphp.conf" username="root" group="root" addParents="false"  config="true"/>
+                                </xrpm>
+
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

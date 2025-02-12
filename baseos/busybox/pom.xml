@@ -726,6 +726,24 @@
                                     <link path="/usr/bin/crontab" target="/usr/bin/busybox" />
                                     <link path="/usr/sbin/crond" target="/usr/bin/busybox" />
                                 </xrpm>
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="GPLv2"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${project.build.directory}/busybox/${busybox.tag}/${project.artifactId}" username="root" group="root" addParents="false" />
+
+                                </xrpm>
                             </target>
                         </configuration>
                     </execution>

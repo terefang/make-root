@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.baseos</groupId>
+    <artifactId>mdbook</artifactId>
+    <version>0.4.40</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <prg.archive>${prg.tag}.tar.gz</prg.archive>
+        <prg.xz>${prg.tag}.tar.xz</prg.xz>
+        <prg.url>https://github.com/rust-lang/mdBook/releases/download/v${project.version}/mdbook-v${project.version}-x86_64-unknown-linux-musl.tar.gz</prg.url>
+        <alerts.url>https://github.com/lambdalisue/rs-mdbook-alerts/releases/download/v0.6.8/mdbook-alerts-x86_64-unknown-linux-musl</alerts.url>
+        <toc.url>https://github.com/badboy/mdbook-toc/releases/download/0.14.2/mdbook-toc-0.14.2-x86_64-unknown-linux-musl.tar.gz</toc.url>
+        <pd.url>https://github.com/max-heller/mdbook-pandoc/releases/download/v0.7.3/mdbook-pandoc-x86_64-unknown-linux-musl.tar.xz</pd.url>
+        <pdc.url>https://github.com/jgm/pandoc/releases/download/3.5/pandoc-3.5-linux-amd64.tar.gz</pdc.url>
+        <adm.url>https://github.com/tommilligan/mdbook-admonish/releases/download/v1.18.0/mdbook-admonish-v1.18.0-x86_64-unknown-linux-musl.tar.gz</adm.url>
+        <typst.url>https://github.com/typst/typst/releases/download/v0.12.0/typst-x86_64-unknown-linux-musl.tar.xz</typst.url>
+
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+
+                                <mkdir dir="${rpm.path}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${project.artifactId}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+
+                                <get src="${prg.url}" dest="${project.build.directory}/${prg.archive}" />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="tar">
+                                    <arg line="-xvf ${project.build.directory}/${prg.archive}" />
+                                </exec>
+
+                                <get src="${toc.url}" dest="${project.build.directory}/toc-${prg.archive}" />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="tar">
+                                    <arg line="-xvf ${project.build.directory}/toc-${prg.archive}" />
+                                </exec>
+
+                                <get src="${typst.url}" dest="${project.build.directory}/typst-${prg.archive}" />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="tar">
+                                    <arg line="-xvf ${project.build.directory}/typst-${prg.archive} --strip 1" />
+                                </exec>
+
+                                <get src="${pdc.url}" dest="${project.build.directory}/pdc-${prg.archive}" />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="tar">
+                                    <arg line="-xvf ${project.build.directory}/pdc-${prg.archive} --strip 1" />
+                                </exec>
+
+                                <get src="${adm.url}" dest="${project.build.directory}/adm-${prg.archive}" />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="tar">
+                                    <arg line="-xvf ${project.build.directory}/adm-${prg.archive}" />
+                                </exec>
+
+                                <get src="${pd.url}" dest="${project.build.directory}/pd-${prg.xz}" />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="tar">
+                                    <arg line="-xvf ${project.build.directory}/pd-${prg.xz} --strip 1" />
+                                </exec>
+
+                                <mkdir dir="${root.dir}/usr/bin/"/>
+                                <mkdir dir="${root.dir}/usr/man/man1"/>
+
+                                <copy file="${project.build.directory}/${project.artifactId}/${project.artifactId}/mdbook"           todir="${root.dir}/usr/bin/" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${project.artifactId}/mdbook-toc"       todir="${root.dir}/usr/bin/" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${project.artifactId}/mdbook-admonish"  todir="${root.dir}/usr/bin/" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${project.artifactId}/mdbook-pandoc"    todir="${root.dir}/usr/bin/" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${project.artifactId}/bin/pandoc"       todir="${root.dir}/usr/bin/" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${project.artifactId}/typst"            todir="${root.dir}/usr/bin/" />
+
+                                <get src="${alerts.url}" dest="${root.dir}/usr/bin/${project.artifactId}-alerts" />
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="GNU"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+                                </xrpm>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

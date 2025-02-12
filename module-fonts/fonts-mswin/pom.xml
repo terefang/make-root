@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.module-fonts</groupId>
+    <artifactId>fonts-mswin</artifactId>
+    <packaging>pom</packaging>
+
+    <!-- https://github.com/fcambus/spleen -->
+
+    <properties>
+        <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <prg.urls>
+            https://www.freedesktop.org/software/fontconfig/webfonts/webfonts.tar.gz
+            https://web.archive.org/web/20171225132744if_/https://download.microsoft.com/download/E/6/7/E675FFFC-2A6D-4AB0-B3EB-27C9F8C8F696/PowerPointViewer.exe
+            https://sourceforge.net/projects/mscorefonts2/files/cabs/EUupdate.EXE
+            http://ftpmirror.your.org/pub/misc/ftp.microsoft.com/bussys/winnt/winnt-public/fixes/usa/NT40TSE/hotfixes-postSP3/Euro-fix/eurofixi.exe
+            https://downloads.sourceforge.net/corefonts/OldFiles/IELPKTH.CAB
+        </prg.urls>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-apache-bsf -->
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-apache-bsf</artifactId>
+                        <version>1.10.12</version>
+                    </dependency>
+
+                    <!-- https://mvnrepository.com/artifact/org.beanshell/bsh -->
+                    <dependency>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh</artifactId>
+                        <version>2.0b5</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.2</version>
+                    </dependency>
+
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+                                <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+                                <mkdir dir="${root.dir}/usr/share/fonts/mswin"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+
+                                <for list="${prg.urls}" delimiter=" &#10;" trim="true" param="id">
+                                    <sequential>
+                                        <script manager="bsf" language="beanshell"><![CDATA[
+                                            project.setProperty("ifile","@{id}".substring("@{id}".lastIndexOf('/')).toLowerCase());
+                                        ]]></script>
+
+                                        <mkdir dir="${resources.target}/fonts/${project.artifactId}"/>
+
+                                        <echo >${ifile} ... DL</echo>
+                                        <get src="@{id}" dest="${project.basedir}/src/main/dist/${ifile}"/>
+                                        <for param="file">
+                                            <path>
+                                                <fileset dir="${project.basedir}/src/main/dist/" includes="*.tar*"/>
+                                            </path>
+
+                                            <sequential>
+                                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                                    <arg line="-xvf @{file} -C ${project.build.directory}/${project.artifactId}/${prg.tag} " />
+                                                </exec>
+                                            </sequential>
+                                        </for>
+                                        <for param="file">
+                                            <path>
+                                                <fileset dir="${project.basedir}/src/main/dist/" includes="*.exe"/>
+                                                <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}" includes="**/*.exe"/>
+                                            </path>
+
+                                            <sequential>
+                                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="cabextract">
+                                                    <arg line=" -L -d ${project.build.directory}/${project.artifactId}/${prg.tag} @{file}" />
+                                                </exec>
+                                                <delete file="@{file}"/>
+                                            </sequential>
+                                        </for>
+                                        <for param="file">
+                                            <path>
+                                                <fileset dir="${project.basedir}/src/main/dist/" includes="*.cab"/>
+                                                <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}" includes="**/*.cab"/>
+                                            </path>
+
+                                            <sequential>
+                                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="cabextract">
+                                                    <arg line=" -L -d ${project.build.directory}/${project.artifactId}/${prg.tag} @{file}" />
+                                                </exec>
+                                                <delete file="@{file}"/>
+                                            </sequential>
+                                        </for>
+                                        <delete file="${project.basedir}/src/main/dist/${ifile}"/>
+                                        <!--delete>
+                                            <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}" excludes="**/*.ttf **/*.ttc"/>
+                                        </delete-->
+                                    </sequential>
+                                </for>
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}/" executable="ttc_to_ttf.sh">
+                                    <arg line="./cambria.ttc 0 ./cambria.ttf" />
+                                </exec>
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}/" executable="ttc_to_ttf.sh">
+                                    <arg line="./cambria.ttc 1 ./cambria-math.ttf" />
+                                </exec>
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/calibri.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Calibri.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/calibrib.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Calibri-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/calibrii.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Calibri-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/calibriz.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Calibri-Bold-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/cambria.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Cambria.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/cambria-math.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Cambria-Math.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/cambriab.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Cambria-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/cambriai.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Cambria-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/cambriaz.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Cambria-Bold-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/candara.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Candara.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/candarab.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Candara-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/candarai.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Candara-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/candaraz.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Candara-Bold-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/consola.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Consolas.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/consolab.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Consolas-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/consolai.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Consolas-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/consolaz.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Consolas-Bold-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/constan.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Constantia.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/constanb.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Constantia-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/constani.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Constantia-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/constanz.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Constantia-Bold-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/corbel.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Corbel.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/corbelb.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Corbel-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/corbeli.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Corbel-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/corbelz.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Corbel-Bold-Italic.ttf" />
+
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/andalemo.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Andale-Mono.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/ariblk.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Arial-Black.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/comicbd.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Comic-Sans-MS-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/comic.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Comic-Sans-MS.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/courbd.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Courier-New-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/courbi.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Courier-New-Bold-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/couri.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Courier-New-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/cour.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Courier-New.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/georgiab.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Georgia-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/georgiai.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Georgia-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/georgia.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Georgia.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/georgiaz.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Georgia-Bold-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/impact.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Impact.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/webdings.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Webdings.ttf" />
+
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/arialbd.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Arial-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/arialbi.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Arial-Bold-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/ariali.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Arial-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/arial.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Arial.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/timesbd.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Times-New-Roman-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/timesbi.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Times-New-Roman-Bold-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/timesi.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Times-New-Roman-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/times.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Times-New-Roman.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/trebucbd.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Trebuchet-MS-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/trebucbi.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Trebuchet-MS-Bold-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/trebucit.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Trebuchet-MS-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/trebuc.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Trebuchet-MS.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/verdanab.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Verdana-Bold.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/verdanai.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Verdana-Italic.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/verdana.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Verdana.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/verdanaz.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Verdana-Bold-Italic.ttf" />
+
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/lucon.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Lucida-Console.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/l_10646.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Lucida-Sans-Unicode.ttf" />
+
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/tahoma.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Tahoma.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/tahomabd.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Tahoma-Bold.ttf" />
+
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/symbol.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Symbol.ttf" />
+                                <copy file="${project.build.directory}/${project.artifactId}/${prg.tag}/wingding.ttf" tofile="${project.build.directory}/${project.artifactId}/root/usr/share/fonts/mswin/Wingdings.ttf" />
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/root/usr" executable="tar">
+                                    <arg line="-czvf ${resources.target}/fonts/${project.artifactId}-${project.version}.tar.gz share/fonts" />
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.muslsys</groupId>
+    <artifactId>duckdb</artifactId>
+    <version>${version.duckdb}</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <prg.url>https://github.com/duckdb/duckdb/archive/refs/tags/v${project.version}.tar.gz</prg.url>
+        <prg.bin>https://github.com/duckdb/duckdb/releases/download/v${project.version}/duckdb_cli-linux-amd64.zip</prg.bin>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <mkdir dir="${root.dir}/usr/bin"/>
+                                <mkdir dir="${toolchain.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${resources.target}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+
+                                <get src="${prg.bin}" dest="${project.basedir}/src/main/dist/${prg.tag}.zip"/>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="unzip">
+                                    <arg line="-j ${project.basedir}/src/main/dist/${prg.tag}.zip" />
+                                </exec>
+
+                                <copy tofile="${root.dir}/usr/bin/duckdb" file="${project.build.directory}/${project.artifactId}/${prg.tag}/duckdb" />
+
+                                <exec unless:true="${final.exists}" dir="${root.dir}" executable="chmod">
+                                    <arg line="+x usr/bin/duckdb" />
+                                </exec>
+
+                                <mkdir dir="${root.dir}/usr/lib/duckdb"/>
+
+                                <exec unless:true="${final.exists}" dir="${root.dir}" executable="${root.dir}/usr/bin/duckdb">
+                                    <arg line="-unsigned -c " />
+                                    <arg value="set extension_directory='${root.dir}/usr/lib/duckdb'; install crypto FROM community; install lindel FROM community; install pivot_table FROM community; install sheetreader FROM community; install shellfs FROM community; install tarfs FROM community; install ulid FROM community; install inet; install httpfs; install mysql; install postgres; install sqlite; install spatial;" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz ." />
+                                </exec>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="ASL"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/usr/libexec/toolbox/duckdb" filemode='555' dir="${root.dir}/usr/lib" username="root" group="root" addParents="false" />
+
+                                </xrpm>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

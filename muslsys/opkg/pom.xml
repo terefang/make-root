@@ -99,7 +99,22 @@
                                     <arg line="-xvf ${resources.target}/muslsys-bzip2-${version.bzip2}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-liblzo2-${version.liblzo2}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-lz4-${version.lz4}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libssh2-${version.libssh2}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libntlm-${version.libntlm}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-gsasl-${version.gsasl}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-openldap-${version.openldap}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
@@ -140,7 +155,7 @@
                                     <env key="LIBARCHIVE_CFLAGS" value="-I${toolchain.dir}/include -DLIBARCHIVE_STATIC" />
                                     <env key="LIBARCHIVE_LIBS" value="-static -L${toolchain.dir}/lib -larchive -lcrypto -lexpat -lbz2 -llzma -lzstd -llz4 -lz" />
                                     <env key="CURL_CFLAGS" value="-I${toolchain.dir}/include -DCURL_STATICLIB" />
-                                    <env key="CURL_LIBS" value="-static -L${toolchain.dir}/lib -lcurl -ltls -lcrypto -lssl -lcrypto -lz" />
+                                    <env key="CURL_LIBS" value="-static -L${toolchain.dir}/lib -lcurl -lldap -llber -ltls -lgsasl -lcrypto -lssl -lssh2 -lntlm -lcrypto -lz" />
                                     <env key="OPENSSL_CFLAGS" value="-I${toolchain.dir}/include " />
                                     <env key="OPENSSL_LIBS" value="-static -L${toolchain.dir}/lib -ltls -lssl -lcrypto -lz" />
                                     <env key="SOLVER_CFLAGS" value="-I${toolchain.dir}/include" />
@@ -185,14 +200,9 @@
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
                                 </exec>
 
-                                <!--exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${opkgutils.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <arg line="-j 1 DESTDIR=${root.dir} PREFIX=/usr mandir=/usr/share/man install" />
-                                </exec-->
-
-                                <!--exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
                                     <arg line="-cvf ${resources.target}/muslsys-${opkg.tag}.tgz bin share/opkg" />
-                                </exec-->
+                                </exec>
 
                                 <!--xrpm unless:true="${final.exists}"
                                         architecture="X86_64"

@@ -1,13 +1,13 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 
     set -e
 
-    if ! getent group nginx >/dev/null; then
-        groupadd -r nginx
+    if ! getent group nginx-server >/dev/null; then
+        groupadd -r nginx-server
     fi
 
-    if ! getent passwd nginx >/dev/null; then
-        useradd -M -r -s /bin/false -G nginx -d /usr/share/nginx nginx
+    if ! getent passwd nginx-server >/dev/null; then
+        useradd -M -r -s /bin/false -G nginx-server -d /usr/share/nginx nginx-server
     fi
 
     set +e

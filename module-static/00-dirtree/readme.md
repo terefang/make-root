@@ -1,0 +1,111 @@
+m bin
+m boot
+m dev
+m etc
+m etc/conf
+m etc/cron.d
+m etc/cron.daily
+m etc/hotplug.d/default
+m etc/postinstall.d
+m etc/rc.d
+m etc/rc.d/rcX.d
+m etc/rc.d/rc0.d
+m etc/rc.d/rc1.d
+m etc/rc.d/rc2.d
+m etc/rc.d/rc3.d
+m etc/rc.d/rc4.d
+m etc/rc.d/rc5.d
+m etc/rc.d/rc6.d
+m etc/opt
+m etc/profile.d
+m etc/skel
+m etc/xdg
+m home
+m lib
+m lib/firmware
+m lib/modules
+m mnt
+m media
+m opt
+m srv
+m proc
+m root
+m sbin
+m sbin/init.d
+m sys
+m tmp
+m usr
+m usr/bin
+m usr/include
+m usr/lib
+m usr/local
+m usr/local/bin
+m usr/local/etc
+m usr/local/include
+m usr/local/lib
+m usr/local/share
+m usr/local/sbin
+m usr/local/src
+m usr/local/var
+m usr/sbin
+m usr/share
+m usr/share/dict
+m usr/share/doc
+m usr/share/fonts
+m usr/share/games
+m usr/share/info
+m usr/share/locale
+m usr/share/man
+m usr/share/man/man1
+m usr/share/man/man2
+m usr/share/man/man3
+m usr/share/man/man4
+m usr/share/man/man5
+m usr/share/man/man6
+m usr/share/man/man7
+m usr/share/man/man8
+m usr/share/misc
+m usr/share/nls
+m usr/share/terminfo
+m usr/share/tmac
+m usr/share/zoneinfo
+m usr/src
+m var
+m var/account
+m var/adm
+m var/adm/dependencies
+m var/adm/flists
+m var/adm/md5sums
+m var/adm/packages
+m var/cache
+m var/empty
+m var/games
+m var/lock
+m var/log
+m var/mail
+m var/opt
+m var/run
+m var/spool
+m var/spool/mqueue
+m var/state
+m var/state/misc
+m var/tmp
+m var/yp
+
+l etc/init.d rc.d/init.d
+l etc/rc.d/init.d ../../sbin/init.d
+l usr/doc share/doc
+l usr/share/doc/packages .
+l usr/info share/info
+l usr/man share/man
+l usr/opt ../opt
+l usr/spool ../var/spool
+l usr/spool/locks ../../var/lock
+l usr/tmp ../var/tmp
+l var/spool/mail ../mail
+l var/state/pkgtool ../adm
+
+chmod 0700 root
+chmod ugo=rwxt tmp
+chmod ugo=rwxt var/mail
+chmod ugo=rwxt var/tmp

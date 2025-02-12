@@ -16,10 +16,11 @@
     <packaging>pom</packaging>
 
     <properties>
-        <pkg.url>https://go.dev/dl/go${project.version}.linux-amd64.tar.gz</pkg.url>
+        <pkg.x64>https://go.dev/dl/go${project.version}.linux-amd64.tar.gz</pkg.x64>
+        <pkg.url>https://go.dev/dl/go${project.version}.src.tar.gz</pkg.url>
         <pkg.tag>${project.artifactId}-${project.version}</pkg.tag>
         <pkg.archive>${pkg.tag}.tar.gz</pkg.archive>
-        <pkg.dist>${project.basedir}/src/main/dist/${pkg.archive}</pkg.dist>
+        <pkg.dist>${project.basedir}/src/main/dist/${pkg.tag}</pkg.dist>
     </properties>
 
     <build>
@@ -57,6 +58,8 @@
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${project.artifactId}"/>
                                 <mkdir dir="${resources.target}"/>
+                                <mkdir dir="${toolchain.dir}/go"/>
+                                <mkdir dir="${root.dir}/usr/go"/>
 
                                 <condition property="archive.exists">
                                     <resourceexists>
@@ -64,15 +67,103 @@
                                     </resourceexists>
                                 </condition>
 
-                                <get unless:true="${archive.exists}" src="${pkg.url}" dest="${pkg.dist}"/>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                </exec>
+
+                                <get unless:true="${archive.exists}" src="${pkg.url}" dest="${pkg.dist}.src.tar.gz"/>
+                                <get unless:true="${archive.exists}" src="${pkg.x64}" dest="${pkg.dist}.bin.tar.gz"/>
 
                                 <exec dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="tar">
-                                    <arg line="-xvf ${pkg.dist} --strip 1 " />
+                                    <arg line="-xvf ${pkg.dist}.src.tar.gz --strip 1 " />
+                                </exec>
+                                <exec dir="${toolchain.dir}/go" executable="tar">
+                                    <arg line="-xvf ${pkg.dist}.bin.tar.gz --strip 1 " />
                                 </exec>
 
-                                <exec dir="${project.build.directory}/${project.artifactId}" executable="tar">
-                                    <arg line="-zcvf ${resources.target}/${pkg.archive} ." />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/golang/src" executable="make.bash"  resolveexecutable="true" >
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
+                                    <env key="GOROOT_FINAL" value="/usr/go" />
+                                    <!--
+                                    # GOROOT_FINAL: The expected final Go root, baked into binaries.
+                                    # The default is the location of the Go tree during the build.
+                                    #
+                                    # GOHOSTARCH: The architecture for host tools (compilers and
+                                    # binaries).  Binaries of this type must be executable on the current
+                                    # system, so the only common reason to set this is to set
+                                    # GOHOSTARCH=386 on an amd64 machine.
+                                    #
+                                    # GOARCH: The target architecture for installed packages and tools.
+                                    #
+                                    # GOOS: The target operating system for installed packages and tools.
+                                    #
+                                    # GO_GCFLAGS: Additional go tool compile arguments to use when
+                                    # building the packages and commands.
+                                    #
+                                    # GO_LDFLAGS: Additional go tool link arguments to use when
+                                    # building the commands.
+                                    -->
+                                    <env key="GO_LDFLAGS" value="-extldflags '-static'" />
+                                    <!--
+                                    #
+                                    # CGO_ENABLED: Controls cgo usage during the build. Set it to 1
+                                    # to include all cgo related files, .c and .go file with "cgo"
+                                    # build directive, in the build. Set it to 0 to ignore them.
+                                    -->
+                                    <env key="CGO_ENABLED" value="0" />
+                                    <!--
+                                    #
+                                    # GO_EXTLINK_ENABLED: Set to 1 to invoke the host linker when building
+                                    # packages that use cgo.  Set to 0 to do all linking internally.  This
+                                    # controls the default behavior of the linker's -linkmode option.  The
+                                    # default value depends on the system.
+                                    -->
+                                    <env key="GO_EXTLINK_ENABLED" value="0" />
+                                    <!--
+                                    #
+                                    # GO_LDSO: Sets the default dynamic linker/loader (ld.so) to be used
+                                    # by the internal linker.
+                                    #
+                                    # CC: Command line to run to compile C code for GOHOSTARCH.
+                                    # Default is "gcc". Also supported: "clang".
+                                    #
+                                    # CC_FOR_TARGET: Command line to run to compile C code for GOARCH.
+                                    # This is used by cgo.  Default is CC.
+                                    -->
+                                    <env key="CC" value="x86_64-linux-musl-gcc" />
+                                    <env key="CC_FOR_TARGET" value="x86_64-linux-musl-gcc" />
+                                    <!--
+                                    #
+                                    # CXX_FOR_TARGET: Command line to run to compile C++ code for GOARCH.
+                                    # This is used by cgo. Default is CXX, or, if that is not set,
+                                    # "g++" or "clang++".
+                                    -->
+                                    <env key="CXX" value="x86_64-linux-musl-g++" />
+                                    <env key="CXX_FOR_TARGET" value="x86_64-linux-musl-g++" />
+                                    <!--
+                                    #
+                                    # FC: Command line to run to compile Fortran code for GOARCH.
+                                    # This is used by cgo. Default is "gfortran".
+                                    #
+                                    # PKG_CONFIG: Path to pkg-config tool. Default is "pkg-config".
+                                    #
+                                    # GO_DISTFLAGS: extra flags to provide to "dist bootstrap".
+                                    # (Or just pass them to the make.bash command line.)
+                                    #
+                                    # GOBUILDTIMELOGFILE: If set, make.bash and all.bash write
+                                    # timing information to this file. Useful for profiling where the
+                                    # time goes when these scripts run.
+                                    #
+                                    # GOROOT_BOOTSTRAP: A working Go tree >= Go 1.4 for bootstrap.
+                                    # If $GOROOT_BOOTSTRAP/bin/go is missing, $(go env GOROOT) is
+                                    # tried for all "go" in $PATH. $HOME/go1.4 by default.
+                                    -->
+                                    <env key="GOROOT_BOOTSTRAP" value="${toolchain.dir}/go" />
                                 </exec>
+                                <copy todir="${root.dir}/usr/go">
+                                    <fileset dir="${project.build.directory}/${project.artifactId}/golang" />
+                                </copy>
                             </target>
                         </configuration>
                     </execution>

@@ -1,0 +1,161 @@
+## They should be in base64 format, and have one of the following extensions: *.cer, *.crt, *.pem.
+# certificates_directory: /config/certificates/
+
+## The theme to display: light, dark, grey, auto.
+theme: grey
+
+## The secret used to generate JWT tokens when validating user identity by email confirmation. JWT Secret can also be
+## set using a secret: https://www.authelia.com/c/secrets
+jwt_secret: tVxwU8Tf2!Y0WYYDkH%8QUkzqeu7PwM&9km$qdkz%!rHUTrqf7o&OAlY3apN$m&9
+
+## Default redirection URL
+## Note: this parameter is optional. If not provided, user won't be redirected upon successful authentication.
+default_redirection_url: https://home.example.com/
+
+default_2fa_method: ""
+
+## Server Configuration
+server:
+  host: 127.0.0.1
+  port: 9091
+  #path: "authelia"
+  asset_path: /usr/authelia/assets/
+  enable_pprof: false
+  enable_expvars: false
+  disable_healthcheck: false
+
+## Authelia by default doesn't accept TLS communication on the server port. This section overrides this behaviour.
+#  tls:
+#    key: ""#
+#    certificate: ""
+#    client_certificates: []
+
+## Log Configuration
+log:
+  ## Level of verbosity for logs: info, debug, trace.
+  level: info
+  ## Format the logs are written as: json, text.
+  # format: json
+  ## File path where the logs will be written. If not set logs are written to stdout.
+  # file_path: /config/authelia.log
+  ## Whether to also log to stdout when a log_file_path is defined.
+  # keep_stdout: false
+
+## Telemetry Configuration
+telemetry:
+  metrics:
+    enabled: false
+
+## TOTP Configuration
+totp:
+  disable: true
+
+## WebAuthn Configuration
+webauthn:
+  disable: true
+
+## Authentication Backend Provider Configuration
+##
+## Used for verifying user passwords and retrieve information such as email address and groups users belong to.
+##
+## The available providers are: `file`, `ldap`. You must use only one of these providers.
+authentication_backend:
+  password_reset:
+    disable: false
+    custom_url: "https:/uni-key-url-here"
+  refresh_interval: 1m
+
+  ldap:
+    implementation: custom
+    url: ldap://127.0.0.1
+    timeout: 5s
+    start_tls: true
+    tls:
+      skip_verify: true
+    base_dn: dc=example,dc=com
+    username_attribute: uid
+    additional_users_dn: ou=people
+    users_filter: (&({username_attribute}={input})(objectClass=person))
+    additional_groups_dn: ou=groups
+    groups_filter: (&(uniqueMember={dn})(objectClass=groupOfUniqueNames))
+    group_name_attribute: cn
+    display_name_attribute: cn
+    user: cn=admin,dc=example,dc=com
+    password: password
+
+## Access Control Configuration
+##
+## Access control is a list of rules defining the authorizations applied for one resource to users or group of users.
+##
+## If 'access_control' is not defined, ACL rules are disabled and the 'bypass' rule is applied, i.e., access is allowed
+## to anyone. Otherwise restrictions follow the rules defined.
+##
+## Note: One can use the wildcard * to match any subdomain.
+## It must stand at the beginning of the pattern. (example: *.example.com)
+##
+## Note: You must put patterns containing wildcards between simple quotes for the YAML to be syntactically correct.
+##
+## Definition: A 'rule' is an object with the following keys: 'domain', 'subject', 'policy' and 'resources'.
+##
+## - 'domain' defines which domain or set of domains the rule applies to.
+##
+## - 'subject' defines the subject to apply authorizations to. This parameter is optional and matching any user if not
+##    provided. If provided, the parameter represents either a user or a group. It should be of the form
+##    'user:<username>' or 'group:<groupname>'.
+##
+## - 'policy' is the policy to apply to resources. It must be either 'bypass', 'one_factor', 'two_factor' or 'deny'.
+##
+## - 'resources' is a list of regular expressions that matches a set of resources to apply the policy to. This parameter
+##   is optional and matches any resource if not provided.
+##
+## Note: the order of the rules is important. The first policy matching (domain, resource, subject) applies.
+access_control:
+  ## Default policy can either be 'bypass', 'one_factor', 'two_factor' or 'deny'. It is the policy applied to any
+  ## resource if there is no policy to be applied to the user.
+  default_policy: deny
+  rules:
+    - domain: '*.example.com'
+      subject: 'group:dev'
+      policy: one_factor
+
+    # - domain: '*.example.com'
+    #   subject:
+    # - 'user:root'
+    # - 'group:admins'
+    # - 'group:moderators'
+    #   policy: two_factor
+
+
+## Session Provider Configuration
+session:
+  ## The name of the session cookie.
+  name: A_SESSION
+
+  ## The domain to protect.
+  ## Note: the authenticator must also be in that domain.
+  ## If empty, the cookie is restricted to the subdomain of the issuer.
+  domain: example.com
+
+  ## Sets the Cookie SameSite value. Possible options are none, lax, or strict.
+  ## Please read https://www.authelia.com/c/session#same_site
+  same_site: lax
+  expiration: 8h
+  inactivity: 1h
+  remember_me_duration: 1M
+
+## Regulation Configuration
+regulation:
+  max_retries: 3
+  find_time: 2m
+  ban_time: 5m
+
+storage:
+  encryption_key: "ux4WeyLkxJvp2Nfk$H69FyL7WEM6xlFwV9uu1BSR!rhCrOre2CVHStKkFiIEv&Ti"
+  local:
+    path: /var/authelia/db.sqlite3
+
+## Notification Provider
+notifier:
+  disable_startup_check: true
+  filesystem:
+    filename: /dev/null

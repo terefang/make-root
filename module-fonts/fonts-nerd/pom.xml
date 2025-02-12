@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.module-fonts</groupId>
+    <artifactId>fonts-nerd</artifactId>
+    <version>3.1.1</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <!--
+            ### curl 'https://www.nerdfonts.com/font-downloads' | xq -n -x '//*[@id="downloads"]/div[2]/div[1]/div/a'|cut -f2 -d'"'
+        -->
+        <font.urls>
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/0xProto.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/3270.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Agave.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/AnonymousPro.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Arimo.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/AurulentSansMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/BigBlueTerminal.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/BitstreamVeraSansMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CascadiaCode.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CascadiaMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/IBMPlexMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CodeNewRoman.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/ComicShannsMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CommitMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Cousine.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/D2Coding.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/DaddyTimeMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/DejaVuSansMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/DroidSansMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/EnvyCodeR.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FantasqueSansMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraCode.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/GeistMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Gohu.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Go-Mono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hasklig.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/HeavyData.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hermit.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/iA-Writer.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Inconsolata.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/InconsolataGo.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/InconsolataLGC.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/IntelOneMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Iosevka.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/IosevkaTerm.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/IosevkaTermSlab.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Lekton.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/LiberationMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Lilex.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/MartianMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Meslo.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Monaspace.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Monofur.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Monoid.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Mononoki.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/MPlus.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Noto.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/OpenDyslexic.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Overpass.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/ProFont.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/ProggyClean.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/RobotoMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/ShareTechMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/SourceCodePro.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/SpaceMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/NerdFontsSymbolsOnly.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Terminus.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Tinos.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Ubuntu.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/UbuntuMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/VictorMono.zip
+        </font.urls>
+
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-apache-bsf -->
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-apache-bsf</artifactId>
+                        <version>1.10.12</version>
+                    </dependency>
+
+                    <!-- https://mvnrepository.com/artifact/org.beanshell/bsh -->
+                    <dependency>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh</artifactId>
+                        <version>2.0b5</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+                                <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+                                <taskdef resource="antarchiveplus/antlib.xml" />
+
+                                <mkdir dir="${root.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${resources.target}/fonts/nerd"/>
+
+                                <for list="${font.urls}" delimiter="&#10;" trim="true" param="url">
+                                    <sequential>
+                                        <script manager="bsf" language="beanshell"><![CDATA[
+                                            baseName = "@{url}".substring("@{url}".lastIndexOf('/')+1);
+                                            isZip = baseName.endsWith(".zip");
+                                            nameBase = baseName;
+                                            ofs = nameBase.lastIndexOf('-');
+                                            if(ofs>0)
+                                            {
+                                            nameBase = nameBase.substring(0,ofs);
+                                            }
+                                            else
+                                            {
+                                            nameBase = nameBase.substring(0,nameBase.indexOf('.'));
+                                            }
+
+                                            project.setProperty("baseName",baseName);
+                                            project.setProperty("nameBase",nameBase.toLowerCase());
+                                            project.setProperty("isZip",isZip ? "true" : "false");
+                                        ]]></script>
+                                        <delete dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+                                        <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}/${nameBase}"/>
+                                        <get src="@{url}" dest="${project.build.directory}/${baseName}"/>
+                                        <exec if:true="${isZip}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="unzip">
+                                            <arg line="-j -o ${project.build.directory}/${baseName}" />
+                                        </exec>
+                                        <exec unless:true="${isZip}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                            <arg line="-xvf ${project.build.directory}/${baseName}" />
+                                        </exec>
+                                        <delete dir="${root.dir}/usr/share/fonts/"/>
+                                        <mkdir dir="${root.dir}/usr/share/fonts/nerd-${nameBase}"/>
+                                        <copy todir="${root.dir}/usr/share/fonts/nerd-${nameBase}" flatten="true">
+                                            <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}">
+                                                <include name="**/*.ttf" />
+                                                <include name="**/*.otf" />
+                                                <include name="**/*.txt" />
+                                                <include name="**/COPYING" />
+                                            </fileset>
+                                        </copy>
+                                        <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                            <arg line="-czvf ${resources.target}/fonts/nerd/${project.artifactId}-${nameBase}-${project.version}.tar.gz share/fonts" />
+                                        </exec>
+                                    </sequential>
+                                </for>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

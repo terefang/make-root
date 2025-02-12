@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.bootos</groupId>
     <artifactId>klish</artifactId>
-    <version>2.2.4</version>
+    <version>2.2.5</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -75,21 +75,21 @@
 
                                 <get unless:true="${archive.exists}" src="${prog.url}" dest="${project.basedir}/src/main/dist/${prog.archive}"/>
 
-                                <exec unless:true="${binary.exists}" dir="${toolchain.dir}" executable="tar">
+                                <exec dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
-                                <exec unless:true="${binary.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-expat-2.4.1.tgz" />
+                                <exec dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-expat-${version.expat}.tgz" />
                                 </exec>
                                 <exec unless:true="${binary.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-lua-5.4.3.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-lua-${version.lua}.tgz" />
                                 </exec>
 
                                 <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}/${prog.tag}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${prog.archive} --strip 1" />
                                 </exec>
 
-                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}/${prog.tag}" executable="autogen.sh" resolveexecutable="true"/>
+                                <!--exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}/${prog.tag}" executable="autogen.sh" resolveexecutable="true"/-->
 
                                 <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}/${prog.tag}" executable="configure" resolveexecutable="true">
                                     <env key="ac_cv_header_dlfcn_h" value="no"/>

@@ -1,0 +1,37 @@
+[Unit]
+Description=cockroachdb
+Requires=network.target
+
+[Service]
+WorkingDirectory=/data/cockroachdb
+ExecStart=/usr/cockroachdb/bin/cockroach start-single-node \
+    --cache 1GB \
+    --certs-dir /etc/cockroachdb/ssl \
+    --spatial-libs /usr/cockroachdb/lib \
+    --external-io-dir /data/cockroachdb/extern \
+    --external-io-disable-http \
+    --socket-dir /data/cockroachdb/var/local.sock \
+    --sql-addr 127.0.0.1:26257 \
+    --http-addr 127.0.0.1:26257 \
+    --listen-addr 127.0.0.1:26257 \
+    --listening-url-file /data/cockroachdb/var/local.url \
+    --max-disk-temp-storage 1GB \
+    --max-go-memory 8GB \
+    --max-sql-memory 1GB \
+    --max-tsdb-memory 100MB \
+    --pid-file /data/cockroachdb/var/local.pid \
+    --single-node \
+    --store=path=/data/cockroachdb/store,size=5GB,attrs=hdd:7200rpm \
+    --temp-dir /data/cockroachdb/tmp \
+    --logtostderr INFO
+TimeoutStopSec=60
+Restart=on-failure
+RestartSec=10s
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=cockroachdb
+User=cockroachdb
+Group=cockroachdb
+
+[Install]
+WantedBy=default.target

@@ -78,6 +78,10 @@
                                     <arg line="-xvf ${resources.target}/muslsys-netbsd-curses-${version.netbsd-curses}.tgz" />
                                 </exec>
 
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-lua-${version.lua}.tgz" />
+                                </exec>
+
                                 <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
@@ -85,14 +89,15 @@
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="configure" resolveexecutable="true">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <env key="CC" value="x86_64-linux-musl-gcc --static" />
-                                    <env key="CXX" value="x86_64-linux-musl-g++ --static" />
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
+                                    <env key="CC" value="x86_64-linux-musl-gcc --static -static" />
+                                    <env key="LD" value="x86_64-linux-musl-gcc --static -static" />
+                                    <env key="CXX" value="x86_64-linux-musl-g++ --static -static" />
                                     <env key="LDFLAGS" value="-static" />
                                     <arg value="--prefix=/usr" />
                                     <arg value="--without-local-dir" />
                                     <arg value="--enable-fail-if-missing" />
-                                    <arg value="--with-features=small" />
+                                    <arg value="--with-features=normal" />
                                     <arg value="--disable-gui" />
                                     <arg value="--disable-nls" />
                                     <arg value="--disable-acl" />
@@ -101,18 +106,21 @@
                                     <arg value="--disable-xsmp" />
                                     <arg value="--disable-xsmp-interact" />
                                     <arg value="--disable-terminal" />
+                                    <arg value="--enable-luainterp" />
+                                    <arg value="--with-lua-prefix=${toolchain.dir}" />
                                     <arg value="--with-global-runtime=/etc/vim,/usr/share/vim" />
 
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <env key="CC" value="x86_64-linux-musl-gcc --static" />
-                                    <env key="CXX" value="x86_64-linux-musl-g++ --static" />
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
+                                    <env key="CC" value="x86_64-linux-musl-gcc --static -static" />
+                                    <env key="LD" value="x86_64-linux-musl-gcc --static -static" />
+                                    <env key="CXX" value="x86_64-linux-musl-g++ --static -static" />
                                     <env key="LDFLAGS" value="-static" />
                                     <arg line="-j 8" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
                                 </exec>
                                 <copy file="${project.basedir}/src/main/dist/vimrc" tofile="${root.dir}/usr/share/vim/vimrc" />

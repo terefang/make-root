@@ -100,6 +100,7 @@
                                     <arg line="-j 8" />
                                 </exec>
 
+
                                 <!--exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
@@ -108,6 +109,27 @@
                                 <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
                                     <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share" />
                                 </exec-->
+                                <mkdir dir="${root.dir}/usr/bin/"/>
+                                <copy tofile="${root.dir}/usr/bin/${project.artifactId}" file="${project.build.directory}/${project.artifactId}/${prg.tag}/frontend/bin/mhash384.run"/>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="ASL"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+
+                                </xrpm>
                             </target>
                         </configuration>
                     </execution>

@@ -1,1 +1,0 @@
-https://github.com/archlinux/svntogit-packages/blob/packages/python2/trunk/PKGBUILD

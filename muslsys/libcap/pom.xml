@@ -16,9 +16,9 @@
     <packaging>pom</packaging>
 
     <properties>
-        <libcap.archive>${project.artifactId}-${project.version}.tar.gz</libcap.archive>
-        <libcap.tag>${project.artifactId}-${project.version}</libcap.tag>
-        <libcap.url>https://git.kernel.org/pub/scm/libs/${project.artifactId}/${project.artifactId}.git/snapshot/${libcap.archive}</libcap.url>
+        <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <prg.url>https://git.kernel.org/pub/scm/libs/${project.artifactId}/${project.artifactId}.git/snapshot/${prg.archive}</prg.url>
     </properties>
 
     <build>
@@ -57,35 +57,56 @@
                                 <mkdir dir="${toolchain.dir}"/>
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
                                 <mkdir dir="${resources.target}"/>
-                                <mkdir dir="${project.build.directory}/${project.artifactId}/${libcap.tag}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
 
 
                                 <condition property="archive.exists">
                                     <resourceexists>
-                                        <file file="${project.basedir}/src/main/dist/${libcap.archive}"/>
+                                        <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
                                     </resourceexists>
                                 </condition>
                                 <condition property="final.exists">
                                     <resourceexists>
-                                        <file file="${resources.target}/muslsys-${libcap.tag}.tgz"/>
+                                        <file file="${resources.target}/muslsys-${prg.tag}.tgz"/>
                                     </resourceexists>
                                 </condition>
 
-                                <get unless:true="${archive.exists}" src="${libcap.url}" dest="${project.basedir}/src/main/dist/${libcap.archive}"/>
+                                <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libc-musl-${version.libcmusl}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-bsdcompat-0.1.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-fts-${version.musl-fts}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-obstack-${version.musl-obstack}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-rpmatch-${version.musl-rpmatch}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-${version.libxcrypt}.tgz" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-libattr-${version.libattr}.tgz" />
                                 </exec>
 
-                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libcap.tag}" executable="tar">
-                                    <arg line="-xvf ${project.basedir}/src/main/dist/${libcap.archive} --strip 1" />
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
                                 </exec>
 
-                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libcap.tag}" executable="make">
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
                                     <arg value="DESTDIR=${root.dir}" />
                                     <arg value="prefix=/usr" />
@@ -98,16 +119,19 @@
                                     <arg value="CFLAGS=-D_FORTIFY_SOURCE=0 -pthread" />
                                     <arg value="LDFLAGS=-lpthread" />
                                 </exec>
-                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libcap.tag}" executable="make">
+
+                                <replace file="${project.build.directory}/${project.artifactId}/${prg.tag}/libcap/psx.c" token="pthread_yield();" value="sched_yield();"/>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
                                     <arg value="DESTDIR=${root.dir}" />
                                     <arg value="prefix=/usr" />
                                     <arg value="lib=lib" />
                                     <arg line="install" />
                                 </exec>
-                                <!--exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
-                                    <arg line="-cvf ${resources.target}/muslsys-${libcap.tag}.tgz sbin include lib" />
-                                </exec-->
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz sbin include lib" />
+                                </exec>
                             </target>
                         </configuration>
                     </execution>

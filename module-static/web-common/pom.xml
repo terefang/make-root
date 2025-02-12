@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.module</groupId>
+    <artifactId>web-common</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <css.urls><![CDATA[
+https://raw.githubusercontent.com/MohammadYounes/AlertifyJS/master/build/alertify.js,alertifyjs
+https://raw.githubusercontent.com/MohammadYounes/AlertifyJS/master/build/alertify.min.js,alertifyjs
+https://raw.githubusercontent.com/MohammadYounes/AlertifyJS/master/build/css/themes/bootstrap.css,alertifyjs/themes
+https://raw.githubusercontent.com/MohammadYounes/AlertifyJS/master/build/css/themes/bootstrap.min.css,alertifyjs/themes
+https://raw.githubusercontent.com/MohammadYounes/AlertifyJS/master/build/css/themes/default.css,alertifyjs/themes
+https://raw.githubusercontent.com/MohammadYounes/AlertifyJS/master/build/css/themes/default.min.css,alertifyjs/themes
+https://raw.githubusercontent.com/MohammadYounes/AlertifyJS/master/build/css/alertify.min.css,alertifyjs
+https://raw.githubusercontent.com/MohammadYounes/AlertifyJS/master/build/css/alertify.css,alertifyjs
+https://raw.githubusercontent.com/MohammadYounes/AlertifyJS/master/build/css/alertify.min.css,alertifyjs
+
+
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.common.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.common.js.map,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.common.min.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.js.map,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.min.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.min.mjs,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.mjs,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.mjs.map,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.js.map,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.simple.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.simple.js.map,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.simple.min.js,echarts
+
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/bmap.js,echarts/extension
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/bmap.js.map,echarts/extension
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/bmap.min.js,echarts/extension
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/dataTool.js,echarts/extension
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/dataTool.js.map,echarts/extension
+https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/dataTool.min.js,echarts/extension
+
+
+https://code.jquery.com/jquery-3.7.1.min.js,jquery,jquery.min.js
+https://code.jquery.com/ui/1.14.0/jquery-ui.min.js,jquery,jquery-ui.min.js
+https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css,jquery,jquery-ui.css
+https://code.jquery.com/ui/1.14.0/themes/ui-darkness/jquery-ui.css,jquery,jquery-ui-darkness.css
+https://code.jquery.com/color/jquery.color.plus-names-3.0.0.js,jquery,jquery.color.js
+https://code.jquery.com/color/jquery.color.plus-names-3.0.0.min.js,jquery,jquery.color.min.js
+
+https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.js,lodash
+https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js,lodash
+
+https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js,popper1
+
+https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css,bootstrap4
+https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js,bootstrap4
+
+https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js,popper2
+
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css,bootstrap5
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-grid.min.css,bootstrap5
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-reboot.min.css,bootstrap5
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-utilities.min.css,bootstrap5
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js,bootstrap5
+
+https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.js,bootbox
+https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.min.js,bootbox
+https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.all.js,bootbox
+https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.all.min.js,bootbox
+https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.locales.js,bootbox
+https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.locales.min.js,bootbox
+
+https://cdn.jsdelivr.net/npm/jquery-bootgrid@1.3.1/dist/jquery.bootgrid.css,bootgrid
+https://cdn.jsdelivr.net/npm/jquery-bootgrid@1.3.1/dist/jquery.bootgrid.fa.js,bootgrid
+https://cdn.jsdelivr.net/npm/jquery-bootgrid@1.3.1/dist/jquery.bootgrid.fa.min.js,bootgrid
+https://cdn.jsdelivr.net/npm/jquery-bootgrid@1.3.1/dist/jquery.bootgrid.js,bootgrid
+https://cdn.jsdelivr.net/npm/jquery-bootgrid@1.3.1/dist/jquery.bootgrid.min.css,bootgrid
+https://cdn.jsdelivr.net/npm/jquery-bootgrid@1.3.1/dist/jquery.bootgrid.min.js,bootgrid
+
+https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.js,jquery
+https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js,jquery
+
+https://cdn.jsdelivr.net/npm/jquery-form@4.3.0/dist/jquery.form.min.js,jquery
+https://cdn.jsdelivr.net/npm/jquery-form@4.3.0/dist/jquery.form.min.js.map,jquery
+
+https://cdn.jsdelivr.net/npm/jquery-serializejson@3.2.1/jquery.serializejson.js,jquery
+https://cdn.jsdelivr.net/npm/jquery-serializejson@3.2.1/jquery.serializejson.min.js,jquery
+
+https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.7.0/dist/js/query-builder.js,query-builder
+https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.7.0/dist/js/query-builder.standalone.js,query-builder
+https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.7.0/dist/css/query-builder.dark.css,query-builder
+https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.7.0/dist/css/query-builder.default.css,query-builder
+
+https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/glyphicons.css,../icons/glyphicons
+https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/glyphicons.min.css,../icons/glyphicons
+
+https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/fonts/glyphicons-halflings-regular.eot,../icons/glyphicons/fonts
+https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/fonts/glyphicons-halflings-regular.svg,../icons/glyphicons/fonts
+https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/fonts/glyphicons-halflings-regular.ttf,../icons/glyphicons/fonts
+https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/fonts/glyphicons-halflings-regular.woff,../icons/glyphicons/fonts
+https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/fonts/glyphicons-halflings-regular.woff2,../icons/glyphicons/fonts
+
+https://cdn.jsdelivr.net/npm/dna-engine@3.0/dist/dna-engine.css,dnajs
+https://cdn.jsdelivr.net/npm/dna-engine@3.0/dist/dna-engine.min.js,dnajs
+
+https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.js,d3js
+https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js,d3js
+
+https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js,chartjs
+
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base-context.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base-context-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/base-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/buttons.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/buttons-core.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/buttons-core-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/buttons-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/forms.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/forms-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/forms-nr.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/forms-nr-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-core.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-core-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-units.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-units-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/HISTORY.md,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/LICENSE,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus-core.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus-core-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus-dropdown.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus-dropdown-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus-horizontal.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus-horizontal-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus-scrollable.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus-scrollable-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus-skin.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/menus-skin-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-nr.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-nr-min.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/README.md,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/tables.css,purecss
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/tables-min.css,purecss
+
+https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/css/material-design-iconic-font.css,../icons/zmdi/css
+https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/css/material-design-iconic-font.min.css,../icons/zmdi/css
+https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/fonts/Material-Design-Iconic-Font.eot,../icons/zmdi/fonts
+https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/fonts/Material-Design-Iconic-Font.svg,../icons/zmdi/fonts
+https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/fonts/Material-Design-Iconic-Font.ttf,../icons/zmdi/fonts
+https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/fonts/Material-Design-Iconic-Font.woff,../icons/zmdi/fonts
+https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/fonts/Material-Design-Iconic-Font.woff2,../icons/zmdi/fonts
+
+
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/jquery_wrapper.js,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator.js,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator.js.map,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator.min.js,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator.min.js.map,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator_esm.js,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator_esm.js.map,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator_esm.min.js,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator_esm.min.js.map,tabulator/js
+
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap3.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap3.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap3.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap3.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap4.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap4.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap4.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap4.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap5.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap5.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap5.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap5.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bulma.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bulma.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bulma.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bulma.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_materialize.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_materialize.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_materialize.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_materialize.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_midnight.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_midnight.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_midnight.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_midnight.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_modern.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_modern.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_modern.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_modern.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_semanticui.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_semanticui.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_semanticui.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_semanticui.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_simple.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_simple.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_simple.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_simple.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_site.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_site.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_site.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_site.min.css.map,tabulator/css
+
+https://unpkg.com/htmx.org@1.9.12/dist/htmx.js,htmx
+https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js,htmx
+
+https://unpkg.com/htmx.org@1.9.12/dist/ext/ajax-header.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/alpine-morph.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/class-tools.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/client-side-templates.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/debug.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/disable-element.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/event-header.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/head-support.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/include-vals.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/json-enc.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/loading-states.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/method-override.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/morphdom-swap.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/multi-swap.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/path-deps.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/path-params.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/preload.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/rails-method.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/remove-me.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/response-targets.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/restored.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/sse.js,htmx/ext
+https://unpkg.com/htmx.org@1.9.12/dist/ext/ws.js,htmx/ext
+
+
+https://unpkg.com/datatables.net@1.13.8/js/jquery.dataTables.js,datatables/js
+https://unpkg.com/datatables.net@1.13.8/js/jquery.dataTables.min.js,datatables/js
+
+https://unpkg.com/datatables.net-autofill@2.6.0/js/dataTables.autoFill.js,datatables/js
+https://unpkg.com/datatables.net-autofill@2.6.0/js/dataTables.autoFill.min.js,datatables/js
+
+https://unpkg.com/datatables.net-bs5@1.13.8/js/dataTables.bootstrap5.js,datatables/js
+https://unpkg.com/datatables.net-bs5@1.13.8/js/dataTables.bootstrap5.min.js,datatables/js
+https://unpkg.com/datatables.net-bs5@1.13.8/css/dataTables.bootstrap5.css,datatables/css
+https://unpkg.com/datatables.net-bs5@1.13.8/css/dataTables.bootstrap5.min.css,datatables/css
+https://unpkg.com/datatables.net-bs5@1.13.8/images/favicon.ico,datatables/images
+https://unpkg.com/datatables.net-bs5@1.13.8/images/sort_asc.png,datatables/images
+https://unpkg.com/datatables.net-bs5@1.13.8/images/sort_asc_disabled.png,datatables/images
+https://unpkg.com/datatables.net-bs5@1.13.8/images/sort_both.png,datatables/images
+https://unpkg.com/datatables.net-bs5@1.13.8/images/sort_desc.png,datatables/images
+https://unpkg.com/datatables.net-bs5@1.13.8/images/sort_desc_disabled.png,datatables/images
+
+https://unpkg.com/datatables.net-bs4@1.13.8/js/dataTables.bootstrap4.js,datatables/js
+https://unpkg.com/datatables.net-bs4@1.13.8/js/dataTables.bootstrap4.min.js,datatables/js
+https://unpkg.com/datatables.net-bs4@1.13.8/css/dataTables.bootstrap4.css,datatables/css
+https://unpkg.com/datatables.net-bs4@1.13.8/css/dataTables.bootstrap4.min.css,datatables/css
+
+https://unpkg.com/datatables.net-responsive@2.5.0/js/dataTables.responsive.js,datatables/js
+https://unpkg.com/datatables.net-responsive@2.5.0/js/dataTables.responsive.min.js,datatables/js
+
+https://unpkg.com/datatables.net-responsive-bs5@2.5.0/js/responsive.bootstrap5.js,datatables/js
+https://unpkg.com/datatables.net-responsive-bs5@2.5.0/js/responsive.bootstrap5.min.js,datatables/js
+https://unpkg.com/datatables.net-responsive-bs5@2.5.0/css/responsive.bootstrap5.css,datatables/css
+https://unpkg.com/datatables.net-responsive-bs5@2.5.0/css/responsive.bootstrap5.min.css,datatables/css
+
+https://unpkg.com/datatables.net-responsive-bs4@2.5.0/js/responsive.bootstrap4.js,datatables/js
+https://unpkg.com/datatables.net-responsive-bs4@2.5.0/js/responsive.bootstrap4.min.js,datatables/js
+https://unpkg.com/datatables.net-responsive-bs4@2.5.0/css/responsive.bootstrap4.css,datatables/css
+https://unpkg.com/datatables.net-responsive-bs4@2.5.0/css/responsive.bootstrap4.min.css,datatables/css
+
+https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.colVis.js,datatables/js
+https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.colVis.min.js,datatables/js
+https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.flash.js,datatables/js
+https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.flash.min.js,datatables/js
+https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.html5.js,datatables/js
+https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.html5.min.js,datatables/js
+https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.print.js,datatables/js
+https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.print.min.js,datatables/js
+https://unpkg.com/datatables.net-buttons@2.4.2/js/dataTables.buttons.js,datatables/js
+https://unpkg.com/datatables.net-buttons@2.4.2/js/dataTables.buttons.min.js,datatables/js
+
+https://unpkg.com/datatables.net-fixedcolumns@4.3.0/js/dataTables.fixedColumns.js,datatables/js
+https://unpkg.com/datatables.net-fixedcolumns@4.3.0/js/dataTables.fixedColumns.min.js,datatables/js
+
+https://unpkg.com/datatables.net-fixedheader@3.4.0/js/dataTables.fixedHeader.js,datatables/js
+https://unpkg.com/datatables.net-fixedheader@3.4.0/js/dataTables.fixedHeader.min.js,datatables/js
+
+https://unpkg.com/datatables.net-rowgroup@1.4.1/js/dataTables.rowGroup.js,datatables/js
+https://unpkg.com/datatables.net-rowgroup@1.4.1/js/dataTables.rowGroup.min.js,datatables/js
+
+https://unpkg.com/datatables.net-rowreorder@1.4.1/js/dataTables.rowReorder.js,datatables/js
+https://unpkg.com/datatables.net-rowreorder@1.4.1/js/dataTables.rowReorder.min.js,datatables/js
+
+https://unpkg.com/datatables.net-scroller@2.3.0/js/dataTables.scroller.js,datatables/js
+https://unpkg.com/datatables.net-scroller@2.3.0/js/dataTables.scroller.min.js,datatables/js
+
+https://unpkg.com/datatables.net-searchbuilder@1.6.0/js/dataTables.searchBuilder.js,datatables/js
+https://unpkg.com/datatables.net-searchbuilder@1.6.0/js/dataTables.searchBuilder.min.js,datatables/js
+
+https://unpkg.com/datatables.net-searchpanes@2.2.0/js/dataTables.searchPanes.js,datatables/js
+https://unpkg.com/datatables.net-searchpanes@2.2.0/js/dataTables.searchPanes.min.js,datatables/js
+
+https://unpkg.com/datatables.net-datetime@1.5.0/dist/dataTables.dateTime.css,datatables/css
+https://unpkg.com/datatables.net-datetime@1.5.0/dist/dataTables.dateTime.min.css,datatables/css
+https://unpkg.com/datatables.net-datetime@1.5.0/dist/dataTables.dateTime.js,datatables/js
+https://unpkg.com/datatables.net-datetime@1.5.0/dist/dataTables.dateTime.min.js,datatables/js
+
+        ]]></css.urls>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-apache-bsf -->
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-apache-bsf</artifactId>
+                        <version>1.10.12</version>
+                    </dependency>
+
+                    <!-- https://mvnrepository.com/artifact/org.beanshell/bsh -->
+                    <dependency>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh</artifactId>
+                        <version>2.0b5</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+                                <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+                                <mkdir dir="${rpm.path}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+
+                                <condition property="binary.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prg.tag}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <mkdir dir="${root.dir}/var/www/common/fonts"/>
+                                <mkdir dir="${root.dir}/var/www/common/icons"/>
+                                <mkdir dir="${root.dir}/var/www/common/html"/>
+                                <mkdir dir="${root.dir}/var/www/common/lib"/>
+
+                                <get src="https://github.com/harvesthq/chosen/releases/download/v1.8.7/chosen_v1.8.7.zip" dest="${project.basedir}/src/main/dist/chosen_v1.8.7.zip" />
+                                <mkdir dir="${root.dir}/var/${project.artifactId}/chosen"/>
+                                <exec dir="${root.dir}/var/${project.artifactId}/chosen" executable="unzip">
+                                    <arg line="-o ${project.basedir}/src/main/dist/chosen_v1.8.7.zip" />
+                                </exec>
+
+                                <mkdir dir="${root.dir}/var/www/common/lib/chosen"/>
+                                <copy todir="${root.dir}/var/www/common/lib/chosen">
+                                    <fileset dir="${root.dir}/var/${project.artifactId}/chosen" includes="*.css"/>
+                                    <fileset dir="${root.dir}/var/${project.artifactId}/chosen" includes="*.js"/>
+                                </copy>
+
+                                <get src="https://github.com/twbs/icons/releases/download/v1.11.2/bootstrap-icons-1.11.2.zip" dest="${project.basedir}/src/main/dist/bootstrap-icons-1.11.2.zip" />
+                                <mkdir dir="${root.dir}/var/${project.artifactId}/bootstrap-icons"/>
+                                <exec dir="${root.dir}/var/${project.artifactId}/bootstrap-icons" executable="unzip">
+                                    <arg line="-o ${project.basedir}/src/main/dist/bootstrap-icons-1.11.2.zip" />
+                                </exec>
+
+                                <mkdir dir="${root.dir}/var/www/common/icons/bootstrap"/>
+                                <copy todir="${root.dir}/var/www/common/icons/bootstrap">
+                                    <fileset dir="${root.dir}/var/${project.artifactId}/bootstrap-icons/bootstrap-icons-1.11.2/font" includes="**/*.css"/>
+                                    <fileset dir="${root.dir}/var/${project.artifactId}/bootstrap-icons/bootstrap-icons-1.11.2/font" includes="**/*.woff"/>
+                                    <fileset dir="${root.dir}/var/${project.artifactId}/bootstrap-icons/bootstrap-icons-1.11.2/font" includes="**/*.woff2"/>
+                                </copy>
+
+
+                                <get src="https://github.com/shutterstock/rickshaw/archive/refs/tags/v1.7.0.zip" dest="${project.basedir}/src/main/dist/rickshaw-1.7.0.zip" />
+                                <mkdir dir="${root.dir}/var/${project.artifactId}/rickshaw"/>
+                                <exec dir="${root.dir}/var/${project.artifactId}/rickshaw" executable="unzip">
+                                    <arg line="-o ${project.basedir}/src/main/dist/rickshaw-1.7.0.zip" />
+                                </exec>
+
+                                <mkdir dir="${root.dir}/var/www/common/lib/rickshaw"/>
+                                <copy todir="${root.dir}/var/www/common/lib/rickshaw">
+                                    <fileset dir="${root.dir}/var/${project.artifactId}/rickshaw/rickshaw-1.7.0" includes="*.css"/>
+                                    <fileset dir="${root.dir}/var/${project.artifactId}/rickshaw/rickshaw-1.7.0" includes="*.js"/>
+                                    <fileset dir="${root.dir}/var/${project.artifactId}/rickshaw/rickshaw-1.7.0/vendor" includes="*.js"/>
+                                </copy>
+
+                                <get src="https://github.com/coreui/coreui/releases/download/v4.3.2/coreui-4.3.2-dist.zip" dest="${project.basedir}/src/main/dist/coreui-4.3.2-dist.zip" />
+                                <mkdir dir="${root.dir}/var/${project.artifactId}/coreui"/>
+                                <exec dir="${root.dir}/var/${project.artifactId}/coreui" executable="unzip">
+                                    <arg line="-o ${project.basedir}/src/main/dist/coreui-4.3.2-dist.zip" />
+                                </exec>
+
+                                <mkdir dir="${root.dir}/var/www/common/lib/coreui"/>
+                                <copy todir="${root.dir}/var/www/common/lib/coreui">
+                                    <fileset dir="${root.dir}/var/${project.artifactId}/coreui/coreui-4.3.2-dist"/>
+                                </copy>
+
+                                <get src="https://github.com/coreui/coreui/releases/download/v5.1.2/coreui-5.1.2-dist.zip" dest="${project.basedir}/src/main/dist/coreui-5.1.2-dist.zip" />
+                                <mkdir dir="${root.dir}/var/${project.artifactId}/coreui5"/>
+                                <exec dir="${root.dir}/var/${project.artifactId}/coreui5" executable="unzip">
+                                    <arg line="-o ${project.basedir}/src/main/dist/coreui-5.1.2-dist.zip" />
+                                </exec>
+
+                                <mkdir dir="${root.dir}/var/www/common/lib/coreui5"/>
+                                <copy todir="${root.dir}/var/www/common/lib/coreui5">
+                                    <fileset dir="${root.dir}/var/${project.artifactId}/coreui5/coreui-5.1.2-dist"/>
+                                </copy>
+
+
+                                <for list="${css.urls}" delimiter=" &#10;" trim="true" param="ncss">
+                                    <sequential>
+                                        <script manager="bsf" language="beanshell"><![CDATA[
+                                            part = "@{ncss}".split(",");
+                                            project.setProperty("nurl",part[0]);
+                                            project.setProperty("npath",part[1]);
+                                            if(part.length==3)
+                                            {
+                                                project.setProperty("nfile",part[1]+"/"+part[2]);
+                                            }
+                                            else
+                                            {
+                                                project.setProperty("nfile",part[1]+"/"+part[0].substring(part[0].lastIndexOf('/')+1));
+                                            }
+                                        ]]></script>
+                                        <mkdir dir="${root.dir}/var/www/common/lib/${npath}"/>
+                                        <get src="${nurl}" dest="${root.dir}/var/www/common/lib/${nfile}" />
+                                    </sequential>
+                                </for>
+
+                                <copy todir="${root.dir}/var/www/common/html">
+                                    <fileset dir="src/main/dist/html"/>
+                                </copy>
+                                <copy todir="${root.dir}/var/www/common/fonts">
+                                    <fileset dir="src/main/dist/fonts"/>
+                                </copy>
+                                <mkdir dir="${root.dir}/var/www/common/icons/fips"/>
+                                <copy todir="${root.dir}/var/www/common/icons/fips">
+                                    <fileset dir="src/main/dist/fips"/>
+                                </copy>
+
+                                <tar destfile="${project.build.directory}/${project.artifactId}.tar">
+                                    <tarfileset prefix="common" dir="${root.dir}/var/www/common" />
+                                </tar>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="MIT"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}"
+                                        version="${timestamp}"
+                                >
+                                    <rpmfileset prefix="/var/www/common" filemode='444' dir="${root.dir}/var/www/common" username="root" group="root" addParents="false" />
+                                </xrpm>
+
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -18,6 +18,7 @@
     <properties>
         <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <!-- https://github.com/Projeto-Pindorama/musl-compat/ -->
     </properties>
 
     <build>
@@ -58,6 +59,7 @@
                                 <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
 
                                 <mkdir dir="${root.dir}/usr/include/sys"/>
+                                <mkdir dir="${root.dir}/usr/include/bits"/>
                                 <mkdir dir="${toolchain.dir}"/>
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
                                 <mkdir dir="${resources.target}"/>
@@ -65,6 +67,11 @@
 
                                 <copy todir="${root.dir}/usr/include/sys">
                                     <fileset dir="${project.basedir}/src/main/dist/bsd">
+                                        <include name="*.h"/>
+                                    </fileset>
+                                </copy>
+                                <copy todir="${root.dir}/usr/include/bits">
+                                    <fileset dir="${project.basedir}/src/main/dist/bits">
                                         <include name="*.h"/>
                                     </fileset>
                                 </copy>

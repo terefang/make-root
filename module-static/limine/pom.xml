@@ -109,7 +109,7 @@
                                 <copy todir="${iso.path}/boot">
                                     <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}">
                                         <include name="*.sys"/>
-                                        <include name="limine-deploy"/>
+                                        <include name="limine.exe"/>
                                     </fileset>
                                 </copy>
                                 <exec unless:true="${final.exists}" dir="${iso.path}" executable="tar">
@@ -119,14 +119,14 @@
                                 <mkdir dir="${project.build.directory}/root/xbin"/>
                                 <copy todir="${project.build.directory}/root/xbin">
                                     <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}">
-                                        <include name="limine-deploy"/>
+                                        <include name="limine"/>
                                     </fileset>
                                 </copy>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/root/xbin" executable="chmod" >
-                                    <arg line=" +x limine-deploy" />
+                                    <arg line=" +x limine" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/root" executable="bsdtar" >
-                                    <arg line=" --null --uid 0 --gid 0 --format=newc -cvf ${project.basedir}/src/main/dist/limine.cpio xbin/limine-deploy" />
+                                    <arg line=" --null --uid 0 --gid 0 --format=newc -cvf ${project.basedir}/src/main/dist/limine.cpio xbin/limine" />
                                 </exec>
                             </target>
                         </configuration>

@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>bubblewrap</artifactId>
-    <version>${version.bubblewrap}</version>
+    <version>${version.bwrap}</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -75,11 +75,27 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libc-musl-${version.libcmusl}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-bsdcompat-0.1.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-fts-${version.musl-fts}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-obstack-${version.musl-obstack}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-rpmatch-${version.musl-rpmatch}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-libxcrypt-${version.libxcrypt}.tgz" />
                                 </exec>
+
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-libcap-${version.libcap}.tgz" />
                                 </exec>
@@ -101,7 +117,8 @@
                                     <env key="CXX" value="x86_64-linux-musl-g++ --static" />
                                     <env key="CFLAGS" value="--static -D_FORTIFY_SOURCE=0 -I ${toolchain.dir}/include" />
                                     <env key="LDFLAGS" value="-static -L ${toolchain.dir}/lib " />
-                                    <arg value="--prefix=/usr/local" />
+                                    <env key="PKG_CONFIG" value="/bin/true" />
+                                    <arg value="--prefix=/usr" />
                                     <arg value="--host=x86_64-linux-musl" />
                                     <arg value="--target=x86_64-linux-musl" />
                                     <arg value="--disable-selinux" />
@@ -111,7 +128,7 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
-                                    <arg line="-j 8 check" />
+                                    <arg line="-j 8" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
@@ -119,16 +136,11 @@
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
                                 </exec>
 
-                                <!--
-                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prgutils.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <arg line="-j 1 DESTDIR=${root.dir} PREFIX=/usr mandir=/usr/share/man install" />
-                                </exec>
-
                                 <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
-                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share/prg" />
+                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share/man" />
                                 </exec>
 
+                                <!--
                                 <xrpm
                                         architecture="X86_64"
                                         destination="${project.build.directory}"

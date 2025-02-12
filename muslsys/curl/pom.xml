@@ -80,6 +80,24 @@
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
                                 </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-gnutls-${version.gnutls}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-openldap-${version.openldap}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-zstd-${version.zstd}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libssh2-${version.libssh2}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libntlm-${version.libntlm}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-gsasl-${version.gsasl}.tgz" />
+                                </exec>
                                 <delete unless:true="${final.exists}">
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.so*"/>
@@ -96,14 +114,63 @@
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
                                     <env key="CFLAGS" value="--static" />
                                     <env key="LDFLAGS" value="-static" />
+                                    <env key="LIBS" value="-lntlm" />
                                     <arg value="--prefix=/usr" />
                                     <arg value="--host=x86_64-linux-musl" />
                                     <arg value="--target=x86_64-linux-musl" />
-                                    <arg value="--disable-rpath" />
                                     <arg value="--disable-shared" />
                                     <arg value="--enable-static" />
+                                    <arg value="--enable-ftp" />
+                                    <arg value="--enable-file" />
+                                    <arg value="--enable-ldap" />
+                                    <arg value="--enable-ldaps" />
+                                    <arg value="--enable-rtsp" />
+                                    <arg value="--enable-telnet" />
+                                    <arg value="--enable-proxy" />
+                                    <arg value="--enable-tftp" />
+                                    <arg value="--enable-manual" />
+                                    <arg value="--enable-dict" />
+                                    <arg value="--enable-pop3" />
+                                    <arg value="--enable-imap" />
+                                    <arg value="--enable-smtp" />
+                                    <arg value="--enable-mqtt" />
+                                    <arg value="--enable-smb" />
+                                    <arg value="--enable-gopher" />
+                                    <arg value="--without-libpsl" />
+                                    <arg value="--with-ssl" />
                                     <arg value="--with-openssl" />
+                                    <arg value="--with-libssh2" />
+                                    <arg value="--enable-threaded-resolver" />
+                                    <arg value="--enable-hsts" />
+                                    <arg value="--enable-ntlm" />
+                                    <arg value="--disable-tls-srp" />
+                                    <arg value="--enable-basic-auth" />
+                                    <arg value="--enable-bearer-auth" />
+                                    <arg value="--enable-digest-auth" />
+                                    <arg value="--disable-kerberos-auth" />
+                                    <arg value="--enable-negotiate-auth" />
+                                    <arg value="--disable-aws" />
+                                    <arg value="--enable-cookies" />
+                                    <arg value="--enable-unix-sockets" />
+                                    <arg value="--enable-socketpair" />
+                                    <arg value="--enable-http-auth" />
+                                    <arg value="--enable-doh" />
+                                    <arg value="--enable-mime" />
+                                    <arg value="--enable-form-api" />
+                                    <arg value="--enable-progress-meter" />
+                                    <arg value="--enable-alt-svc" />
+                                    <arg value="--disable-ech" />
+                                    <arg value="--enable-get-easy-options" />
+                                    <arg value="--enable-bindlocal" />
+                                    <arg value="--enable-dateparse" />
+                                    <arg value="--enable-netrc" />
+                                    <arg value="--enable-dnsshuffle" />
+                                    <arg value="--enable-headers-api" />
                                 </exec>
+
+                                [exec]   HTTP2:            no      (--with-nghttp2)
+                                [exec]   HTTP3:            no      (--with-ngtcp2 --with-nghttp3, --with-quiche, --with-msh3)
+
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${curl.tag}" executable="make">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
@@ -118,6 +185,25 @@
                                 <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
                                     <arg line="-cvf ${resources.target}/muslsys-${curl.tag}.tgz include lib bin" />
                                 </exec>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="ASL"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${root.dir}/usr/bin/curl" username="root" group="root" addParents="false" />
+
+                                </xrpm>
                             </target>
                         </configuration>
                     </execution>

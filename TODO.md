@@ -1,9 +1,28 @@
 ## packages
 
+https://github.com/orf/gping
+
+https://github.com/liljencrantz/crush
+
+https://github.com/theryangeary/choose
+
+https://github.com/chmln/sd
+
+https://github.com/soveran/map
+
+https://github.com/sxyazi/yazi
+
+https://dl.exactcode.de/oss/minised/minised-1.16.tar.gz
+
+https://sed.sourceforge.io/grabbag/ssed/sed-3.62.tar.gz
+
+https://github.com/Orc/levee
+
 tmux
 
 aria3c
 
+https://github.com/ifupdown-ng/ifupdown-ng
 
 https://github.com/BurntSushi/ripgrep
 
@@ -19,8 +38,6 @@ https://github.com/junegunn/fzf
 https://github.com/Xfennec/progress
 
 ncdu
-
-socat
 
 moreutils
 
@@ -44,16 +61,20 @@ iotop
 
 nmon
 
+https://master.dl.sourceforge.net/project/loginx/loginx-1.4.tar.gz?viasf=1
+
 https://github.com/tomnomnom/gron
 
 https://github.com/gokrazy/freeze
 
-https://github.com/jedisct1/libsodium
+[x] https://github.com/jedisct1/libsodium
 
 https://github.com/jedisct1/minisign
 
 https://github.com/jedisct1/libhydrogen
 
+https://github.com/Taymindis/lfqueue
+https://github.com/Taymindis/lfstack
 
 
 ## compilers
@@ -83,3 +104,25 @@ https://dl-cdn.alpinelinux.org/alpine/v${AVER%.*}/releases/${ACPU}/alpine-miniro
 https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/x86_64/alpine-minirootfs-3.16.2-x86_64.tar.gz
 https://dl-cdn.alpinelinux.org/alpine/v3.16/main/x86_64/APKINDEX.tar.gz
 https://dl-cdn.alpinelinux.org/alpine/v3.16/community/x86_64/APKINDEX.tar.gz
+
+
+
+## jdk bootstrap
+
+https://www.chainguard.dev/unchained/fully-bootstrapping-java-from-source-in-wolfi
+
+https://gist.github.com/bbidulock/6968e85305fe4009cdc5ad5f037cae09
+
+https://aur.archlinux.org/cgit/aur.git/tree/?h=gcc6-gcj-ecj
+
+pkgver=4.9
+source=(http://mirrors.kernel.org/sources.redhat.com/java/ecj-${pkgver}.jar)
+install -D -m644 $srcdir/ecj-${pkgver}.jar $pkgdir/usr/share/java/eclipse-ecj.jar
+
+ecj1 -> #!/bin/sh
+gij-6 -cp /usr/share/java/eclipse-ecj.jar \
+    org.eclipse.jdt.internal.compiler.batch.GCCMain \
+    ${1+"$@"}
+
+https://github.com/wolfi-dev/os/blob/main/java-gcj-compat.yaml
+https://github.com/wolfi-dev/os/blob/main/java-common.yaml

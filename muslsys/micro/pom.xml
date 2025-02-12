@@ -73,11 +73,11 @@
                                     </resourceexists>
                                 </condition>
 
-                                <condition property="binary.exists">
+                                <!--condition property="binary.exists">
                                     <resourceexists>
                                         <file file="${project.basedir}/src/main/dist/${prg.tag}"/>
                                     </resourceexists>
-                                </condition>
+                                </condition-->
 
                                 <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}" />
 
@@ -103,6 +103,35 @@
                                     <rpmfileset prefix="/usr/libexec/${project.artifactId}" filemode='555' file="${project.build.directory}/${project.artifactId}/${project.artifactId}" username="root" group="root" addParents="false" />
 
                                     <link path="/usr/bin/micro" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                </xrpm>
+
+                                <mkdir dir="${root.dir}/usr/bin"/>
+                                <mkdir dir="${root.dir}/usr/man/man1"/>
+                                <copy todir="${root.dir}/usr/bin">
+                                    <fileset file="${project.build.directory}/${project.artifactId}/${prg.tag}/micro" />
+                                </copy>
+                                <copy todir="${root.dir}/usr/man/man1">
+                                    <fileset file="${project.build.directory}/${project.artifactId}/${prg.tag}/micro.1" />
+                                </copy>
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="ASL"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/man/man1" filemode='444' dir="${root.dir}/usr/man/man1" username="root" group="root" addParents="false" />
+
                                 </xrpm>
                             </target>
                         </configuration>

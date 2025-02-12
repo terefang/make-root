@@ -1,0 +1,20 @@
+[Unit]
+Description=dkron
+Requires=network.target
+
+[Service]
+WorkingDirectory=/var/log/dkron
+ExecStart=/usr/dkron/bin/dkron agent \
+    --config /etc/dkron/dkron.yaml \
+    --log-level info \
+    --node-name db0108a3-e66b-4884-8114-df0adb0d1fa9 \
+    --server --ui
+Restart=on-failure
+RestartSec=5s
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=dkron
+User=root
+
+[Install]
+WantedBy=default.target

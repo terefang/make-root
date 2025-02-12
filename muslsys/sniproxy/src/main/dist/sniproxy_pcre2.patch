@@ -1,0 +1,205 @@
+diff --git a/.travis.yml b/.travis.yml
+index da07eed..39cff09 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -4,7 +4,7 @@ compiler:
+   - gcc
+ install:
+   - sudo apt-get update
+-  - DEBIAN_FRONTEND=noninteractive sudo apt-get install -y apache2-utils cdbs dh-autoreconf devscripts libev-dev libpcre3-dev libudns-dev lintian rpm valgrind
++  - DEBIAN_FRONTEND=noninteractive sudo apt-get install -y apache2-utils cdbs dh-autoreconf devscripts libev-dev libpcre2-dev libudns-dev lintian rpm valgrind
+   - mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+   - ./autogen.sh
+ script:
+diff --git a/README.md b/README.md
+index 2cf1b12..930c775 100644
+--- a/README.md
++++ b/README.md
+@@ -35,7 +35,7 @@ For Debian or Fedora based Linux distributions see building packages below.
+ **Prerequisites**
+
+ + Autotools (autoconf, automake, gettext and libtool)
+-+ libev4, libpcre and libudns development headers
+++ libev4, libpcre2 and libudns development headers
+ + Perl and cURL for test suite
+
+ **Install**
+@@ -48,7 +48,7 @@ This is the preferred installation method on recent Debian based distributions:
+
+ 1. Install required packages
+
+-        sudo apt-get install autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext libev-dev libpcre3-dev libudns-dev pkg-config fakeroot devscripts
++        sudo apt-get install autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext libev-dev libpcre-dev libudns-dev pkg-config fakeroot devscripts
+
+ 2. Build a Debian package
+
+@@ -64,7 +64,7 @@ This is the preferred installation method for modern Fedora based distributions.
+
+ 1. Install required packages
+
+-        sudo yum install autoconf automake curl gettext-devel libev-devel pcre-devel perl pkgconfig rpm-build udns-devel
++        sudo yum install autoconf automake curl gettext-devel libev-devel pcre2-devel perl pkgconfig rpm-build udns-devel
+
+ 2. Build a distribution tarball:
+
+@@ -87,7 +87,7 @@ may not even work.
+
+ 1. install dependencies.
+
+-        brew install libev pcre udns autoconf automake gettext libtool
++        brew install libev pcre2 udns autoconf automake gettext libtool
+
+ 2. Read the warning about gettext and force link it so autogen.sh works. We need the GNU gettext for the macro `AC_LIB_HAVE_LINKFLAGS` which isn't present in the default OS X package.
+
+diff --git a/configure.ac b/configure.ac
+index cac74f1..ebf7eed 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -27,13 +27,14 @@ PKG_CHECK_MODULES([LIBEV], [libev], HAVE_LIBEV=yes; AC_DEFINE(HAVE_LIBEV, 1),
+  fi
+ ])
+
+-PKG_CHECK_MODULES([LIBPCRE], [libpcre], HAVE_LIBPCRE=yes; AC_DEFINE(HAVE_LIBPCRE, 1),
+-[AC_LIB_HAVE_LINKFLAGS(pcre,, [#include <pcre.h>], [pcre_exec(0,0,0,0,0,0,0,0);])
+- if test x$ac_cv_libpcre = xyes; then
+-  AC_SUBST([LIBPCRE_LIBS], [$LIBPCRE])
++PKG_CHECK_MODULES([LIBPCRE2], [libpcre2-8], HAVE_LIBPCRE=yes; AC_DEFINE(HAVE_LIBPCRE2, 1),
++AC_DEFINE([PCRE2_CODE_UNIT_WIDTH], [8], [PCRE2 code unit width wanted.])
++[AC_LIB_HAVE_LINKFLAGS(pcre2-8,, [#include <pcre2.h>], [pcre2_match(0,0,0,0,0,0,0);])
++ if test x$ac_cv_libpcre-8 = xyes; then
++  AC_SUBST([LIBPCRE2_LIBS], [$LIBPCRE2])
+  else
+   AC_MSG_ERROR([[***
+-*** libpcre was not found.
++*** libpcre2-8 was not found.
+ ***]])
+  fi
+ ])
+diff --git a/debian/control b/debian/control
+index c2d0109..4aec793 100644
+--- a/debian/control
++++ b/debian/control
+@@ -2,7 +2,7 @@ Source: sniproxy
+ Section: web
+ Priority: optional
+ Maintainer: Dustin Lundquist <dustin@null-ptr.net>
+-Build-Depends: cdbs, debhelper (>= 8.0.0), dh-autoreconf, autotools-dev, gettext, pkg-config, libev-dev (>= 4.0), libpcre3-dev, libudns-dev
++Build-Depends: cdbs, debhelper (>= 8.0.0), dh-autoreconf, autotools-dev, gettext, pkg-config, libev-dev (>= 4.0), libpcre2-dev, libudns-dev
+ Standards-Version: 3.9.5
+ Vcs-Git: https://github.com/dlundquist/sniproxy.git
+ Vcs-Browser: https://github.com/dlundquist/sniproxy
+diff --git a/redhat/sniproxy.spec b/redhat/sniproxy.spec
+index a3c6913..398a53d 100644
+--- a/redhat/sniproxy.spec
++++ b/redhat/sniproxy.spec
+@@ -9,7 +9,7 @@ URL: https://github.com/dlundquist/sniproxy
+ Source0: %{name}-%{version}.tar.gz
+ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+-BuildRequires: autoconf, automake, curl, libev-devel, pcre-devel, perl, gettext-devel, udns-devel
++BuildRequires: autoconf, automake, curl, libev-devel, pcre2-devel, perl, gettext-devel, udns-devel
+
+ %description
+ Proxies incoming HTTP and TLS connections based on the hostname contained in
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 456a5d2..25acdd0 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -1,4 +1,4 @@
+-AM_CPPFLAGS = $(LIBEV_CFLAGS) $(LIBPCRE_CFLAGS) $(LIBUDNS_CFLAGS)
++AM_CPPFLAGS = $(LIBEV_CFLAGS) $(LIBPCRE2_CFLAGS) $(LIBUDNS_CFLAGS)
+ AM_CFLAGS = -fno-strict-aliasing -Wall -Wextra -Wpedantic -Wwrite-strings
+
+ sbin_PROGRAMS = sniproxy
+@@ -34,4 +34,4 @@ sniproxy_SOURCES = sniproxy.c \
+                    tls.c \
+                    tls.h
+
+-sniproxy_LDADD = $(LIBEV_LIBS) $(LIBPCRE_LIBS) $(LIBUDNS_LIBS)
++sniproxy_LDADD = $(LIBEV_LIBS) $(LIBPCRE2_LIBS) $(LIBUDNS_LIBS)
+diff --git a/src/backend.c b/src/backend.c
+index a6320e9..52ac085 100644
+--- a/src/backend.c
++++ b/src/backend.c
+@@ -27,7 +27,6 @@
+ #include <stdio.h>
+ #include <string.h>
+ #include <sys/queue.h>
+-#include <pcre.h>
+ #include <assert.h>
+ #include "backend.h"
+ #include "address.h"
+@@ -96,13 +95,13 @@ add_backend(struct Backend_head *backends, struct Backend *backend) {
+ int
+ init_backend(struct Backend *backend) {
+     if (backend->pattern_re == NULL) {
+-        const char *reerr;
+-        int reerroffset;
++        int reerr;
++        PCRE2_SIZE reerroffset;
+
+         backend->pattern_re =
+-            pcre_compile(backend->pattern, 0, &reerr, &reerroffset, NULL);
++            pcre2_compile(backend->pattern, PCRE2_ZERO_TERMINATED, 0, &reerr, &reerroffset, NULL);
+         if (backend->pattern_re == NULL) {
+-            err("Regex compilation of \"%s\" failed: %s, offset %d",
++            err("Regex compilation of \"%s\" failed: %d, offset %zd",
+                     backend->pattern, reerr, reerroffset);
+             return 0;
+         }
+@@ -120,6 +119,7 @@ init_backend(struct Backend *backend) {
+ struct Backend *
+ lookup_backend(const struct Backend_head *head, const char *name, size_t name_len) {
+     struct Backend *iter;
++    pcre2_match_data* md;
+
+     if (name == NULL) {
+         name = "";
+@@ -128,11 +128,16 @@ lookup_backend(const struct Backend_head *head, const char *name, size_t name_le
+
+     STAILQ_FOREACH(iter, head, entries) {
+         assert(iter->pattern_re != NULL);
+-        if (pcre_exec(iter->pattern_re, NULL,
++        md = pcre2_match_data_create_from_pattern(iter->pattern_re,NULL);
++        if (pcre2_match(iter->pattern_re,
+                     name, name_len, 0, 0, NULL, 0) >= 0)
++        {
++            pcre2_match_data_free(md);
+             return iter;
++        }
+     }
+
++    pcre2_match_data_free(md);
+     return NULL;
+ }
+
+@@ -168,6 +173,6 @@ free_backend(struct Backend *backend) {
+     free(backend->pattern);
+     free(backend->address);
+     if (backend->pattern_re != NULL)
+-        pcre_free(backend->pattern_re);
++        pcre2_code_free(backend->pattern_re);
+     free(backend);
+ }
+diff --git a/src/backend.h b/src/backend.h
+index 9fdffb0..b12202a 100644
+--- a/src/backend.h
++++ b/src/backend.h
+@@ -28,7 +28,8 @@
+ #define BACKEND_H
+
+ #include <sys/queue.h>
+-#include <pcre.h>
++#define PCRE2_CODE_UNIT_WIDTH 8
++#include <pcre2.h>
+ #include "address.h"
+
+ STAILQ_HEAD(Backend_head, Backend);
+@@ -39,7 +40,7 @@ struct Backend {
+     int use_proxy_header;
+
+     /* Runtime fields */
+-    pcre *pattern_re;
++    pcre2_code *pattern_re;
+     STAILQ_ENTRY(Backend) entries;
+ };

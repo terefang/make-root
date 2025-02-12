@@ -1,0 +1,19 @@
+[Unit]
+Description=monit
+Requires=network.target
+
+[Service]
+WorkingDirectory=/tmp/
+ExecStart=/usr/monit/bin/monit -I \
+    -c /etc/monit/monit.conf \
+    -p /var/run/monit.pid \
+    -s /var/run/monit.state
+Restart=on-failure
+RestartSec=10s
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=monit
+User=root
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,26 @@
+{
+	# Enable FrankenPHP
+	frankenphp
+	# Configure when the directive must be executed
+	order php_server before file_server
+    http_port    8280
+	https_port   8243
+	#log {
+    #		output  stderr
+    #		level   debug
+    #}
+}
+
+localhost:8280 {
+	# Enable compression (optional)
+	encode zstd gzip
+	# ---
+	handle_path /common/* {
+        root /var/frankenphp/common
+    }
+	# Execute PHP files in the current directory and serve assets
+	php_server {
+    	root /var/frankenphp/html
+    	split_path .php
+    }
+}

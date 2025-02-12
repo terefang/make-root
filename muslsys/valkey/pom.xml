@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.muslsys</groupId>
+    <artifactId>valkey</artifactId>
+    <version>7.2.5</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+        <pkg.tag>${project.artifactId}-${project.version}</pkg.tag>
+        <pkg.archive>${pkg.tag}.tar.gz</pkg.archive>
+        <pkg.url>https://github.com/valkey-io/valkey/archive/refs/tags/${project.version}.tar.gz</pkg.url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <typedef resource="antarchiveplus/antlib.xml" />
+
+                                <mkdir dir="${rpm.path}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${pkg.tag}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/root"/>
+                                <mkdir dir="${toolchain.dir}"/>
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${pkg.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <condition property="binary.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/xbin/redis-server"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <mkdir unless:true="${archive.exists}" dir="${project.basedir}/src/main/dist"/>
+                                <get unless:true="${archive.exists}" src="${pkg.url}" dest="${project.basedir}/src/main/dist/${pkg.archive}"/>
+
+                                <exec unless:true="${binary.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                </exec>
+                                <exec unless:true="${binary.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
+                                </exec>
+                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}/${pkg.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${pkg.archive} --strip 1" />
+                                </exec>
+
+                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}/${pkg.tag}" executable="make">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <arg line="-j 8" />
+                                    <arg value="PREFIX=/usr/${project.artifactId}" />
+                                    <arg value="CC=x86_64-linux-musl-gcc" />
+                                    <arg value="RANLIB=x86_64-linux-musl-ranlib" />
+                                    <arg value="AR=x86_64-linux-musl-ar" />
+                                    <arg value="LDFLAGS+=-static" />
+                                    <arg value="BUILD_TLS=yes" />
+                                </exec>
+
+                                <mkdir unless:true="${binary.exists}" dir="${project.basedir}/src/main/dist/xbin"/>
+                                <copy unless:true="${binary.exists}" todir="${project.basedir}/src/main/dist/xbin/" flatten="true">
+                                    <fileset dir="${project.build.directory}/${project.artifactId}/${pkg.tag}">
+                                        <include name="src/${project.artifactId}-server" />
+                                        <include name="src/${project.artifactId}-cli" />
+                                    </fileset>
+                                </copy>
+
+
+                                <xrpm   architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="BSD"
+                                        group="toolbox"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}."
+                                        distribution="nos"
+                                        packager="toolbox"
+                                        url="none"
+                                        vendor="nos"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/${project.artifactId}/bin" filemode='555' dirmode="555" dir="src/main/dist/xbin" username="root" group="root" addParents="false" />
+
+                                </xrpm>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

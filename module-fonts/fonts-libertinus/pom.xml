@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.module-fonts</groupId>
+    <artifactId>fonts-libertinus</artifactId>
+    <version>7.040</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <font.urls>
+            https://github.com/alerque/libertinus/releases/download/v${project.version}/Libertinus-${project.version}.zip
+        </font.urls>
+
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-apache-bsf -->
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-apache-bsf</artifactId>
+                        <version>1.10.12</version>
+                    </dependency>
+
+                    <!-- https://mvnrepository.com/artifact/org.beanshell/bsh -->
+                    <dependency>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh</artifactId>
+                        <version>2.0b5</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+                                <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+                                <taskdef resource="antarchiveplus/antlib.xml" />
+
+                                <mkdir dir="${root.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${resources.target}/fonts/libertinus"/>
+
+                                <for list="${font.urls}" delimiter="&#10;" trim="true" param="url">
+                                    <sequential>
+                                        <script manager="bsf" language="beanshell"><![CDATA[
+                                            baseName = "@{url}".substring("@{url}".lastIndexOf('/')+1);
+                                            isZip = baseName.endsWith(".zip");
+                                            nameBase = baseName;
+                                            ofs = nameBase.lastIndexOf('-');
+                                            if(ofs>0)
+                                            {
+                                            nameBase = nameBase.substring(0,ofs);
+                                            }
+                                            else
+                                            {
+                                            nameBase = nameBase.substring(0,nameBase.indexOf('.'));
+                                            }
+
+                                            project.setProperty("baseName",baseName);
+                                            project.setProperty("nameBase",nameBase.toLowerCase());
+                                            project.setProperty("isZip",isZip ? "true" : "false");
+                                        ]]></script>
+                                        <delete dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+                                        <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}/${nameBase}"/>
+                                        <get src="@{url}" dest="${project.build.directory}/${baseName}"/>
+                                        <exec if:true="${isZip}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="unzip">
+                                            <arg line="-j -o ${project.build.directory}/${baseName}" />
+                                        </exec>
+                                        <exec unless:true="${isZip}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                            <arg line="-xvf ${project.build.directory}/${baseName}" />
+                                        </exec>
+                                        <delete dir="${root.dir}/usr/share/fonts/"/>
+                                        <mkdir dir="${root.dir}/usr/share/fonts/${nameBase}"/>
+                                        <copy todir="${root.dir}/usr/share/fonts/${nameBase}" flatten="true">
+                                            <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}">
+                                                <include name="**/*.otf" />
+                                                <include name="**/*.txt" />
+                                                <include name="**/COPYING" />
+                                            </fileset>
+                                        </copy>
+                                        <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                            <arg line="-czvf ${resources.target}/fonts/libertinus/${project.artifactId}-${nameBase}-${project.version}.tar.gz share/fonts" />
+                                        </exec>
+                                        <!--ipkg format="ar" destfile="${resources.target}/${project.artifactId}-otf_${project.version}_noarch.ipk">
+                                            <ipkg-control packageName="${project.artifactId}-otf" version="${project.version}" architecture="noarch"/>
+                                            <tarfileset prefix="/usr/share/fonts/adf/opentype" dir="${root.dir}/usr/share/fonts/adf/opentype" username="root" group="root" filemode="444">
+                                                <include name="**.otf" />
+                                            </tarfileset>
+                                        </ipkg-->
+                                    </sequential>
+                                </for>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

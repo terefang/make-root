@@ -18,7 +18,11 @@
     <properties>
         <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
-        <prg.url>https://nginx.org/download/${prg.archive}</prg.url>
+
+        <prg.url>https://freenginx.org/download/free${prg.archive}</prg.url>
+
+        <!-- https://github.com/nginx/nginx/releases/download/release-${project.version}/${prg.archive} -->
+        <!-- https://nginx.org/download/${prg.archive} -->
         <!-- https://github.com/wandenberg/nginx-push-stream-module -->
         <stream.url-1-22>https://github.com/wandenberg/nginx-push-stream-module/archive/refs/tags/0.5.5.tar.gz</stream.url-1-22>
         <stream.name-1-22>nginx-push-stream-module-0.5.5</stream.name-1-22>
@@ -32,6 +36,9 @@
 
         <ngx_set_misc.name>ngx_set_misc</ngx_set_misc.name>
         <ngx_set_misc.url>https://github.com/openresty/set-misc-nginx-module/archive/refs/tags/v0.33.tar.gz</ngx_set_misc.url>
+
+          <ngx_auth_ldap.name>nginx_auth_ldap_module</ngx_auth_ldap.name>
+        <ngx_auth_ldap.url>https://github.com/kvspb/nginx-auth-ldap/archive/refs/heads/master.tar.gz</ngx_auth_ldap.url>
 
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
@@ -82,15 +89,16 @@
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${jwt.name}"/>
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${ngx_set_misc.name}"/>
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${ngx_devel_kit.name}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${ngx_auth_ldap.name}"/>
                                 <mkdir dir="${resources.target}"/>
 
-                                <condition property="archive.exists">
+                                <!--condition property="archive.exists">
                                     <resourceexists>
                                         <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
                                     </resourceexists>
                                 </condition>
 
-                                <!--condition property="final.exists">
+                                <condition property="final.exists">
                                     <resourceexists>
                                         <file file="${resources.target}/muslsys-${prg.tag}.tgz"/>
                                     </resourceexists>
@@ -136,6 +144,7 @@
                                 <get unless:true="${archive.exists}" src="${jwt.url}" dest="${project.basedir}/src/main/dist/${jwt.name}.tgz"/>
                                 <get unless:true="${archive.exists}" src="${ngx_set_misc.url}" dest="${project.basedir}/src/main/dist/${ngx_set_misc.name}.tgz"/>
                                 <get unless:true="${archive.exists}" src="${ngx_devel_kit.url}" dest="${project.basedir}/src/main/dist/${ngx_devel_kit.name}.tgz"/>
+                                <get unless:true="${archive.exists}" src="${ngx_auth_ldap.url}" dest="${project.basedir}/src/main/dist/${ngx_auth_ldap.name}.tgz"/>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
@@ -151,6 +160,9 @@
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${ngx_devel_kit.name}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${ngx_devel_kit.name}.tgz --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${ngx_auth_ldap.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${ngx_auth_ldap.name}.tgz --strip 1" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="configure" resolveexecutable="true">
@@ -168,7 +180,6 @@
                                     <arg value="--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp" />
                                     <arg value="--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp" />
                                     <arg value="--http-scgi-temp-path=/var/cache/nginx/scgi_temp" />
-                                    <arg value="--http-log-path=/var/log/nginx" />
                                     <arg value="--user=nginx" />
                                     <arg value="--group=nginx" />
                                     <!--arg value="-/-build=NAME set build name" /-->
@@ -207,6 +218,7 @@
                                     <arg value="--add-module=../${jwt.name}" />
                                     <arg value="--add-module=../${ngx_devel_kit.name}" />
                                     <arg value="--add-module=../${ngx_set_misc.name}" />
+                                    <arg value="--add-module=../${ngx_auth_ldap.name}" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
@@ -229,10 +241,10 @@
 
                                 <xrpm
                                         architecture="X86_64"
-                                        destination="${resources.target}"
+                                        destination="${project.build.directory}"
                                         license="ASL"
                                         group="base"
-                                        name="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
                                         summary="${project.artifactId}."
                                         distribution="nos"
                                         packager="nos"
@@ -243,27 +255,26 @@
                                         version="${project.version}"
                                         preInstallScript="src/main/dist/pre-install.sh" >
 
-                                    <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="555" dir="${root.dir}/usr/share/nginx" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/usr/lib/systemd/system" filemode='644' file="src/main/dist/${project.artifactId}.service" username="root" group="root" addParents="false" />
 
-                                    <rpmfileset prefix="/etc/nginx" filemode='640' dirmode="755" dir="${root.dir}/etc/nginx" username="root" group="root" addParents="false" config="true">
+                                    <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="555" dir="${root.dir}/usr/share/nginx"  username="nginx-server" group="nginx-server" addParents="false" />
+
+                                    <rpmfileset prefix="/etc/nginx" filemode='640' dirmode="755" dir="${root.dir}/etc/nginx"  username="nginx-server" group="nginx-server" addParents="false" config="true">
                                         <exclude name="**/*.default" />
                                     </rpmfileset>>
 
-                                    <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="755" dir="${root.dir}/etc/nginx" username="root" group="root" addParents="false">
+                                    <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="755" dir="${root.dir}/etc/nginx"  username="nginx-server" group="nginx-server" addParents="false">
                                         <include name="**/*.default" />
                                     </rpmfileset>>
 
-                                    <rpmfileset prefix="/usr/libexec/nginx" filemode='755' dirmode="755" dir="${root.dir}/usr/libexec/nginx" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/usr/libexec/nginx" filemode='755' dirmode="755" dir="${root.dir}/usr/libexec/nginx"  username="nginx-server" group="nginx-server" addParents="false" />
 
-                                    <link path="/usr/sbin/nginx" target="/usr/libexec/nginx/nginx" />
-
-                                    <emptydir path="/etc/nginx/conf.d" />
-                                    <emptydir path="/var/log/nginx/" />
-                                    <emptydir path="/var/cache/nginx/client_body_temp" />
-                                    <emptydir path="/var/cache/nginx/proxy_temp" />
-                                    <emptydir path="/var/cache/nginx/fastcgi_temp" />
-                                    <emptydir path="/var/cache/nginx/uwsgi_temp" />
-                                    <emptydir path="/var/cache/nginx/scgi_temp" />
+                                    <emptydir path="/var/log/nginx"  username="nginx-server" group="nginx-server"/>
+                                    <emptydir path="/var/cache/nginx/client_body_temp"  username="nginx-server" group="nginx-server"/>
+                                    <emptydir path="/var/cache/nginx/proxy_temp"  username="nginx-server" group="nginx-server"/>
+                                    <emptydir path="/var/cache/nginx/fastcgi_temp"  username="nginx-server" group="nginx-server"/>
+                                    <emptydir path="/var/cache/nginx/uwsgi_temp"  username="nginx-server" group="nginx-server"/>
+                                    <emptydir path="/var/cache/nginx/scgi_temp"  username="nginx-server" group="nginx-server"/>
 
                                 </xrpm>
 

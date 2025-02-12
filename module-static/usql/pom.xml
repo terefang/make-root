@@ -101,6 +101,31 @@
                                     <link path="/usr/bin/${project.artifactId}" target="/usr/libexec/${project.artifactId}/${prg.tag}" />
 
                                 </xrpm>
+
+                                <mkdir dir="${root.dir}/usr/bin"/>
+
+                                <copy unless:true="${binary.exists}" tofile="${root.dir}/usr/bin/usql">
+                                    <fileset file="${project.build.directory}/${project.artifactId}/usql_static" />
+                                </copy>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="GNU"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+
+                                </xrpm>
                             </target>
                         </configuration>
                     </execution>

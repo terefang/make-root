@@ -126,6 +126,7 @@
                                     </fileset>
                                 </copy>
 
+                                <!--
                                 <tar compression="gzip" destfile="${pkg.path}/data.tar.gz" >
                                     <tarfileset prefix="/apps/redis/bin/" dir="${project.basedir}/src/main/dist/xbin/" >
                                         <include name="redis-server" />
@@ -151,28 +152,26 @@
                                     <tarfileset fullpath="/apps/redis/bin/redis-cmd" file="${project.basedir}/src/main/dist/xbin/redis-cli" />
                                 </ipkg>
 
-                                <!--
+                                -->
 
 
-                                  <xrpm
-                                        architecture="X86_64"
-                                        destination="${rpm.path}"
+                                <xrpm   architecture="X86_64"
+                                        destination="${project.build.directory}"
                                         license="BSD"
-                                        group="baseos"
-                                        name="baseos-${project.artifactId}"
+                                        group="toolbox"
+                                        name="toolbox-${project.artifactId}"
                                         summary="${project.artifactId}."
                                         distribution="nos"
-                                        packager="nos"
+                                        packager="toolbox"
                                         url="none"
                                         vendor="nos"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.nos.${project.parent.version}"
+                                        release="${buildNumber}.${project.parent.version}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/tidb/bin" filemode='750' dirmode="750" dir="src/main/dist/xbin" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/usr/redis/bin" filemode='750' dirmode="750" dir="src/main/dist/xbin" username="root" group="root" addParents="false" />
 
                                 </xrpm>
-                                -->
                             </target>
                         </configuration>
                     </execution>

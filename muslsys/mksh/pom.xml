@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.muslsys</groupId>
+    <artifactId>mksh</artifactId>
+    <version>${version.mksh}</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <prg.url> http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-${project.version}.tgz</prg.url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <mkdir dir="${root.dir}/usr/bin"/>
+                                <mkdir dir="${root.dir}/usr/share/doc/mksh"/>
+                                <mkdir dir="${root.dir}/usr/share/man/man1"/>
+                                <mkdir dir="${toolchain.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+                                <mkdir dir="${resources.target}"/>
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <condition property="final.exists">
+                                    <resourceexists>
+                                        <file file="${resources.target}/muslsys-${prg.tag}.tgz"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                </exec>
+
+                                <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="sh">
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
+                                    <env key="CC" value="x86_64-linux-musl-gcc --static" />
+                                    <env key="CXX" value="x86_64-linux-musl-g++ --static" />
+                                    <env key="CFLAGS" value="-fPIC" />
+                                    <env key="LDFLAGS" value="-static" />
+                                    <arg line="Build.sh -r" />
+                                </exec>
+
+                                <copy  todir="${root.dir}/usr/bin/" file="${project.build.directory}/${project.artifactId}/${prg.tag}/mksh" />
+                                <copy  todir="${root.dir}/usr/share/doc/mksh/" file="${project.build.directory}/${project.artifactId}/${prg.tag}/dot.mkshrc" />
+                                <copy  todir="${root.dir}/usr/share/man/man1/" file="${project.build.directory}/${project.artifactId}/${prg.tag}/lksh.1" />
+                                <copy  todir="${root.dir}/usr/share/man/man1/" file="${project.build.directory}/${project.artifactId}/${prg.tag}/mksh.1" />
+
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr/share/doc/mksh/" executable="man2pdf">
+                                    <arg line="${project.build.directory}/${project.artifactId}/${prg.tag}/lksh.1 lksh.pdf" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr/share/doc/mksh/" executable="man2pdf">
+                                    <arg line="${project.build.directory}/${project.artifactId}/${prg.tag}/mksh.1 mksh.pdf" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share" />
+                                </exec>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="ASL"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${root.dir}/usr/bin/mksh" username="root" group="root" addParents="false" />
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/" filemode='444' dir="${root.dir}/usr/share/" username="root" group="root" addParents="false" />
+
+                                </xrpm>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

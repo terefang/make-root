@@ -19,6 +19,8 @@
         <sqlite.archive>${project.artifactId}-${project.version}.tar.gz</sqlite.archive>
         <sqlite.tag>${project.artifactId}-${project.version}</sqlite.tag>
         <sqlite.url>https://www.sqlite.org/${version.sqlite.year}/sqlite-autoconf-${version.sqlite.pkg}.tar.gz</sqlite.url>
+
+        <!-- https://github.com/sqlite/sqlite/archive/refs/tags/version-${project.version}.tar.gz -->
     </properties>
 
     <build>
@@ -91,22 +93,31 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${sqlite.tag}" executable="configure" resolveexecutable="true">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="CFLAGS" value="-static --static" />
                                     <env key="LDFLAGS" value="--static" />
                                     <arg value="--prefix=/usr" />
                                     <arg value="--host=x86_64-linux-musl" />
-                                    <arg value="--disable-dynamic-extensions" />
                                     <arg value="--enable-threadsafe" />
                                     <arg value="--enable-math" />
                                     <arg value="--disable-shared" />
+                                    <arg value="--disable-dynamic-extensions" />
                                     <arg value="--enable-static-shell" />
+                                    <arg value="--enable-math" />
+                                    <arg value="--enable-fts4" />
+                                    <arg value="--enable-fts3" />
+                                    <arg value="--enable-fts5" />
+                                    <arg value="--enable-rtree" />
+                                    <arg value="--enable-session" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${sqlite.tag}" executable="make">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="CFLAGS" value="-static --static" />
                                     <env key="LDFLAGS" value="--static -ltinfo" />
-                                    <arg line="-j 8" />
+                                    <arg line="-j 1" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${sqlite.tag}" executable="make">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="CFLAGS" value="-static --static" />
                                     <env key="LDFLAGS" value="--static -ltinfo" />
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
                                 </exec>
@@ -115,6 +126,28 @@
                                     <arg line="-cvf ${resources.target}/muslsys-${sqlite.tag}.tgz bin include lib" />
                                 </exec>
 
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="ASL"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${root.dir}/usr/bin/sqlite3" username="root" group="root" addParents="false" />
+
+                                    <link path="/usr/libexec/toolbox/xbin/sqlite"  target="/usr/libexec/toolbox/xbin/sqlite3" />
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/man" filemode='444' dir="${root.dir}/usr/share/man/" username="root" group="root" addParents="false" />
+
+                                </xrpm>
                             </target>
                         </configuration>
                     </execution>

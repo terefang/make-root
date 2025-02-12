@@ -18,7 +18,7 @@
     <properties>
         <musl.archive>${project.artifactId}-${project.version}.tar.gz</musl.archive>
         <musl.tag>${project.artifactId}-${project.version}</musl.tag>
-        <musl.url>https://musl.libc.org/releases/musl-${project.version}.tar.gz</musl.url>
+        <musl.url>https://git.musl-libc.org/cgit/musl/snapshot/musl-${version.libcmusl.commit}.tar.gz</musl.url>
         <pkg.path>${project.build.directory}/${project.artifactId}/pkg</pkg.path>
     </properties>
 
@@ -92,7 +92,7 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${musl.tag}" executable="configure" resolveexecutable="true">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <arg value="--prefix=/usr" />
+                                    <arg value="--prefix=/usr/x86_64-linux-musl" />
                                     <arg value="--host=x86_64-linux-musl" />
                                     <arg value="--target=x86_64-linux-musl" />
                                     <arg value="--enable-wrapper" />
@@ -107,6 +107,19 @@
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
                                 </exec>
+
+                                <mkdir dir="${root.dir}/usr/x86_64-linux-musl/include/sys"/>
+                                <copy todir="${root.dir}/usr/x86_64-linux-musl/include/sys">
+                                    <fileset dir="${project.basedir}/src/main/dist/bsdcompat/bsd">
+                                        <include name="*.h"/>
+                                    </fileset>
+                                </copy>
+                                <mkdir dir="${root.dir}/usr/x86_64-linux-musl/include/bits"/>
+                                <copy todir="${root.dir}/usr/x86_64-linux-musl/include/bits">
+                                    <fileset dir="${project.basedir}/src/main/dist/bsdcompat/bits">
+                                        <include name="*.h"/>
+                                    </fileset>
+                                </copy>
 
                                 <exec unless:true="${final.exists}" dir="${root.dir}" executable="tar">
                                     <arg line="-cvf ${resources.target}/muslsys-${musl.tag}.tgz lib/ld-musl-x86_64.so.1 usr/lib/libc.so" />
@@ -123,7 +136,10 @@
                                     <symlink name="/lib/ld-musl-x86_64.so.1" target="/usr/lib/libc.so" user="root" group="root" permissions="555"/>
                                 </ipkg>
                                 <ipkg destfile="${pkg.path}/${project.artifactId}-devel_${project.version}_${os.detected.arch}.ipk">
-                                    <ipkg-control packageName="${project.artifactId}-devel" version="${project.version}" architecture="x86_64"/>
+                                    <ipkg-control
+                                        packageName="${project.artifactId}-devel"
+                                        version="${project.version}"
+                                        architecture="x86_64"/>
                                     <tarfileset prefix="/usr" dir="${root.dir}/usr" >
                                         <include name="bin/**" />
                                         <include name="include/**" />

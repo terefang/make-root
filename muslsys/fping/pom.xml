@@ -111,9 +111,9 @@
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
                                 </exec>
 
-                                <!--exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
                                     <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share" />
-                                </exec-->
+                                </exec>
 
                                 <xrpm
                                         architecture="X86_64"

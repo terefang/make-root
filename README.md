@@ -132,7 +132,17 @@ which should be gcc 9/10/11-ish and musl 1.2.x (eg. musl, GCC, binutils, GMP, MP
 [x] GCC
 [x] Linux API Headers (included with musl)
 [x] Glibc (musl)
+[_] if musl we need compat headers/libs
+    [x] bsd-compat
+    [x] fts
+    [x] obstack
+    [x] rpmatch
+    [x] libxcrypt
+    [_] https://github.com/argp-standalone/argp-standalone/tags
+    [_] https://github.com/Projeto-Pindorama/musl-extra
 [x] Libstdc++
+
+refer: https://svn.exactcode.de/t2/trunk/target/generic/pkgsel/10-bootstrap.in
 
 #### extra utilities
 

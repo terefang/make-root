@@ -16,10 +16,15 @@
     <packaging>pom</packaging>
 
     <properties>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+
         <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
         <prg.url>http://cloudflare.cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/${prg.archive}</prg.url>
     </properties>
+
+    <!-- 7.7p1 7.8p1 7.9p1 8.7p1 8.8p1 8.9p1 9.5p1 -->
 
     <build>
         <plugins>
@@ -75,16 +80,16 @@
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-${version.libxcrypt}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-editline-${version.editline}.tgz" />
-                                </exec>
-                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-${version.libxcrypt}.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-libmd-${version.libmd}.tgz" />
                                 </exec>
                                 <delete unless:true="${final.exists}">
                                     <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
@@ -100,13 +105,26 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="configure" resolveexecutable="true">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <env key="CFLAGS" value="--static" />
-                                    <env key="LDFLAGS" value="-static" />
+                                    <env key="CFLAGS" value="-static --static" />
+                                    <env key="LDFLAGS" value="-static --static" />
+                                    <env key="LIBS" value=" -lmd" />
+                                    <env key="PKGCONFIG" value="/bin/false" />
+                                    <arg value="--prefix=/usr/libexec/toolbox/${project.artifactId}" />
                                     <arg value="--host=x86_64-linux-musl" />
                                     <arg value="--target=x86_64-linux-musl" />
-                                    <arg value="--disable-rpath" />
-                                    <arg value="--disable-shared" />
-                                    <arg value="--enable-static" />
+                                    <arg value="--without-rpath" />
+                                    <arg value="--with-pie" />
+                                    <arg value="--bindir=/usr/libexec/${project.artifactId}/bin" />
+                                    <arg value="--sbindir=/usr/libexec/${project.artifactId}/sbin" />
+                                    <arg value="--libexecdir=/usr/libexec/${project.artifactId}/libexec" />
+                                    <arg value="--sysconfdir=/usr/libexec/${project.artifactId}/etc" />
+                                    <arg value="--sharedstatedir=/var/opt/${project.artifactId}/com" />
+                                    <arg value="--localstatedir=/var/opt/${project.artifactId}" />
+                                    <arg value="--runstatedir=/var/opt/${project.artifactId}/run" />
+                                    <arg value="--libdir=/usr/libexec/${project.artifactId}/lib" />
+                                    <arg value="--includedir=/usr/libexec/${project.artifactId}/include" />
+                                    <arg value="--oldincludedir=/usr/libexec/${project.artifactId}/include" />
+                                    <arg value="--datarootdir=/usr/libexec/${project.artifactId}/share" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
@@ -116,39 +134,35 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <arg line="-j 1 DESTDIR=${root.dir} install" />
+                                    <arg line="-j 1 DESTDIR=${root.dir}  install-nokeys" />
                                 </exec>
 
-                                <!--
-                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prgutils.tag}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <arg line="-j 1 DESTDIR=${root.dir} PREFIX=/usr mandir=/usr/share/man install" />
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr/libexec/${project.artifactId}" executable="tar">
+                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share" />
                                 </exec>
 
-                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
-                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share/prg" />
-                                </exec>
 
-                                -->
                                 <xrpm
                                         architecture="X86_64"
                                         destination="${project.build.directory}"
                                         license="BSD"
-                                        group="baseos"
-                                        name="baseos-${project.artifactId}-tools"
+                                        group="toolbox"
+                                        name="toolbox-${project.artifactId}"
                                         summary="openssh"
                                         distribution="nos"
                                         packager="nos"
                                         url="https://www.openssh.com//"
                                         vendor="nos"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.nos.${project.parent.version}"
+                                        release="${buildNumber}.${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/local/bin" filemode='555' dir="${root.dir}/usr/local/bin" username="root" group="root" addParents="false" />
-                                    <rpmfileset prefix="/usr/local/etc" filemode='444' file="${root.dir}/usr/local/etc/ssh_config" username="root" group="root" config="true" />
-                                    <rpmfileset prefix="/usr/local/etc" filemode='444' file="${root.dir}/usr/local/etc/moduli" username="root" group="root" config="true" />
-
+                                    <rpmfileset prefix="/usr/libexec/${project.artifactId}/bin" filemode='555' dir="${root.dir}/usr/libexec/${project.artifactId}/bin" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/usr/libexec/${project.artifactId}/sbin" filemode='555' dir="${root.dir}/usr/libexec/${project.artifactId}/sbin" username="root" group="root" addParents="false" />
+                                    <link path="/usr/libexec/toolbox/xbin/ssh"          target="/usr/libexec/${project.artifactId}/bin/ssh" />
+                                    <link path="/usr/libexec/toolbox/xbin/scp"          target="/usr/libexec/${project.artifactId}/bin/scp" />
+                                    <link path="/usr/libexec/toolbox/xbin/sftp"         target="/usr/libexec/${project.artifactId}/bin/sftp" />
+                                    <link path="/usr/libexec/toolbox/xbin/ssh-keygen"   target="/usr/libexec/${project.artifactId}/bin/ssh-keygen" />
                                 </xrpm>
 
                             </target>

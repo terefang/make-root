@@ -125,6 +125,55 @@
                                     <link path="/usr/libexec/${project.artifactId}/with-lock" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
 
                                 </xrpm>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="ASL"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${project.build.directory}/${project.artifactId}/${project.artifactId}" username="root" group="root" addParents="false" />
+
+                                    <link path="/usr/libexec/toolbox/xbin/calc"             target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/choose-file"      target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/choose-stdin"     target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/chronic"          target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/collapse"         target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/comments"         target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/cpp"              target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/env-template"     target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/exec-stdin"       target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/expect"           target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/fingerd"          target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/html2text"        target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/http-get"         target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/ips"              target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/make-password"    target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/markdown-toc"     target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/peerd"            target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/run-directory"    target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/splay"            target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/ssl-expiry"       target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/timeout"          target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/todo"             target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/tree"             target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/urls"             target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/validate-json"    target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/validate-xml"     target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/validate-yaml"    target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/watch"            target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/usr/libexec/toolbox/xbin/with-lock"        target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+
+                                </xrpm>
                             </target>
                         </configuration>
                     </execution>

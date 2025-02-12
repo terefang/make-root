@@ -1,0 +1,18 @@
+[Unit]
+Description=authelia
+Requires=network.target
+
+[Service]
+Environment=AUTHELIA_SERVER_DISABLE_HEALTHCHECK=true
+WorkingDirectory=/tmp
+ExecStart=/usr/authelia/bin/authelia --config /etc/authelia/authelia.yaml
+Restart=on-failure
+RestartSec=5s
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=authelia
+User=authelia-server
+Group=authelia-server
+
+[Install]
+WantedBy=default.target

@@ -63,6 +63,7 @@
             Noto+Sans+Coptic
             Noto+Sans+Cuneiform
             Noto+Sans+Cypriot
+            Noto+Sans+Cypro+Minoan
             Noto+Sans+Deseret
             Noto+Sans+Devanagari
             Noto+Sans+Display
@@ -78,25 +79,26 @@
             Noto+Sans+Gujarati
             Noto+Sans+Gunjala+Gondi
             Noto+Sans+Gurmukhi
-            Noto+Sans+HK
             Noto+Sans+Hanifi+Rohingya
             Noto+Sans+Hanunoo
             Noto+Sans+Hatran
             Noto+Sans+Hebrew
+            Noto+Sans+HK
             Noto+Sans+Imperial+Aramaic
             Noto+Sans+Indic+Siyaq+Numbers
             Noto+Sans+Inscriptional+Pahlavi
             Noto+Sans+Inscriptional+Parthian
-            Noto+Sans+JP
             Noto+Sans+Javanese
-            Noto+Sans+KR
+            Noto+Sans+JP
             Noto+Sans+Kaithi
             Noto+Sans+Kannada
+            Noto+Sans+Kawi
             Noto+Sans+Kayah+Li
             Noto+Sans+Kharoshthi
             Noto+Sans+Khmer
             Noto+Sans+Khojki
             Noto+Sans+Khudawadi
+            Noto+Sans+KR
             Noto+Sans+Lao
             Noto+Sans+Lao+Looped
             Noto+Sans+Lepcha
@@ -125,12 +127,13 @@
             Noto+Sans+Mro
             Noto+Sans+Multani
             Noto+Sans+Myanmar
-            Noto+Sans+NKo
             Noto+Sans+Nabataean
             Noto+Sans+Nag+Mundari
             Noto+Sans+Nandinagari
-            Noto+Sans+New+Tai+Lue
             Noto+Sans+Newa
+            Noto+Sans+New+Tai+Lue
+            Noto+Sans+NKo
+            Noto+Sans+NKo+Unjoined
             Noto+Sans+Nushu
             Noto+Sans+Ogham
             Noto+Sans+Ol+Chiki
@@ -153,9 +156,9 @@
             Noto+Sans+Psalter+Pahlavi
             Noto+Sans+Rejang
             Noto+Sans+Runic
-            Noto+Sans+SC
             Noto+Sans+Samaritan
             Noto+Sans+Saurashtra
+            Noto+Sans+SC
             Noto+Sans+Sharada
             Noto+Sans+Shavian
             Noto+Sans+Siddham
@@ -169,7 +172,7 @@
             Noto+Sans+Symbols
             Noto+Sans+Symbols+2
             Noto+Sans+Syriac
-            Noto+Sans+TC
+            Noto+Sans+Syriac+Eastern
             Noto+Sans+Tagalog
             Noto+Sans+Tagbanwa
             Noto+Sans+Tai+Le
@@ -179,6 +182,7 @@
             Noto+Sans+Tamil
             Noto+Sans+Tamil+Supplement
             Noto+Sans+Tangsa
+            Noto+Sans+TC
             Noto+Sans+Telugu
             Noto+Sans+Thaana
             Noto+Sans+Thai
@@ -187,6 +191,7 @@
             Noto+Sans+Tirhuta
             Noto+Sans+Ugaritic
             Noto+Sans+Vai
+            Noto+Sans+Vithkuqi
             Noto+Sans+Wancho
             Noto+Sans+Warang+Citi
             Noto+Sans+Yi
@@ -204,27 +209,32 @@
             Noto+Serif+Grantha
             Noto+Serif+Gujarati
             Noto+Serif+Gurmukhi
-            Noto+Serif+HK
             Noto+Serif+Hebrew
+            Noto+Serif+HK
             Noto+Serif+JP
-            Noto+Serif+KR
             Noto+Serif+Kannada
+            Noto+Serif+Khitan+Small+Script
             Noto+Serif+Khmer
             Noto+Serif+Khojki
+            Noto+Serif+KR
             Noto+Serif+Lao
+            Noto+Serif+Makasar
             Noto+Serif+Malayalam
             Noto+Serif+Myanmar
             Noto+Serif+NP+Hmong
+            Noto+Serif+Old+Uyghur
             Noto+Serif+Oriya
+            Noto+Serif+Ottoman+Siyaq
             Noto+Serif+SC
             Noto+Serif+Sinhala
-            Noto+Serif+TC
             Noto+Serif+Tamil
             Noto+Serif+Tangut
+            Noto+Serif+TC
             Noto+Serif+Telugu
             Noto+Serif+Thai
             Noto+Serif+Tibetan
             Noto+Serif+Toto
+            Noto+Serif+Vithkuqi
             Noto+Serif+Yezidi
             Noto+Traditional+Nushu
         </xnoto.name>
@@ -240,8 +250,13 @@
             Acme
             Actor
             Adamina
+            ADLaM+Display
             Advent+Pro
+            Afacad
+            Agbalumo
+            Agdasima
             Aguafina+Script
+            Akatab
             Akaya+Kanadaka
             Akaya+Telivigala
             Akronim
@@ -253,12 +268,12 @@
             Aldrich
             Alef
             Alegreya
-            Alegreya+SC
             Alegreya+Sans
             Alegreya+Sans+SC
+            Alegreya+SC
             Aleo
-            Alex+Brush
             Alexandria
+            Alex+Brush
             Alfa+Slab+One
             Alice
             Alike
@@ -317,13 +332,14 @@
             Archivo
             Archivo+Black
             Archivo+Narrow
-            Are+You+Serious
             Aref+Ruqaa
             Aref+Ruqaa+Ink
+            Are+You+Serious
             Arima
             Arimo
             Arizonia
             Armata
+            AR+One+Sans
             Arsenal
             Artifika
             Arvo
@@ -351,12 +367,10 @@
             Azeret+Mono
             B612
             B612+Mono
-            BIZ+UDGothic
-            BIZ+UDMincho
-            BIZ+UDPGothic
-            BIZ+UDPMincho
             Babylonica
+            Bacasime+Antique
             Bad+Script
+            Bagel+Fat+One
             Bahiana
             Bahianita
             Bai+Jamjuree
@@ -385,9 +399,9 @@
             Battambang
             Baumans
             Bayon
-            Be+Vietnam+Pro
             Beau+Rivage
             Bebas+Neue
+            Belanosima
             Belgrano
             Bellefair
             Belleza
@@ -400,15 +414,16 @@
             Besley
             Beth+Ellen
             Bevan
+            Be+Vietnam+Pro
             BhuTuka+Expanded+One
+            Bigelow+Rules
+            Bigshot+One
             Big+Shoulders+Display
             Big+Shoulders+Inline+Display
             Big+Shoulders+Inline+Text
             Big+Shoulders+Stencil+Display
             Big+Shoulders+Stencil+Text
             Big+Shoulders+Text
-            Bigelow+Rules
-            Bigshot+One
             Bilbo
             Bilbo+Swash+Caps
             BioRhyme
@@ -417,6 +432,10 @@
             Birthstone+Bounce
             Biryani
             Bitter
+            BIZ+UDGothic
+            BIZ+UDMincho
+            BIZ+UDPGothic
+            BIZ+UDPMincho
             Black+And+White+Picture
             Black+Han+Sans
             Black+Ops+One
@@ -430,11 +449,13 @@
             Bonbon
             Bonheur+Royale
             Boogaloo
+            Borel
             Bowlby+One
             Bowlby+One+SC
             Braah+One
             Brawler
             Bree+Serif
+            Bricolage+Grotesque
             Bruno+Ace
             Bruno+Ace+SC
             Brygada+1918
@@ -466,6 +487,7 @@
             Cantarell
             Cantata+One
             Cantora+One
+            Caprasimo
             Capriola
             Caramel
             Carattere
@@ -511,7 +533,6 @@
             Clicker+Script
             Climate+Crisis
             Coda
-            Coda+Caption
             Codystar
             Coiny
             Combo
@@ -553,10 +574,7 @@
             Cute+Font
             Cutive
             Cutive+Mono
-            DM+Mono
-            DM+Sans
-            DM+Serif+Display
-            DM+Serif+Text
+            Dai+Banna+SIL
             Damion
             Dancing+Script
             Dangrek
@@ -576,8 +594,13 @@
             Devonshire
             Dhurjati
             Didact+Gothic
+            Diphylleia
             Diplomata
             Diplomata+SC
+            DM+Mono
+            DM+Sans
+            DM+Serif+Display
+            DM+Serif+Text
             Do+Hyeon
             Dokdo
             Domine
@@ -589,12 +612,12 @@
             DotGothic16
             Dr+Sugiyama
             Duru+Sans
-            DynaPuff
             Dynalight
-            EB+Garamond
+            DynaPuff
             Eagle+Lake
             East+Sea+Dokdo
             Eater
+            EB+Garamond
             Economica
             Eczar
             Edu+NSW+ACT+Foundation
@@ -602,8 +625,8 @@
             Edu+SA+Beginner
             Edu+TAS+Beginner
             Edu+VIC+WA+NT+Beginner
-            El+Messiri
             Electrolize
+            El+Messiri
             Elsie
             Elsie+Swash+Caps
             Emblema+One
@@ -678,8 +701,7 @@
             Fugaz+One
             Fuggles
             Fuzzy+Bubbles
-            GFS+Didot
-            GFS+Neohellenic
+            Gabarito
             Gabriela
             Gaegu
             Gafata
@@ -689,6 +711,7 @@
             Galindo
             Gamja+Flower
             Gantari
+            Gasoek+One
             Gayathri
             Gelasio
             Gemunu+Libre
@@ -701,6 +724,8 @@
             Geostar
             Geostar+Fill
             Germania+One
+            GFS+Didot
+            GFS+Neohellenic
             Gideon+Roman
             Gidugu
             Gilda+Display
@@ -724,6 +749,7 @@
             Gowun+Dodum
             Graduate
             Grand+Hotel
+            Grandiflora+One
             Grandstander
             Grape+Nuts
             Gravitas+One
@@ -747,12 +773,15 @@
             Hammersmith+One
             Hanalei
             Hanalei+Fill
+            Handjet
             Handlee
             Hanken+Grotesk
             Hanuman
             Happy+Monkey
             Harmattan
             Headland+One
+            Hedvig+Letters+Sans
+            Hedvig+Letters+Serif
             Heebo
             Henny+Penny
             Hepta+Slab
@@ -767,8 +796,10 @@
             Holtwood+One+SC
             Homemade+Apple
             Homenaje
+            Honk
             Hubballi
             Hurricane
+            Ibarra+Real+Nova
             IBM+Plex+Mono
             IBM+Plex+Sans
             IBM+Plex+Sans+Arabic
@@ -780,22 +811,22 @@
             IBM+Plex+Sans+Thai
             IBM+Plex+Sans+Thai+Looped
             IBM+Plex+Serif
-            IM+Fell+DW+Pica
-            IM+Fell+DW+Pica+SC
+            Iceberg
+            Iceland
+            Imbue
             IM+Fell+Double+Pica
             IM+Fell+Double+Pica+SC
+            IM+Fell+DW+Pica
+            IM+Fell+DW+Pica+SC
             IM+Fell+English
             IM+Fell+English+SC
             IM+Fell+French+Canon
             IM+Fell+French+Canon+SC
             IM+Fell+Great+Primer
             IM+Fell+Great+Primer+SC
-            Ibarra+Real+Nova
-            Iceberg
-            Iceland
-            Imbue
             Imperial+Script
             Imprima
+            Inclusive+Sans
             Inconsolata
             Inder
             Indie+Flower
@@ -838,12 +869,14 @@
             Just+Another+Hand
             Just+Me+Again+Down+Here
             K2D
+            Kablammo
             Kadwa
             Kaisei+Decol
             Kaisei+HarunoUmi
             Kaisei+Opti
             Kaisei+Tokumin
             Kalam
+            Kalnia
             Kameron
             Kanit
             Kantumruy+Pro
@@ -854,6 +887,7 @@
             Kaushan+Script
             Kavivanar
             Kavoon
+            Kay+Pho+Du
             Kdam+Thmor+Pro
             Keania+One
             Kelly+Slab
@@ -867,8 +901,8 @@
             Kiwi+Maru
             Klee+One
             Knewave
-            KoHo
             Kodchasan
+            KoHo
             Koh+Santepheap
             Kolker+Brush
             Konkhmer+Sleokchher
@@ -932,6 +966,8 @@
             Lily+Script+One
             Limelight
             Linden+Hill
+            Linefont
+            Lisu+Bosa
             Literata
             Liu+Jian+Mao+Cao
             Livvic
@@ -943,22 +979,18 @@
             Londrina+Solid
             Long+Cang
             Lora
-            Love+Light
-            Love+Ya+Like+A+Sister
             Loved+by+the+King
+            Love+Light
             Lovers+Quarrel
+            Love+Ya+Like+A+Sister
             Luckiest+Guy
+            Lugrasimo
+            Lumanosimo
+            Lunasima
             Lusitana
             Lustria
             Luxurious+Roman
             Luxurious+Script
-            M+PLUS+1
-            M+PLUS+1+Code
-            M+PLUS+1p
-            M+PLUS+2
-            M+PLUS+Code+Latin
-            M+PLUS+Rounded+1c
-            Ma+Shan+Zheng
             Macondo
             Macondo+Swash+Caps
             Mada
@@ -986,6 +1018,7 @@
             Martel+Sans
             Martian+Mono
             Marvel
+            Ma+Shan+Zheng
             Mate
             Mate+SC
             Maven+Pro
@@ -1022,6 +1055,7 @@
             Modern+Antiqua
             Mogra
             Mohave
+            Moirai+One
             Molengo
             Molle
             Monda
@@ -1037,11 +1071,18 @@
             Montserrat+Alternates
             Montserrat+Subrayada
             Moo+Lah+Lah
+            Mooli
             Moon+Dance
             Moul
             Moulpali
             Mountains+of+Christmas
             Mouse+Memoirs
+            M+PLUS+1
+            M+PLUS+1+Code
+            M+PLUS+1p
+            M+PLUS+2
+            M+PLUS+Code+Latin
+            M+PLUS+Rounded+1c
             Mr+Bedfort
             Mr+Dafoe
             Mr+De+Haviland
@@ -1055,24 +1096,24 @@
             Mulish
             Murecho
             MuseoModerno
-            My+Soul
             Mynerve
+            My+Soul
             Mystery+Quest
-            NTR
             Nabla
             Nanum+Brush+Script
             Nanum+Gothic
             Nanum+Gothic+Coding
             Nanum+Myeongjo
             Nanum+Pen+Script
+            Narnoor
             Neonderthaw
             Nerko+One
             Neucha
             Neuton
             New+Rocker
-            New+Tegomin
             News+Cycle
             Newsreader
+            New+Tegomin
             Niconne
             Niramit
             Nixie+One
@@ -1091,6 +1132,7 @@
             Nova+Script
             Nova+Slim
             Nova+Square
+            NTR
             Numans
             Nunito
             Nunito+Sans
@@ -1099,14 +1141,16 @@
             Odor+Mean+Chey
             Offside
             Oi
-            Old+Standard+TT
             Oldenburg
+            Old+Standard+TT
             Ole
             Oleo+Script
             Oleo+Script+Swash+Caps
+            Onest
             Oooh+Baby
             Open+Sans
             Oranienbaum
+            Orbit
             Orbitron
             Oregano
             Orelega+One
@@ -1114,21 +1158,15 @@
             Original+Surfer
             Oswald
             Outfit
-            Over+the+Rainbow
             Overlock
             Overlock+SC
             Overpass
             Overpass+Mono
+            Over+the+Rainbow
             Ovo
             Oxanium
             Oxygen
             Oxygen+Mono
-            PT+Mono
-            PT+Sans
-            PT+Sans+Caption
-            PT+Sans+Narrow
-            PT+Serif
-            PT+Serif+Caption
             Pacifico
             Padauk
             Padyakke+Expanded+One
@@ -1161,12 +1199,14 @@
             Piedra
             Pinyon+Script
             Pirata+One
+            Pixelify+Sans
             Plaster
             Play
             Playball
             Playfair
             Playfair+Display
             Playfair+Display+SC
+            Playpen+Sans
             Plus+Jakarta+Sans
             Podkova
             Poiret+One
@@ -1191,6 +1231,12 @@
             Prompt
             Prosto+One
             Proza+Libre
+            PT+Mono
+            PT+Sans
+            PT+Sans+Caption
+            PT+Sans+Narrow
+            PT+Serif
+            PT+Serif+Caption
             Public+Sans
             Puppies+Play
             Puritan
@@ -1225,18 +1271,20 @@
             Ravi+Prakash
             Readex+Pro
             Recursive
+            Redacted
+            Redacted+Script
             Red+Hat+Display
             Red+Hat+Mono
             Red+Hat+Text
-            Red+Rose
-            Redacted
-            Redacted+Script
             Redressed
+            Red+Rose
             Reem+Kufi
             Reem+Kufi+Fun
             Reem+Kufi+Ink
             Reenie+Beanie
             Reggae+One
+            REM
+            Rethink+Sans
             Revalia
             Rhodium+Libre
             Ribeye
@@ -1252,8 +1300,8 @@
             Roboto+Slab
             Rochester
             Rock+3D
-            Rock+Salt
             RocknRoll+One
+            Rock+Salt
             Rokkitt
             Romanesco
             Ropa+Sans
@@ -1265,13 +1313,19 @@
             Rubik
             Rubik+80s+Fade
             Rubik+Beastly
+            Rubik+Broken+Fax
             Rubik+Bubbles
             Rubik+Burned
             Rubik+Dirt
             Rubik+Distressed
+            Rubik+Doodle+Shadow
+            Rubik+Doodle+Triangles
             Rubik+Gemstones
             Rubik+Glitch
+            Rubik+Glitch+Pop
             Rubik+Iso
+            Rubik+Lines
+            Rubik+Maps
             Rubik+Marker+Hatch
             Rubik+Maze
             Rubik+Microbe
@@ -1279,6 +1333,7 @@
             Rubik+Moonrocks
             Rubik+Pixels
             Rubik+Puddles
+            Rubik+Scribble
             Rubik+Spray+Paint
             Rubik+Storm
             Rubik+Vinyl
@@ -1291,8 +1346,8 @@
             Ruslan+Display
             Russo+One
             Ruthie
+            Ruwudu
             Rye
-            STIX+Two+Text
             Sacramento
             Sahitya
             Sail
@@ -1354,6 +1409,7 @@
             Sintony
             Sirin+Stencil
             Six+Caps
+            Sixtyfour
             Skranji
             Slabo+13px
             Slabo+27px
@@ -1374,6 +1430,7 @@
             Sofia+Sans+Semi+Condensed
             Solitreo
             Solway
+            Sometype+Mono
             Song+Myung
             Sono
             Sonsie+One
@@ -1381,9 +1438,7 @@
             Sorts+Mill+Goudy
             Source+Code+Pro
             Source+Sans+3
-            Source+Sans+Pro
             Source+Serif+4
-            Source+Serif+Pro
             Space+Grotesk
             Space+Mono
             Special+Elite
@@ -1408,6 +1463,7 @@
             Stick+No+Bills
             Stint+Ultra+Condensed
             Stint+Ultra+Expanded
+            STIX+Two+Text
             Stoke
             Strait
             Style+Script
@@ -1436,6 +1492,7 @@
             Tauri
             Taviraj
             Teko
+            Tektur
             Telex
             Tenali+Ramakrishna
             Tenor+Sans
@@ -1491,7 +1548,6 @@
             Unna
             Updock
             Urbanist
-            VT323
             Vampiro+One
             Varela
             Varela+Round
@@ -1502,6 +1558,7 @@
             Viaoda+Libre
             Vibes
             Vibur
+            Victor+Mono
             Vidaloka
             Viga
             Vina+Sans
@@ -1510,6 +1567,7 @@
             Vollkorn
             Vollkorn+SC
             Voltaire
+            VT323
             Vujahday+Script
             Waiting+for+the+Sunrise
             Wallpoet
@@ -1517,6 +1575,7 @@
             Warnes
             Water+Brush
             Waterfall
+            Wavefont
             Wellfleet
             Wendy+One
             Whisper
@@ -1524,6 +1583,7 @@
             Wire+One
             Wix+Madefor+Display
             Wix+Madefor+Text
+            Workbench
             Work+Sans
             Xanh+Mono
             Yaldevi
@@ -1535,8 +1595,12 @@
             Yeseva+One
             Yesteryear
             Yomogi
+            Young+Serif
             Yrsa
             Ysabeau
+            Ysabeau+Infant
+            Ysabeau+Office
+            Ysabeau+SC
             Yuji+Boku
             Yuji+Hentaigana+Akari
             Yuji+Hentaigana+Akebono
