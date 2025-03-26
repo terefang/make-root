@@ -65,12 +65,6 @@
                                     </resourceexists>
                                 </condition>
 
-                                <condition property="final.exists">
-                                    <resourceexists>
-                                        <file file="${resources.target}/muslsys-${prg.tag}-bin.tgz"/>
-                                    </resourceexists>
-                                </condition>
-
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
@@ -110,6 +104,24 @@
                                     <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz sbin" />
                                 </exec>
 
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="MIT"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='4555' file="${root.dir}/usr/sbin/daemonize" username="root" group="root" addParents="false" />
+
+                                </xrpm>
                                 <xrpm
                                         architecture="X86_64"
                                         destination="${project.build.directory}"

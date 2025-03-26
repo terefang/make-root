@@ -51,24 +51,24 @@
         <version.cryptopp>3.8.2</version.cryptopp>
         <version.csvq>1.18.1</version.csvq>
         <version.cue>0.8.0</version.cue>
-        <version.curl>8.12.0</version.curl>
+        <version.curl>8.12.1</version.curl>
         <version.daemonize>1.7.8</version.daemonize>
         <version.dash>0.5.12</version.dash>
-        <version.dateutils>0.4.10</version.dateutils>
+        <version.dateutils>0.4.11</version.dateutils>
         <version.diffutils>3.8</version.diffutils>
         <version.dkron>3.2.6</version.dkron>
         <version.dropbear>2024.86</version.dropbear>
-        <version.duckdb>1.1.2</version.duckdb>
+        <version.duckdb>1.2.1</version.duckdb>
         <version.editline>1.17.1</version.editline>
         <version.elfutils>0.191</version.elfutils>
         <version.expat.release>2_6_2</version.expat.release>
         <version.expat>2.6.2</version.expat>
         <version.faux>2.2.0</version.faux>
-        <version.file>5.41</version.file>
+        <version.file>5.46</version.file>
         <version.findutils>4.9.0</version.findutils>
         <version.finit>4.5</version.finit>
         <version.fping>5.3</version.fping>
-        <version.frankenphp>1.4.2</version.frankenphp>
+        <version.frankenphp>1.5.0</version.frankenphp>
         <version.gawk>5.1.1</version.gawk>
         <version.git>2.43.0</version.git>
         <version.glib2.major>2.73</version.glib2.major>
@@ -76,20 +76,21 @@
         <version.glibc>2.35</version.glibc>
         <version.gmp>6.2.1</version.gmp>
         <version.gnutls-short>3.7</version.gnutls-short>
-        <version.gnutls>3.7.8</version.gnutls>
+        <version.gnutls>3.7.11</version.gnutls>
         <version.golang>1.18.2</version.golang>
         <version.goreman>0.3.16</version.goreman>
         <version.gpp>2.28</version.gpp>
-        <version.grep>3.7</version.grep>
+        <version.grep>3.11</version.grep>
         <version.gsasl>2.2.0</version.gsasl>
         <version.inih>58</version.inih>
+        <version.iperf>3.18</version.iperf>
         <version.jansson>2.14</version.jansson>
         <version.jq>1.7.1</version.jq>
         <version.klish3>3.1.0</version.klish3>
-        <version.libarchive>3.7.4</version.libarchive>
+        <version.libarchive>3.7.7</version.libarchive>
         <version.libassuan>2.5.5</version.libassuan>
         <version.libattr>2.5.1</version.libattr>
-        <version.libbsd>0.11.7</version.libbsd>
+        <version.libbsd>0.12.2</version.libbsd>
         <version.libcap-ng>0.8.2</version.libcap-ng>
         <version.libcap>2.33</version.libcap>
         <version.libcmusl.commit>1.2.5</version.libcmusl.commit>
@@ -97,7 +98,7 @@
         <version.libcmusl.release>1.2.5</version.libcmusl.release>
         <version.libcmusl>${version.libcmusl.release}.release</version.libcmusl>
         <version.libconfig>1.7.3</version.libconfig>
-        <version.libedit>20221030-3.1</version.libedit>
+        <version.libedit>20250104-3.1</version.libedit>
         <version.libev>4.33</version.libev>
         <version.libgcrypt>1.10.1</version.libgcrypt>
         <version.libgpg-error>1.45</version.libgpg-error>
@@ -106,13 +107,14 @@
         <version.libksba>1.6.2</version.libksba>
         <version.liblzo2>2.10</version.liblzo2>
         <version.libmcrypt>2.5.8</version.libmcrypt>
-        <version.libmd>1.0.4</version.libmd>
+        <version.libmd>1.1.0</version.libmd>
         <version.libntlm>1.6</version.libntlm>
         <version.libowfat>0.34</version.libowfat>
         <version.libpng>1.6.41</version.libpng>
-        <version.libressl>4.0.0</version.libressl> <!-- 3.9.2 -->
-        <version.libsodium>1.0.19</version.libsodium>
-        <version.libsolv>0.7.22</version.libsolv>
+        <version.libressl>4.0.0</version.libressl> <!-- 3.8.4 3.9.2 4.0.0 -->
+        <version.libsodium>1.0.20</version.libsodium>
+        <version.libsolv>0.7.31</version.libsolv>
+        <version.libssh>0.8</version.libssh>
         <version.libssh2>1.11.0</version.libssh2>
         <version.libtasn1>4.19.0</version.libtasn1>
         <version.libtirpc>1.3.3</version.libtirpc>
@@ -120,22 +122,23 @@
         <version.libuev>2.4.0</version.libuev>
         <version.libuseful>5.36</version.libuseful>
         <version.task-spooler>1.0.3</version.task-spooler>
-        <version.libxcrypt>4.4.28</version.libxcrypt>
+        <version.libxcrypt>4.4.38</version.libxcrypt>
         <version.libyaml>0.2.5</version.libyaml>
         <version.limine>7.0.0</version.limine>
         <version.lua>5.4.6</version.lua>
         <version.luajit>2.1</version.luajit>
-        <version.luau>0.599</version.luau>
+        <version.luau>0.660</version.luau>
         <version.lz4>1.10.0</version.lz4>
         <version.lzip>1.24.1</version.lzip>
         <version.lzlib>1.14</version.lzlib>
         <version.mailutils>3.15</version.mailutils>
-        <version.make>4.4</version.make>
+        <version.make>4.4.1</version.make>
         <version.mc>4.8.28</version.mc>
         <version.mcm>1.1.1</version.mcm>
         <version.mcrypt>2.6.8</version.mcrypt>
         <version.mhash>0.9.9.9</version.mhash>
         <version.micro>2.0.11</version.micro>
+        <version.minio>2.0.11</version.minio>
         <version.mksh>R59c</version.mksh>
         <version.monit>5.34.4</version.monit>
         <version.msmtp>1.8.22</version.msmtp>
@@ -159,11 +162,11 @@
         <version.pcre>8.45</version.pcre>
         <version.postgresql>14.0</version.postgresql>
         <version.povray>3.7.0.10</version.povray>
-        <version.proftpd>1.3.9rc1</version.proftpd>
+        <version.proftpd>1.3.9</version.proftpd>
         <version.proot>5.3.1</version.proot>
         <version.pv>1.9.7</version.pv>
         <version.pyston>2.3.5</version.pyston>
-        <version.qsv>2.2.1</version.qsv>
+        <version.qsv>3.2.0</version.qsv>
         <version.rclone>1.66.0</version.rclone>
         <version.readline>8.1</version.readline>
         <version.samplicator>1.3.6</version.samplicator>
@@ -188,11 +191,11 @@
         <version.toybox>0.8.11</version.toybox>
         <version.udns>0.4</version.udns>
         <version.ugrep>4.3.4</version.ugrep>
-        <version.usql>0.18.1</version.usql>
+        <version.usql>0.19.17</version.usql>
         <version.util-linux>2.37.2</version.util-linux>
         <version.vim>9.1.1050</version.vim>
         <version.xq>1.2.3</version.xq>
-        <version.xz>5.4.6</version.xz>
+        <version.xz>5.8.0</version.xz>
         <version.yq>4.44.3</version.yq>
         <version.ziglang>0.10.1</version.ziglang>
         <version.zlib>1.2.11</version.zlib>
@@ -237,6 +240,7 @@
         <module>module-static/xq</module>
         <module>module-static/yq</module>
         <module>module-static/web-common</module>
+        <module>module-static/minio</module>
         <module>muslsys/micro</module>
         <module>muslsys/sshpass</module>
         <module>muslsys/pv</module>
@@ -259,6 +263,8 @@
         <module>muslsys/yash</module>
         <module>muslsys/svs</module>
         <module>muslsys/fping</module>
+        <module>muslsys/sshping</module>
+        <module>muslsys/iperf</module>
         <module>muslsys/shtool</module>
         <module>muslsys/sharutils</module>
         <module>muslsys/mailutils</module>
@@ -293,6 +299,7 @@
         <module>muslsys/libksba</module>
 
         <module>muslsys/libsodium</module>
+        <module>muslsys/libssh</module>
 
         <module>muslsys/mhash</module>
         <module>muslsys/mhash384</module>

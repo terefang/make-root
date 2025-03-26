@@ -11,15 +11,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>terefang.makeroot.muslsys</groupId>
-    <artifactId>dateutils</artifactId>
-    <version>${version.dateutils}</version>
+    <artifactId>iperf</artifactId>
+    <version>${version.iperf}</version>
     <packaging>pom</packaging>
 
     <properties>
-        <pkg.url>https://github.com/hroptatyr/dateutils/releases/download/v${project.version}/dateutils-${project.version}.tar.xz</pkg.url>
-        <pkg.tag>${project.artifactId}-${project.version}</pkg.tag>
-        <pkg.archive>${pkg.tag}.tar.xz</pkg.archive>
-        <pkg.dist>${project.basedir}/src/main/dist/${pkg.archive}</pkg.dist>
+        <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <prg.url>https://github.com/esnet/iperf/releases/download/${project.version}/${prg.tag}.tar.gz</prg.url>
     </properties>
 
     <build>
@@ -41,6 +40,11 @@
                         <artifactId>ant-compress</artifactId>
                         <version>1.5</version>
                     </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
                 </dependencies>
                 <executions>
                     <execution>
@@ -50,54 +54,54 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                            <target>
                                 <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
                                 <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
 
-                                <mkdir dir="${project.basedir}/src/main/dist"/>
-                                <mkdir dir="${project.build.directory}/${project.artifactId}/${project.artifactId}"/>
-                                <mkdir dir="${resources.target}"/>
+                                <mkdir dir="${root.dir}/usr/bin"/>
                                 <mkdir dir="${toolchain.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}/build"/>
+                                <mkdir dir="${resources.target}"/>
 
-                                <condition property="archive.exists">
-                                    <resourceexists>
-                                        <file file="${pkg.dist}"/>
-                                    </resourceexists>
-                                </condition>
 
-                                <get unless:true="${archive.exists}" src="${pkg.url}" dest="${pkg.dist}"/>
-
-                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                <exec dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
+                                <exec dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
+                                </exec>
+                                <exec dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
+                                </exec>
+                                <delete>
+                                    <fileset dir="${toolchain.dir}" includes="lib/*.la"/>
+                                    <fileset dir="${toolchain.dir}" includes="lib/*.so*"/>
+                                    <fileset dir="${toolchain.dir}" includes="lib/pkgconfig/*"/>
+                                </delete>
 
-                                <exec dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="tar">
-                                    <arg line="-xvf ${pkg.dist} --strip 1" />
+                                <get  src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
+
+                                <exec  dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
                                 </exec>
 
-                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="configure" resolveexecutable="true">
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="configure"  resolveexecutable="true">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
-                                    <env key="CC" value="x86_64-linux-musl-gcc --static" />
-                                    <env key="CXX" value="x86_64-linux-musl-g++ --static" />
-                                    <env key="CFLAGS" value="-fPIC" />
-                                    <env key="LDFLAGS" value="-static" />
+                                    <env key="CFLAGS" value="-static --static" />
+                                    <env key="CC" value="x86_64-linux-musl-gcc -static --static" />
+                                    <env key="CXX" value="x86_64-linux-musl-g++ -static --static" />
                                     <arg value="--prefix=/usr" />
-                                    <arg value="--host=x86_64-linux-musl" />
-                                    <arg value="--target=x86_64-linux-musl" />
                                 </exec>
 
-                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="make">
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
-                                    <arg line="-j 8" />
+                                    <arg line="V=1 -j 8" />
                                 </exec>
 
-                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${project.artifactId}" executable="make">
-                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
-                                </exec>
-
-                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
-                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share" />
                                 </exec>
 
                                 <xrpm
@@ -115,7 +119,7 @@
                                         release="${buildNumber}.${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='4555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
                                     <rpmfileset prefix="/usr/libexec/toolbox/man/man1" filemode='444' dir="${root.dir}/usr/share/man/man1" username="root" group="root" addParents="false" />
                                 </xrpm>
                             </target>

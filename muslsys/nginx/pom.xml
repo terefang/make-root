@@ -260,12 +260,23 @@
                                     <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="555" dir="${root.dir}/usr/share/nginx"  username="nginx-server" group="nginx-server" addParents="false" />
 
                                     <rpmfileset prefix="/etc/nginx" filemode='640' dirmode="755" dir="${root.dir}/etc/nginx"  username="nginx-server" group="nginx-server" addParents="false" config="true">
-                                        <exclude name="**/*.default" />
-                                    </rpmfileset>>
+                                        <include name="conf.d/*" />
+                                        <include name="tls/*" />
+                                        <include name="fastcgi.conf" />
+                                        <include name="fastcgi_params" />
+                                        <include name="koi-utf" />
+                                        <include name="koi-win" />
+                                        <include name="mime.types" />
+                                        <include name="nginx.conf" />
+                                        <include name="scgi_params" />
+                                        <include name="uwsgi_params" />
+                                        <include name="win-utf" />
+
+                                    </rpmfileset>
 
                                     <rpmfileset prefix="/usr/share/nginx" filemode='444' dirmode="755" dir="${root.dir}/etc/nginx"  username="nginx-server" group="nginx-server" addParents="false">
                                         <include name="**/*.default" />
-                                    </rpmfileset>>
+                                    </rpmfileset>
 
                                     <rpmfileset prefix="/usr/libexec/nginx" filemode='755' dirmode="755" dir="${root.dir}/usr/libexec/nginx"  username="nginx-server" group="nginx-server" addParents="false" />
 

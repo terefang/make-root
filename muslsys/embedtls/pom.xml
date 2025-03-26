@@ -12,13 +12,13 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>embedtls</artifactId>
-    <version>3.1.0</version>
+    <version>3.6.2</version>
     <packaging>pom</packaging>
 
     <properties>
-        <pkg.archive>${project.artifactId}-${project.version}.tar.gz</pkg.archive>
+        <pkg.archive>${project.artifactId}-${project.version}.tar.bz2</pkg.archive>
         <pkg.tag>${project.artifactId}-${project.version}</pkg.tag>
-        <pkg.url>https://github.com/Mbed-TLS/mbedtls/archive/refs/tags/v${project.version}.tar.gz</pkg.url>
+        <pkg.url>https://github.com/Mbed-TLS/mbedtls/releases/download/mbedtls-${project.version}/mbedtls-${project.version}.tar.bz2</pkg.url>
     </properties>
 
     <build>

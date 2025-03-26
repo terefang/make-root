@@ -85,7 +85,7 @@
                                     <fileset file="${project.build.directory}/${project.artifactId}/csvq" />
                                 </copy>
 
-                                <xrpm
+                                <!--xrpm
                                         architecture="X86_64"
                                         destination="${project.build.directory}"
                                         license="GNU"
@@ -102,7 +102,7 @@
 
                                     <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
 
-                                </xrpm>
+                                </xrpm-->
                             </target>
                         </configuration>
                     </execution>

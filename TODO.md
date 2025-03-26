@@ -126,3 +126,21 @@ gij-6 -cp /usr/share/java/eclipse-ecj.jar \
 
 https://github.com/wolfi-dev/os/blob/main/java-gcj-compat.yaml
 https://github.com/wolfi-dev/os/blob/main/java-common.yaml
+
+
+https://sourceforge.net/projects/phpfilesadmin/
+
+## NATS
+
+https://github.com/nats-io/nsc/releases/download/v2.10.2/nsc-linux-amd64.zip
+https://github.com/nats-io/nats-server/releases/download/v2.10.25/nats-server-v2.10.25-linux-amd64.tar.gz
+https://github.com/nats-io/nats-top/releases/download/v0.6.3/nats-top_0.6.3_linux_amd64.tar.gz
+https://github.com/nats-io/nkeys/releases/download/v0.4.10/nkeys-v0.4.10-linux-amd64.zip
+
+## http
+
+https://github.com/oauth2-proxy/oauth2-proxy/releases/download/v7.8.1/oauth2-proxy-v7.8.1.linux-amd64.tar.gz
+
+## chrome-os
+
+https://dl.google.com/chromeos-flex/images/latest.bin.zip

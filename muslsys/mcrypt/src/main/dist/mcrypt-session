@@ -3,6 +3,7 @@
 XCACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}/.mcrypt-session"
 XID=${MCRYPT_SESSION:-$(uuidgen)}
 XCACHE="$XCACHE_HOME/$XID"
+mkdir -p $XCACHE
 
 XRC="${HOME}/.mcrypt-session"
 mkdir -p $XRC
@@ -11,6 +12,7 @@ mkdir -p $XRC
 function setup_new() {
   XID=$(uuidgen)
   XCACHE="$XCACHE_HOME/$XID"
+  mkdir -p $XCACHE
   setup
 }
 
@@ -59,7 +61,7 @@ function save_store() {
 }
 
 function restore_session() {
-    [ -e $XCACHE/keyfile ] || echo "session missing ..." && exit 1
+    [ -e $XCACHE/keyfile ] || (echo "session missing ..." && exit 1)
     IN="$1"
     if [ -z "$IN" ]; then
 	    IN=$(cd $XRC && sysbox choose-file -execute 'echo {}' .)

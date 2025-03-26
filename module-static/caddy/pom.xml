@@ -12,11 +12,12 @@
 
     <groupId>terefang.makeroot.baseos</groupId>
     <artifactId>caddy</artifactId>
-    <version>2.6.2</version>
+    <version>2.9.1</version>
     <packaging>pom</packaging>
 
     <properties>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <prg.url><![CDATA[https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com%2Fgreenpau%2Fcaddy-security&p=github.com%2Fabiosoft%2Fcaddy-exec&p=github.com%2Faksdb%2Fcaddy-cgi%2Fv2&p=github.com%2Fggicci%2Fcaddy-jwt&p=github.com%2Fdavidventura%2Fcaddy-certsrv&idempotency=31232605920930]]></prg.url>
     </properties>
 
     <build>
@@ -63,14 +64,10 @@
                                 <mkdir dir="${project.build.directory}/${project.artifactId}"/>
                                 <mkdir dir="${toolchain.dir}"/>
 
-                                <condition property="binary.exists">
-                                    <resourceexists>
-                                        <file file="${project.basedir}/src/main/dist/caddy_linux_amd64_v2.6.2+sec+jwt+exec+cgi"/>
-                                    </resourceexists>
-                                </condition>
+                                <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/caddy_${project.version}"/>
 
                                 <copy tofile="${project.build.directory}/${project.artifactId}/${project.artifactId}">
-                                    <fileset file="${project.basedir}/src/main/dist/caddy_linux_amd64_v2.6.2+sec+jwt+exec+cgi" />
+                                    <fileset file="${project.basedir}/src/main/dist/caddy_${project.version}" />
                                 </copy>
 
                                 <xrpm

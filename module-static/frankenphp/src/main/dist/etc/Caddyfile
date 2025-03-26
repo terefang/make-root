@@ -3,8 +3,8 @@
 	frankenphp
 	# Configure when the directive must be executed
 	order php_server before file_server
-    http_port    8280
-	https_port   8243
+    http_port    8200
+	https_port   8201
 	#log {
     #		output  stderr
     #		level   debug

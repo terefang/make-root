@@ -134,7 +134,6 @@
                                     <arg value="--localedir=/usr/share/locale" />
                                     <arg value="--mandir=/usr/share/man" />
                                     <arg value="--docdir=/usr/share/doc/${prg.tag}" />
-                                    <arg value="--help" />
                                 </exec>
 
                                 <replace file="${project.build.directory}/${project.artifactId}/${prg.tag}/Process.c" token="#include &lt;sys/prctl.h&gt;" value=""/>
@@ -146,7 +145,7 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
-                                    <arg line="-j 1 libUseful.a" />
+                                    <arg line="-j 1 " /><!-- libUseful.a -->
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">

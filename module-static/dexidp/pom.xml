@@ -80,7 +80,8 @@
                                     <arg line="-xvf ${resources.target}/muslsys-musl-bsdcompat-0.1.tgz" />
                                 </exec>
 
-                                <get src="https://go.dev/dl/go1.20.4.linux-amd64.tar.gz" dest="${project.basedir}/src/main/dist/go.tar.gz" />
+                                <!-- go1.20.4.linux-amd64.tar.gz -->
+                                <get src="https://go.dev/dl/go1.24.0.linux-amd64.tar.gz" dest="${project.basedir}/src/main/dist/go.tar.gz" />
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}/go" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/go.tar.gz --strip 1" />
@@ -91,7 +92,6 @@
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
                                 </exec>
-
 
                                 <replace file="${project.build.directory}/${project.artifactId}/${prg.tag}/Makefile" token=" /go/bin" value=" ${root.dir}/go/bin"/>
 

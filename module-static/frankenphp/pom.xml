@@ -133,7 +133,6 @@
 
                                     <emptydir path="/var/${project.artifactId}/common" filemode='640' dirmode='750' username="${project.artifactId}" group="${project.artifactId}"/>
 
-                                    <rpmfileset prefix="/etc/nginx/conf.d" filemode='640' file="src/main/dist/020_fphp.conf" username="root" group="root" addParents="false"  config="true"/>
                                 </xrpm>
 
                             </target>

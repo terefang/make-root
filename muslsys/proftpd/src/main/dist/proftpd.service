@@ -1,0 +1,17 @@
+[Unit]
+Description=proftpd
+Requires=network.target
+
+[Service]
+WorkingDirectory=/tmp
+ExecStart=/usr/proftpd/bin/proftpd -c /etc/proftpd/proftpd.conf -n
+Restart=on-failure
+RestartSec=5s
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=proftpd
+User=root
+Group=root
+
+[Install]
+WantedBy=default.target

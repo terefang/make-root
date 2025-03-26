@@ -11,14 +11,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>terefang.makeroot.module</groupId>
-    <artifactId>authelia</artifactId>
-    <version>${version.authelia}</version>
+    <artifactId>minio</artifactId>
+    <version>2025</version>
     <packaging>pom</packaging>
 
     <properties>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
         <prg.archive>${prg.tag}.tar.gz</prg.archive>
-        <prg.url>https://github.com/authelia/authelia/releases/download/v${project.version}/authelia-v${project.version}-linux-amd64.tar.gz</prg.url>
+        <prg.url>https://dl.min.io/server/minio/release/linux-amd64/minio</prg.url>
+        <prg2.url>https://dl.min.io/client/mc/release/linux-amd64/mc</prg2.url>
     </properties>
 
     <build>
@@ -41,9 +42,28 @@
                         <version>1.5</version>
                     </dependency>
                     <dependency>
-                        <groupId>com.github.terefang</groupId>
-                        <artifactId>ant-archive-plus</artifactId>
-                        <version>1.5.2</version>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-apache-bsf -->
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-apache-bsf</artifactId>
+                        <version>1.10.12</version>
+                    </dependency>
+
+                    <!-- https://mvnrepository.com/artifact/org.beanshell/bsh -->
+                    <dependency>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh</artifactId>
+                        <version>2.0b5</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.2</version>
                     </dependency>
                 </dependencies>
                 <executions>
@@ -57,28 +77,24 @@
                             <target xmlns:if="ant:if" xmlns:unless="ant:unless">
                                 <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
                                 <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+                                <taskdef resource="net/sf/antcontrib/antlib.xml"/>
 
-                                <taskdef name="xtar" classname="com.github.terefang.ant.archiveplus.taskdefs.Tar" />
-                                <typedef name="symlink" classname="com.github.terefang.ant.archiveplus.resources.SymbolicLink" />
+                                <script manager="bsf" language="beanshell"><![CDATA[
+                                  baseVersion = "${version.frankenphp}".replace("-",".");
+                                  project.setProperty("xversion.frankenphp",baseVersion);
+                                ]]></script>
 
                                 <mkdir dir="${rpm.path}"/>
                                 <mkdir dir="${project.build.directory}/${project.artifactId}"/>
-                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${project.basedir}/src/main/dist/"/>
 
-                                <condition property="archive.exists">
-                                    <resourceexists>
-                                        <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
-                                    </resourceexists>
-                                </condition>
+                                <get unless:true="${binary.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/minio" />
+                                <get unless:true="${binary.exists}" src="${prg2.url}" dest="${project.basedir}/src/main/dist/mc" />
 
-                                <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}" />
-
-                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}/" executable="tar">
-                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive}" />
-                                </exec>
-
-                                <copy file="${project.build.directory}/${project.artifactId}/authelia-linux-amd64"
-                                      tofile="${project.build.directory}/${project.artifactId}/${project.artifactId}" />
+                                <mkdir dir="${root.dir}/usr/${project.artifactId}/bin"/>
+                                <mkdir dir="${root.dir}/etc/${project.artifactId}/"/>
+                                <copy file="${project.basedir}/src/main/dist/minio" tofile="${root.dir}/usr/${project.artifactId}/bin/" />
+                                <copy file="${project.basedir}/src/main/dist/mc" todir="${root.dir}/usr/${project.artifactId}/bin/" />
 
                                 <!--xrpm
                                         architecture="X86_64"
@@ -93,16 +109,11 @@
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
                                         release="${buildNumber}.${timestamp}"
-                                        version="${project.version}"
+                                        version="${xversion.frankenphp}"
                                         preInstallScript="src/main/dist/pre-install.sh"
                                 >
-                                    <rpmfileset prefix="/usr/lib/systemd/system" filemode='644' file="src/main/dist/${project.artifactId}.service" username="${project.artifactId}-server" group="${project.artifactId}-server" addParents="false" />
-
-                                    <rpmfileset prefix="/usr/${project.artifactId}/bin" filemode='555' file="${project.build.directory}/${project.artifactId}/${project.artifactId}" username="${project.artifactId}-server" group="${project.artifactId}-server" addParents="false" />
-
-                                    <rpmfileset prefix="/etc/${project.artifactId}" filemode='640' file="src/main/dist/${project.artifactId}.yaml" username="${project.artifactId}-server" group="${project.artifactId}-server" addParents="false" />
-
-                                    <emptydir path="/var/${project.artifactId}" username="${project.artifactId}-server" group="${project.artifactId}-server" />
+                                    <rpmfileset prefix="/usr/${project.artifactId}/bin" filemode='555' dir="${root.dir}/usr/${project.artifactId}/bin" username="${project.artifactId}" group="${project.artifactId}" addParents="false" />
+                                    <emptydir path="/etc/${project.artifactId}/" filemode='640' dirmode='750' username="${project.artifactId}" group="${project.artifactId}"/>
 
                                 </xrpm-->
 

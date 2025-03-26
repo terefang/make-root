@@ -113,7 +113,7 @@
                                     <env key="CC" value="x86_64-linux-musl-gcc -static --static" />
                                     <env key="LD" value="x86_64-linux-musl-gcc -static --static" />
                                     <env key="CXX" value="x86_64-linux-musl-g++ --static" />
-                                    <env key="CFLAGS" value="-fPIC" />
+                                    <env key="CFLAGS" value="-fPIC -I ${toolchain.dir}/include" />
                                     <env key="LDFLAGS" value="-static" />
                                     <arg value="--prefix=/usr" />
                                     <arg value="--disable-nls" />
@@ -157,7 +157,6 @@
 
                                     <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/man" filemode='444' dir="${root.dir}/usr/share/man/" username="root" group="root" addParents="false" />
 
                                 </xrpm>
                             </target>

@@ -119,7 +119,7 @@
                                     <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share" />
                                 </exec>
 
-                                <xrpm
+                                <!--xrpm
                                         architecture="X86_64"
                                         destination="${project.build.directory}"
                                         license="ASL"
@@ -137,7 +137,7 @@
                                     <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin" username="root" group="root" addParents="false" />
                                     <rpmfileset prefix="/usr/libexec/toolbox/man" filemode='444' dir="${root.dir}/usr/share/man" username="root" group="root" addParents="false" />
 
-                                </xrpm>
+                                </xrpm-->
                             </target>
                         </configuration>
                     </execution>

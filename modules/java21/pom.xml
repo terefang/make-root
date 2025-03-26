@@ -12,30 +12,18 @@
 
     <groupId>terefang.makeroot.baseos</groupId>
     <artifactId>java21</artifactId>
-    <version>jdk21.0.5.zulu21.38.21.fx</version>
+    <version>jdk21.0.6.zulu21.40.17.fx</version>
     <packaging>pom</packaging>
 
     <properties>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
-        <prg.url>https://cdn.azul.com/zulu/bin/zulu21.38.21-ca-fx-jdk21.0.5-linux_x64.tar.gz</prg.url>
+        <prg.url>https://cdn.azul.com/zulu/bin/zulu21.40.17-ca-jdk21.0.6-linux_x64.tar.gz</prg.url>
         <prg.archive>${prg.tag}.tar.gz</prg.archive>
     </properties>
 
     <!--
-    	zulu21.38.21-ca-fx-jdk21.0.5-linux.aarch64.rpm	2024-10-23 07:26	265M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-linux.x86_64.rpm	2024-10-23 07:27	269M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-linux_aarch64.tar.gz	2024-10-23 07:26	303M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-linux_amd64.deb	2024-10-23 07:26	257M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-linux_arm64.deb	2024-10-23 07:26	252M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-linux_x64.tar.gz	2024-10-23 07:26	306M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-macosx_aarch64.dmg	2024-10-23 07:27	282M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-macosx_aarch64.tar.gz	2024-10-23 07:27	280M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-macosx_aarch64.zip	2024-10-23 07:27	284M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-macosx_x64.dmg	2024-10-23 07:27	289M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-macosx_x64.tar.gz	2024-10-23 07:27	287M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-macosx_x64.zip	2024-10-23 07:27	291M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-win_x64.msi	2024-10-23 07:27	251M
-[   ]	zulu21.38.21-ca-fx-jdk21.0.5-win_x64.zip
+    https://cdn.azul.com/zulu/bin/zulu21.40.17-ca-jdk21.0.6-linux_x64.tar.gz
+    https://cdn.azul.com/zulu/bin/zulu21.38.21-ca-fx-jdk21.0.5-linux_x64.tar.gz
     -->
     <build>
         <plugins>

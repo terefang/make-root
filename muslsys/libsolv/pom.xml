@@ -104,14 +104,15 @@
                                     <arg value=".." />
                                     <arg value="-DCMAKE_INSTALL_PREFIX=${root.dir}/usr" />
                                     <arg value="-DENABLE_STATIC=ON" />
+                                    <arg value="-DDISABLE_SHARED=ON" />
                                     <arg value="-DZLIB_ROOT=${toolchain.dir}/usr" />
-                                    <arg value="-DZLIB_LIBRARY=${toolchain.dir}/usr/lib/libz.so" />
+                                    <arg value="-DZLIB_LIBRARY=${toolchain.dir}/usr/lib/libz.a" />
                                     <!--arg value="-DEXPAT_INCLUDE_DIR=${root.dir}/usr/include" />
                                     <arg value="-DEXPAT_LIBRARIES=${root.dir}/usr/lib/libexpat.so" /-->
                                     <arg value="-DLZMA_ROOT=${toolchain.dir}/usr" />
-                                    <arg value="-DLZMA_LIBRARY=${toolchain.dir}/usr/lib/liblzma.so" />
+                                    <arg value="-DLZMA_LIBRARY=${toolchain.dir}/usr/lib/liblzma.a" />
                                     <arg value="-DZSTD_INCLUDE_DIRS=${toolchain.dir}/usr/include" />
-                                    <arg value="-DZSTD_LIBRARY=${toolchain.dir}/usr/lib/libzstd.so" />
+                                    <arg value="-DZSTD_LIBRARY=${toolchain.dir}/usr/lib/libzstd.a" />
                                     <arg value="-DMULTI_SEMANTICS=ON" />
                                     <arg value="-DENABLE_COMPLEX_DEPS=ON" />
                                     <arg value="-DENABLE_LZMA_COMPRESSION=ON" />
@@ -126,7 +127,7 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libsolv.tag}/build" executable="make">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <arg line="-j 8" />
+                                    <arg line="-j 8 libsolv_static libsolvext_static" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${libsolv.tag}/build" executable="make">

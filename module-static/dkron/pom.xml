@@ -77,7 +77,7 @@
                                     <arg line="-xvf ${project.build.directory}/${prg.archive}" />
                                 </exec>
 
-                                <xrpm
+                                <!--xrpm
                                         architecture="X86_64"
                                         destination="${project.build.directory}"
                                         license="GNU"
@@ -114,7 +114,7 @@
                                     <emptydir path="/var/log/${project.artifactId}" filemode='640' dirmode='750' username="root" group="root"/>
 
 
-                                </xrpm>
+                                </xrpm-->
 
                             </target>
                         </configuration>

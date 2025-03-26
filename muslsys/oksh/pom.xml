@@ -133,7 +133,7 @@
                                     <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share" />
                                 </exec>
 
-                                <xrpm
+                                <!--xrpm
                                         architecture="X86_64"
                                         destination="${project.build.directory}"
                                         license="ASL"
@@ -152,7 +152,7 @@
 
                                     <rpmfileset prefix="/usr/libexec/toolbox/" filemode='444' dir="${root.dir}/usr/share/" username="root" group="root" addParents="false" />
 
-                                </xrpm>
+                                </xrpm-->
                             </target>
                         </configuration>
                     </execution>
