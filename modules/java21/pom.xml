@@ -12,16 +12,17 @@
 
     <groupId>terefang.makeroot.baseos</groupId>
     <artifactId>java21</artifactId>
-    <version>jdk21.0.6.zulu21.40.17.fx</version>
+    <version>jdk21.0.7.zulu21.42.19.fx</version>
     <packaging>pom</packaging>
 
     <properties>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
-        <prg.url>https://cdn.azul.com/zulu/bin/zulu21.40.17-ca-jdk21.0.6-linux_x64.tar.gz</prg.url>
+        <prg.url>https://cdn.azul.com/zulu/bin/zulu21.42.19-ca-fx-jdk21.0.7-linux_x64.tar.gz</prg.url>
         <prg.archive>${prg.tag}.tar.gz</prg.archive>
     </properties>
 
     <!--
+    https://cdn.azul.com/zulu/bin/zulu21.40.17-ca-jdk21.0.6-linux_x64.tar.gz
     https://cdn.azul.com/zulu/bin/zulu21.40.17-ca-jdk21.0.6-linux_x64.tar.gz
     https://cdn.azul.com/zulu/bin/zulu21.38.21-ca-fx-jdk21.0.5-linux_x64.tar.gz
     -->

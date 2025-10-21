@@ -104,7 +104,7 @@
                                         <mkdir dir="${resources.target}/fonts/${project.artifactId}"/>
 
                                         <echo >${ifile} ... DL</echo>
-                                        <get src="@{id}" dest="${project.basedir}/src/main/dist/${ifile}"/>
+                                        <get src="@{id}" dest="${project.basedir}/src/main/dist/${ifile}" verbose="true"/>
                                         <for param="file">
                                             <path>
                                                 <fileset dir="${project.basedir}/src/main/dist/" includes="*.tar*"/>
@@ -124,7 +124,10 @@
 
                                             <sequential>
                                                 <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="cabextract">
-                                                    <arg line=" -L -d ${project.build.directory}/${project.artifactId}/${prg.tag} @{file}" />
+                                                    <arg line=" -L -F '*.cab' -d ${project.build.directory}/${project.artifactId}/${prg.tag} @{file}" />
+                                                </exec>
+                                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="cabextract">
+                                                    <arg line=" -L -F '*.ttf' -d ${project.build.directory}/${project.artifactId}/${prg.tag} @{file}" />
                                                 </exec>
                                                 <delete file="@{file}"/>
                                             </sequential>
@@ -137,7 +140,7 @@
 
                                             <sequential>
                                                 <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="cabextract">
-                                                    <arg line=" -L -d ${project.build.directory}/${project.artifactId}/${prg.tag} @{file}" />
+                                                    <arg line=" -L -F '*.tt?' -d ${project.build.directory}/${project.artifactId}/${prg.tag} @{file}" />
                                                 </exec>
                                                 <delete file="@{file}"/>
                                             </sequential>

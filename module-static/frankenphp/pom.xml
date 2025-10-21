@@ -19,6 +19,26 @@
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
         <prg.archive>${prg.tag}.tar.gz</prg.archive>
         <prg.url>https://github.com/dunglas/frankenphp/releases/download/v${project.version}/frankenphp-linux-x86_64</prg.url>
+        <pear.urls>
+            http://download.pear.php.net/package/Structures_Graph-1.2.0.tgz
+            http://download.pear.php.net/package/XML_Util-1.4.5.tgz
+            http://download.pear.php.net/package/Console_Getopt-1.4.3.tgz
+            http://download.pear.php.net/package/Archive_Tar-1.5.0.tgz
+            http://download.pear.php.net/package/PEAR-1.10.16.tgz
+            http://download.pear.php.net/package/HTTP_Request2-2.7.0.tgz
+            http://download.pear.php.net/package/Net_URL2-2.2.3.tgz
+            http://download.pear.php.net/package/DB-1.12.2.tgz
+            http://download.pear.php.net/package/Net_LDAP2-2.2.0.tgz
+            http://download.pear.php.net/package/Net_Socket-1.2.2.tgz
+            http://download.pear.php.net/package/Auth_SASL-1.2.0.tgz
+            http://download.pear.php.net/package/Net_SMTP-1.12.1.tgz
+            http://download.pear.php.net/package/Mail_Mime-1.10.12.tgz
+            http://download.pear.php.net/package/Mail-2.0.0.tgz
+            https://github.com/tecnickcom/TCPDF/archive/refs/tags/6.9.1.tar.gz,tcpdf
+        </pear.urls>
+        <file.urls>
+            https://github.com/shuchkin/simplexlsxgen/raw/refs/heads/master/src/SimpleXLSXGen.php,Suchkin
+        </file.urls>
     </properties>
 
     <build>
@@ -99,6 +119,60 @@
                                 <get unless:true="${binary.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.tag}" />
                                 <get unless:true="${binary.exists}" src="https://raw.githubusercontent.com/tcdent/php-restclient/master/restclient.php" dest="${project.basedir}/src/main/dist/php/restclient.php" />
 
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/tmp/jwt"/>
+                                <get src="https://github.com/adhocore/php-jwt/archive/refs/tags/1.1.3.tar.gz" dest="${project.build.directory}/${project.artifactId}/tmp/jwt.tgz" />
+                                <exec dir="${project.build.directory}/${project.artifactId}/tmp/jwt" executable="tar">
+                                    <arg line="-xvf ../jwt.tgz --strip 1" />
+                                </exec>
+
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/tmp/radius"/>
+                                <get src="https://github.com/dapphp/radius/archive/refs/tags/v3.0.0.tar.gz" dest="${project.build.directory}/${project.artifactId}/tmp/radius.tgz" />
+                                <exec dir="${project.build.directory}/${project.artifactId}/tmp/radius" executable="tar">
+                                    <arg line="-xvf ../radius.tgz --strip 1" />
+                                </exec>
+
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/tmp/pear"/>
+                                <for list="${pear.urls}" delimiter=" &#10;" trim="true" param="pfile">
+                                    <sequential>
+                                        <script manager="bsf" language="beanshell"><![CDATA[
+                                            part = "@{pfile}".split(",");
+                                            project.setProperty("purl",part[0]);
+                                            if(part.length==2)
+                                            {
+                                            project.setProperty("ppath",part[1]);
+                                            }
+                                            else
+                                            {
+                                            project.setProperty("ppath","");
+                                            }
+                                        ]]></script>
+                                        <mkdir dir="${project.build.directory}/${project.artifactId}/tmp/pear/${ppath}"/>
+                                        <get src="${purl}" dest="${project.build.directory}/${project.artifactId}/tmp/pear.tgz" />
+                                        <exec dir="${project.build.directory}/${project.artifactId}/tmp/pear/${ppath}" executable="tar">
+                                            <arg line="-xvf ${project.build.directory}/${project.artifactId}/tmp/pear.tgz --strip 1" />
+                                        </exec>
+                                    </sequential>
+                                </for>
+
+                                <for list="${file.urls}" delimiter=" &#10;" trim="true" param="ffile">
+                                    <sequential>
+                                        <script manager="bsf" language="beanshell"><![CDATA[
+                                            part = "@{ffile}".split(",");
+                                            project.setProperty("nurl",part[0]);
+                                            project.setProperty("npath",part[1]);
+                                            if(part.length==3)
+                                            {
+                                                project.setProperty("nfile",part[1]+"/"+part[2]);
+                                            }
+                                            else
+                                            {
+                                                project.setProperty("nfile",part[1]+"/"+part[0].substring(part[0].lastIndexOf('/')+1));
+                                            }
+                                        ]]></script>
+                                        <mkdir dir="${project.build.directory}/${project.artifactId}/tmp/pear/${npath}"/>
+                                        <get src="${nurl}" dest="${project.build.directory}/${project.artifactId}/tmp/pear/${nfile}" />
+                                    </sequential>
+                                </for>
 
                                 <mkdir dir="${root.dir}/usr/${project.artifactId}/bin"/>
                                 <mkdir dir="${root.dir}/etc/${project.artifactId}/"/>
@@ -127,11 +201,48 @@
 
                                     <rpmfileset prefix="/var/${project.artifactId}/html" filemode='640' dir="src/main/dist/html" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true"/>
                                     <rpmfileset prefix="/var/${project.artifactId}/etc" filemode='640' dir="src/main/dist/etc" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true"/>
+                                    <emptydir path="/var/${project.artifactId}/conf" filemode='640' dirmode='750' username="${project.artifactId}" group="${project.artifactId}"/>
+
+                                    <emptydir path="/var/${project.artifactId}/common" filemode='640' dirmode='750' username="${project.artifactId}" group="${project.artifactId}"/>
+
+                                </xrpm>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="GNU"
+                                        group="${project.artifactId}"
+                                        name="toolbox-${project.artifactId}-modules"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}"
+                                        version="${timestamp}"
+                                >
+
                                     <rpmfileset prefix="/var/${project.artifactId}/lib" filemode='640' dir="src/main/dist/lib" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true"/>
                                     <rpmfileset prefix="/var/${project.artifactId}/php" filemode='640' dir="src/main/dist/php" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true"/>
 
+                                    <rpmfileset prefix="/var/${project.artifactId}/php/Jwt" filemode='640' dir="${project.build.directory}/${project.artifactId}/tmp/jwt/src" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true"/>
 
-                                    <emptydir path="/var/${project.artifactId}/common" filemode='640' dirmode='750' username="${project.artifactId}" group="${project.artifactId}"/>
+                                    <rpmfileset prefix="/var/${project.artifactId}/php/radius" filemode='640' dir="${project.build.directory}/${project.artifactId}/tmp/radius" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true">
+                                        <include name="autoload.php" />
+                                        <include name="src/**/*.php" />
+                                        <include name="lib/**/*.php" />
+                                    </rpmfileset>
+
+                                    <rpmfileset prefix="/var/${project.artifactId}/php" filemode='640' dir="${project.build.directory}/${project.artifactId}/tmp/pear" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true">
+                                        <exclude name="docs/**" />
+                                        <exclude name="doc/**" />
+                                        <exclude name="tests/**" />
+                                        <exclude name="data/**" />
+                                        <exclude name="examples/**" />
+                                        <include name="**/*.php" />
+                                        <include name="**/*.z" />
+                                    </rpmfileset>
 
                                 </xrpm>
 

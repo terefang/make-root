@@ -20,7 +20,8 @@
 
         <root.dir>${project.build.directory}/${project.artifactId}/root</root.dir>
         <toolchain.dir>${project.build.directory}/${project.artifactId}/toolchain</toolchain.dir>
-        <resources.target>${project.basedir}/../../resources</resources.target>
+        <!--resources.target>${project.basedir}/../../resources</resources.target-->
+        <resources.target>${maven.multiModuleProjectDirectory}/resources</resources.target>
 
         <baseos.baseurl>http://download.rockylinux.org/pub/rocky/8/BaseOS/x86_64/os/</baseos.baseurl>
         <appstream.baseurl>http://dl.rockylinux.org/pub/rocky/8/AppStream/x86_64/os/</appstream.baseurl>
@@ -43,6 +44,7 @@
         <version.bash>5.1.16</version.bash>
         <version.binutils>2.38</version.binutils>
         <version.boost>1.84.0</version.boost>
+        <version.bun>1.3.0</version.bun>
         <version.bubblewrap>0.6.1</version.bubblewrap>
         <version.busybox>1.36.1</version.busybox>
         <version.bwrap>0.8.0</version.bwrap>
@@ -57,18 +59,18 @@
         <version.dateutils>0.4.11</version.dateutils>
         <version.diffutils>3.8</version.diffutils>
         <version.dkron>3.2.6</version.dkron>
-        <version.dropbear>2024.86</version.dropbear>
+        <version.dropbear>2025.87</version.dropbear>
         <version.duckdb>1.2.1</version.duckdb>
         <version.editline>1.17.1</version.editline>
         <version.elfutils>0.191</version.elfutils>
-        <version.expat.release>2_6_2</version.expat.release>
-        <version.expat>2.6.2</version.expat>
+        <version.expat.release>2_7_1</version.expat.release>
+        <version.expat>2.7.1</version.expat>
         <version.faux>2.2.0</version.faux>
         <version.file>5.46</version.file>
         <version.findutils>4.9.0</version.findutils>
         <version.finit>4.5</version.finit>
         <version.fping>5.3</version.fping>
-        <version.frankenphp>1.5.0</version.frankenphp>
+        <version.frankenphp>1.7.0</version.frankenphp>
         <version.gawk>5.1.1</version.gawk>
         <version.git>2.43.0</version.git>
         <version.glib2.major>2.73</version.glib2.major>
@@ -82,10 +84,15 @@
         <version.gpp>2.28</version.gpp>
         <version.grep>3.11</version.grep>
         <version.gsasl>2.2.0</version.gsasl>
+        <version.gzip>1.14</version.gzip>
+        <version.inetutils>2.6</version.inetutils>
         <version.inih>58</version.inih>
         <version.iperf>3.18</version.iperf>
         <version.jansson>2.14</version.jansson>
+        <version.just>1.40.0</version.just>
         <version.jq>1.7.1</version.jq>
+        <version.jo>1.9</version.jo>
+        <version.jsed>0.2.2</version.jsed>
         <version.klish3>3.1.0</version.klish3>
         <version.libarchive>3.7.7</version.libarchive>
         <version.libassuan>2.5.5</version.libassuan>
@@ -131,6 +138,7 @@
         <version.lz4>1.10.0</version.lz4>
         <version.lzip>1.24.1</version.lzip>
         <version.lzlib>1.14</version.lzlib>
+        <version.m4>1.4.19</version.m4>
         <version.mailutils>3.15</version.mailutils>
         <version.make>4.4.1</version.make>
         <version.mc>4.8.28</version.mc>
@@ -145,6 +153,7 @@
         <version.musl-fts>1.2.7</version.musl-fts>
         <version.musl-obstack>1.1</version.musl-obstack>
         <version.musl-rpmatch>1.0</version.musl-rpmatch>
+        <version.nerdfonts>3.3.0</version.nerdfonts>
         <version.netbsd-curses>0.3.2</version.netbsd-curses>
         <version.netsnmp>5.9.4</version.netsnmp>
         <version.nettle>3.8.1</version.nettle>
@@ -166,7 +175,7 @@
         <version.proot>5.3.1</version.proot>
         <version.pv>1.9.7</version.pv>
         <version.pyston>2.3.5</version.pyston>
-        <version.qsv>3.2.0</version.qsv>
+        <version.qsv>8.0.0</version.qsv>
         <version.rclone>1.66.0</version.rclone>
         <version.readline>8.1</version.readline>
         <version.samplicator>1.3.6</version.samplicator>
@@ -176,37 +185,42 @@
         <version.sharutils>4.15.2</version.sharutils>
         <version.shtool>2.0.8</version.shtool>
         <version.sniproxy>0.6.1</version.sniproxy>
-        <version.sqlean>0.27.1</version.sqlean>
-        <version.sqleanshell>3.47.0</version.sqleanshell>
+        <version.sqlean>0.28.0</version.sqlean>
+        <version.sqleanshell>3.49.1</version.sqleanshell>
+        <version.sqlite.pkg>3500400</version.sqlite.pkg>
+        <version.sqlite.year>2025</version.sqlite.year>
+        <version.sqlite>3.50.4</version.sqlite>
+        <!--
         <version.sqlite.pkg>3470200</version.sqlite.pkg>
         <version.sqlite.year>2024</version.sqlite.year>
         <version.sqlite>3.47.2</version.sqlite>
+        -->
         <version.sshpass>1.06</version.sshpass>
         <version.sslh>2.1.2</version.sslh>
-        <version.sslh>2.1.2</version.sslh>
         <version.sttr>0.2.21</version.sttr>
-        <version.sysbox>0.18.0</version.sysbox>
+        <version.sysbox>0.19.0</version.sysbox>
         <version.talloc>2.3.4</version.talloc>
-        <version.tar>1.34</version.tar>
-        <version.toybox>0.8.11</version.toybox>
+        <version.tar>1.35</version.tar>
+        <version.toybox>0.8.12</version.toybox>
         <version.udns>0.4</version.udns>
         <version.ugrep>4.3.4</version.ugrep>
-        <version.usql>0.19.17</version.usql>
-        <version.util-linux>2.37.2</version.util-linux>
+        <version.usql>0.19.26</version.usql>
+        <version.util-linux>2.41</version.util-linux>
+        <version.valkey>8.1.0</version.valkey>
         <version.vim>9.1.1050</version.vim>
-        <version.xq>1.2.3</version.xq>
-        <version.xz>5.8.0</version.xz>
+        <version.xq>1.3.0</version.xq>
+        <version.xz>5.8.1</version.xz>
         <version.yq>4.44.3</version.yq>
         <version.ziglang>0.10.1</version.ziglang>
-        <version.zlib>1.2.11</version.zlib>
-        <version.zstd>1.5.6</version.zstd>
+        <version.zlib>1.3.1</version.zlib>
+        <version.zstd>1.5.7</version.zstd>
     </properties>
 
     <modules>
         <module>muslsys/toolchain</module>
         <module>muslsys/cross-toolchain</module>
-        <module>muslsys/libc-musl</module>
-        <module>muslsys/libxcrypt</module>
+        <module>modules/libc/libc-musl</module>
+        <module>modules/libc/libxcrypt</module>
         <module>muslsys/musl-rpmatch</module>
         <module>muslsys/musl-fts</module>
         <module>muslsys/musl-obstack</module>
@@ -229,24 +243,27 @@
         <module>module-static/authelia</module>
         <module>module-static/dexidp</module>
 
-        <module>module-static/sysbox</module>
-        <module>module-static/rclone</module>
-        <module>module-static/qsv</module>
-        <module>module-static/csvq</module>
-        <module>module-static/usql</module>
+        <module>modules/utils/sysbox</module>
+        <module>modules/utils/retry</module>
+        <module>modules/system/rclone</module>
+        <module>modules/dbms/qsv</module>
+        <module>modules/dbms/csvq</module>
+        <module>modules/dbms/usql</module>
         <module>module-static/goreman</module>
         <module>module-static/agp</module>
         <module>module-static/cue</module>
-        <module>module-static/xq</module>
-        <module>module-static/yq</module>
+        <module>modules/dbms/xq</module>
+        <module>modules/dbms/yq</module>
+        <module>modules/dbms/jo</module>
+        <module>modules/dbms/jsed</module>
         <module>module-static/web-common</module>
-        <module>module-static/minio</module>
+        <module>modules/net/minio</module>
         <module>muslsys/micro</module>
         <module>muslsys/sshpass</module>
         <module>muslsys/pv</module>
         <module>muslsys/scw</module>
         <module>muslsys/sttr</module>
-        <module>muslsys/daemonize</module>
+        <module>modules/system/daemonize</module>
         <module>muslsys/task-spooler</module>
         <module>muslsys/nq</module>
         <module>muslsys/undrop-for-innodb</module>
@@ -255,25 +272,23 @@
         <module>module-static/cockroachdb</module>
 
         <module>module-static/mdbook</module>
-        <module>module-static/just</module>
+        <module>modules/dev/just</module>
 
-        <module>muslsys/binutils</module>
         <module>muslsys/mksh</module>
         <module>muslsys/oksh</module>
         <module>muslsys/yash</module>
         <module>muslsys/svs</module>
-        <module>muslsys/fping</module>
+        <module>modules/net/fping</module>
         <module>muslsys/sshping</module>
         <module>muslsys/iperf</module>
         <module>muslsys/shtool</module>
-        <module>muslsys/sharutils</module>
-        <module>muslsys/mailutils</module>
         <module>muslsys/libntlm</module>
-        <module>muslsys/gsasl</module>
         <module>muslsys/libowfat</module>
 
         <module>muslsys/scrypt</module>
         <module>muslsys/git</module>
+
+        <module>muslsys/nextvi</module>
 
         <module>muslsys/udns</module>
         <module>muslsys/libev</module>
@@ -285,25 +300,57 @@
         <module>muslsys/openpam</module>
         <module>muslsys/opendoas</module>
 
-        <module>muslsys/golang</module>
+        <module>modules/lang/golang</module>
+        <module>modules/lang/bun</module>
         <module>muslsys/ziglang</module>
-        <module>muslsys/gpp</module>
+        <module>modules/dev/gpp</module>
         <module>muslsys/libmd</module>
-        <module>muslsys/libbsd</module>
+        <module>modules/libc/libbsd</module>
         <module>muslsys/libedit</module>
         <module>muslsys/socat</module>
 
         <module>muslsys/libgpg-error</module>
-        <module>muslsys/libgcrypt</module>
+        <module>modules/crypto/libgcrypt</module>
         <module>muslsys/libassuan</module>
         <module>muslsys/libksba</module>
 
-        <module>muslsys/libsodium</module>
-        <module>muslsys/libssh</module>
+        <module>modules/crypto/libsodium</module>
+        <module>modules/net/libssh</module>
+
+        <module>modules/base/gnu/gsasl</module>
+        <module>modules/base/gnu/bash</module>
+        <module>modules/base/gnu/file</module>
+        <module>modules/base/gnu/gawk</module>
+        <module>modules/base/gnu/grep</module>
+        <module>modules/base/gnu/binutils</module>
+        <module>modules/base/gnu/bison</module>
+        <module>modules/base/gnu/flex</module>
+        <module>modules/base/gnu/bzip2</module>
+        <module>modules/base/gnu/groff</module>
+        <module>modules/base/gnu/m4</module>
+        <module>modules/base/gnu/sed</module>
+        <module>modules/base/gnu/tar</module>
+        <module>modules/base/gnu/patch</module>
+        <module>modules/base/gnu/dateutils</module>
+        <module>modules/base/gnu/bzip3</module>
+        <module>modules/base/gnu/diffutils</module>
+        <module>modules/base/gnu/findutils</module>
+        <module>modules/base/gnu/make</module>
+        <module>modules/base/gnu/gzip</module>
+        <module>modules/base/gnu/util-linux</module>
+        <module>modules/base/gnu/sharutils</module>
+        <module>modules/base/gnu/mailutils</module>
+        <module>modules/base/gnu/inetutils</module>
+
+        <module>muslsys/pkgconf</module>
+        <module>muslsys/pkg-config</module>
+
+        <module>modules/libs/gdbm</module>
 
         <module>muslsys/mhash</module>
+        <module>muslsys/pdpmake</module>
         <module>muslsys/mhash384</module>
-        <module>muslsys/libmcrypt</module>
+        <module>modules/crypto/libmcrypt</module>
         <module>muslsys/mcrypt</module>
         <module>muslsys/talloc</module>
         <module>muslsys/proot</module>
@@ -311,30 +358,13 @@
         <module>muslsys/libtasn1</module>
         <module>muslsys/nettle</module>
         <module>muslsys/gnutls</module>
-        <module>muslsys/embedtls</module>
+        <module>modules/crypto/embedtls</module>
         <module>muslsys/jansson</module>
         <module>muslsys/libjwt</module>
         <module>muslsys/msmtp</module>
         <module>muslsys/hostctl</module>
-        <module>muslsys/jq</module>
-        <module>muslsys/m4</module>
-        <module>muslsys/tar</module>
-        <module>muslsys/findutils</module>
-        <module>muslsys/pkgconf</module>
-        <module>muslsys/pkg-config</module>
-        <module>muslsys/grep</module>
-        <module>muslsys/dateutils</module>
-        <module>muslsys/gawk</module>
-        <module>muslsys/sed</module>
-        <module>muslsys/patch</module>
-        <module>muslsys/diffutils</module>
-        <module>muslsys/bison</module>
-        <module>muslsys/bash</module>
+        <module>modules/dbms/jq</module>
         <module>muslsys/libtool</module>
-        <module>muslsys/flex</module>
-        <module>muslsys/gdbm</module>
-        <module>muslsys/file</module>
-        <module>muslsys/groff</module>
         <module>module-fonts/urw-base35-fonts</module>
         <module>module-fonts/fonts-xorg</module>
         <module>module-fonts/fonts-adf</module>
@@ -343,7 +373,6 @@
         <module>module-fonts/fonts-libertinus</module>
         <module>module-fonts/fonts-nerd</module>
         <module>module-fonts/fonts-mswin</module>
-        <module>muslsys/make</module>
         <module>muslsys/netbsd-curses</module>
         <module>muslsys/pcre</module>
         <module>muslsys/pcre2</module>
@@ -355,54 +384,51 @@
         <module>muslsys/libattr</module>
         <module>muslsys/libcap</module>
         <module>muslsys/libcap-ng</module>
-        <module>muslsys/bwrap</module>
+        <module>modules/system/bwrap</module>
         <module>muslsys/popt</module>
-        <module>muslsys/expat</module>
-        <module>muslsys/libressl</module>
+        <module>modules/libs/expat</module>
+        <module>modules/crypto/libressl</module>
         <module>muslsys/openldap</module>
         <module>muslsys/sscep</module>
         <module>muslsys/nginx</module>
-        <module>muslsys/bzip2</module>
-        <module>muslsys/bzip3</module>
         <module>muslsys/zstd</module>
-        <module>muslsys/liblzo2</module>
+        <module>modules/compress/liblzo2</module>
         <module>muslsys/xz</module>
         <module>muslsys/libyaml</module>
-        <module>muslsys/libpng</module>
-        <module>muslsys/libarchive</module>
-        <module>muslsys/curl</module>
+        <module>modules/libs/libpng</module>
+        <module>modules/libs/libarchive</module>
+        <module>modules/net/curl</module>
         <module>muslsys/libsolv</module>
         <module>muslsys/opkg</module>
         <module>muslsys/tinysshd</module>
         <module>muslsys/libuv</module>
         <module>muslsys/libwebsockets</module>
-        <module>muslsys/iselect</module>
+        <module>modules/utils/iselect</module>
         <module>muslsys/vim</module>
         <module>muslsys/editline</module>
-        <module>muslsys/dash</module>
+        <module>modules/shells/dash</module>
         <module>muslsys/readline</module>
-        <module>muslsys/dialog</module>
+        <module>modules/utils/dialog</module>
         <module>muslsys/smenu</module>
-        <module>muslsys/sqlite</module>
-        <module>muslsys/sqlean</module>
+        <module>modules/dbms/sqlite</module>
+        <module>modules/dbms/sqlean</module>
         <module>muslsys/lua</module>
-        <module>muslsys/util-linux</module>
         <module>muslsys/openssh</module>
-        <module>muslsys/dropbear</module>
+        <module>modules/net/dropbear</module>
         <module>muslsys/luajit</module>
         <module>muslsys/glib2</module>
         <module>muslsys/mc</module>
         <module>muslsys/libUseful</module>
         <module>muslsys/libite</module>
         <module>muslsys/finit</module>
-        <module>muslsys/duckdb</module>
+        <module>modules/dbms/duckdb</module>
         <module>muslsys/samplicator</module>
         <module>baseos/filesystem</module>
         <module>bootos/gfdisk</module>
         <module>bootos/e2fsprogs</module>
         <module>baseos/busybox</module>
 
-        <module>muslsys/cryptopp</module>
+        <module>modules/crypto/cryptopp</module>
         <module>muslsys/proftpd</module>
         <module>muslsys/monit</module>
         <module>muslsys/luau</module>
@@ -428,12 +454,12 @@
         <module>bootos/syslinux</module>
         <module>bootos/init-tiny</module>
         <module>bootos/initrd-iso</module>
-        <module>modules/kernel</module>
+        <module>modules/system/kernel</module>
         <module>modules/distro-pkgs</module>
         <module>modules/perl-pkgs</module>
         <module>modules/java</module>
         <module>modules/java21</module>
-        <module>modules/nodejs</module>
+        <module>modules/lang/nodejs</module>
 
 
         <!--module>hashicorp/....</module-->

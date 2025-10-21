@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>valkey</artifactId>
-    <version>7.2.5</version>
+    <version>${version.valkey}</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -103,8 +103,8 @@
                                     <arg value="BUILD_TLS=yes" />
                                 </exec>
 
-                                <mkdir unless:true="${binary.exists}" dir="${project.basedir}/src/main/dist/xbin"/>
-                                <copy unless:true="${binary.exists}" todir="${project.basedir}/src/main/dist/xbin/" flatten="true">
+                                <mkdir dir="${project.basedir}/src/main/dist/xbin"/>
+                                <copy todir="${project.basedir}/src/main/dist/xbin/" flatten="true">
                                     <fileset dir="${project.build.directory}/${project.artifactId}/${pkg.tag}">
                                         <include name="src/${project.artifactId}-server" />
                                         <include name="src/${project.artifactId}-cli" />

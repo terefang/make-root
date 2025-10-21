@@ -27,36 +27,60 @@ https://raw.githubusercontent.com/MohammadYounes/AlertifyJS/master/build/css/ale
 https://raw.githubusercontent.com/MohammadYounes/AlertifyJS/master/build/css/alertify.min.css,alertifyjs
 
 
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.common.js,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.common.js.map,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.common.min.js,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.js,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.js.map,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.min.js,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.min.mjs,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.mjs,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.mjs.map,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.js,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.js.map,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.simple.js,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.simple.js.map,echarts
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.simple.min.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.common.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.common.js.map,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.common.min.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.esm.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.esm.js.map,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.esm.min.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.esm.min.mjs,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.esm.mjs,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.esm.mjs.map,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.js.map,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.simple.js,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.simple.js.map,echarts
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.simple.min.js,echarts
 
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/bmap.js,echarts/extension
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/bmap.js.map,echarts/extension
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/bmap.min.js,echarts/extension
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/dataTool.js,echarts/extension
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/dataTool.js.map,echarts/extension
-https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/extension/dataTool.min.js,echarts/extension
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/extension/bmap.js,echarts/extension
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/extension/bmap.js.map,echarts/extension
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/extension/bmap.min.js,echarts/extension
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/extension/dataTool.js,echarts/extension
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/extension/dataTool.js.map,echarts/extension
+https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/extension/dataTool.min.js,echarts/extension
 
 
-https://code.jquery.com/jquery-3.7.1.min.js,jquery,jquery.min.js
-https://code.jquery.com/ui/1.14.0/jquery-ui.min.js,jquery,jquery-ui.min.js
-https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css,jquery,jquery-ui.css
-https://code.jquery.com/ui/1.14.0/themes/ui-darkness/jquery-ui.css,jquery,jquery-ui-darkness.css
-https://code.jquery.com/color/jquery.color.plus-names-3.0.0.js,jquery,jquery.color.js
-https://code.jquery.com/color/jquery.color.plus-names-3.0.0.min.js,jquery,jquery.color.min.js
+https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js,jquery
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/jquery-ui.min.js,jquery
+
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/base/jquery-ui.min.css,jquery/theme-base
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/base/theme.css,jquery/theme-base
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/base/images/ui-icons_444444_256x240.png,jquery/theme-base/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/base/images/ui-icons_555555_256x240.png,jquery/theme-base/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/base/images/ui-icons_777620_256x240.png,jquery/theme-base/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/base/images/ui-icons_777777_256x240.png,jquery/theme-base/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/base/images/ui-icons_cc0000_256x240.png,jquery/theme-base/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/base/images/ui-icons_ffffff_256x240.png,jquery/theme-base/images
+
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/jquery-ui.min.css,jquery/theme-ui-darkness
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/theme.css,jquery/theme-ui-darkness
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-bg_glass_20_555555_1x400.png,jquery/theme-ui-darkness/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-bg_glass_40_0078a3_1x400.png,jquery/theme-ui-darkness/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-bg_glass_40_ffc73d_1x400.png,jquery/theme-ui-darkness/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-bg_gloss-wave_25_333333_500x100.png,jquery/theme-ui-darkness/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-bg_highlight-soft_80_eeeeee_1x100.png,jquery/theme-ui-darkness/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-bg_inset-soft_25_000000_1x100.png,jquery/theme-ui-darkness/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-bg_inset-soft_30_f58400_1x100.png,jquery/theme-ui-darkness/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-icons_4b8e0b_256x240.png,jquery/theme-ui-darkness/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-icons_222222_256x240.png,jquery/theme-ui-darkness/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-icons_a83300_256x240.png,jquery/theme-ui-darkness/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-icons_cccccc_256x240.png,jquery/theme-ui-darkness/images
+https://cdn.jsdelivr.net/npm/jquery-ui@1.14.1/dist/themes/ui-darkness/images/ui-icons_ffffff_256x240.png,jquery/theme-ui-darkness/images
+
+https://cdn.jsdelivr.net/npm/jquery-color@3.0.0/dist/jquery.color.min.js,jquery
+https://cdn.jsdelivr.net/npm/jquery-color@3.0.0/dist/jquery.color.plus-names.min.js,jquery
+https://cdn.jsdelivr.net/npm/jquery-color@3.0.0/dist/jquery.color.svg-names.min.js,jquery
 
 https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.js,lodash
 https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js,lodash
@@ -68,18 +92,18 @@ https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js,bootstrap4
 
 https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js,popper2
 
-https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css,bootstrap5
-https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-grid.min.css,bootstrap5
-https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-reboot.min.css,bootstrap5
-https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-utilities.min.css,bootstrap5
-https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js,bootstrap5
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css,bootstrap5
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap-grid.min.css,bootstrap5
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap-reboot.min.css,bootstrap5
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap-utilities.min.css,bootstrap5
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js,bootstrap5
 
-https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.js,bootbox
-https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.min.js,bootbox
-https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.all.js,bootbox
-https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.all.min.js,bootbox
-https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.locales.js,bootbox
-https://cdn.jsdelivr.net/npm/bootbox@6.0.0/dist/bootbox.locales.min.js,bootbox
+https://cdn.jsdelivr.net/npm/bootbox@6.0.2/dist/bootbox.js,bootbox
+https://cdn.jsdelivr.net/npm/bootbox@6.0.2/dist/bootbox.min.js,bootbox
+https://cdn.jsdelivr.net/npm/bootbox@6.0.2/dist/bootbox.all.js,bootbox
+https://cdn.jsdelivr.net/npm/bootbox@6.0.2/dist/bootbox.all.min.js,bootbox
+https://cdn.jsdelivr.net/npm/bootbox@6.0.2/dist/bootbox.locales.js,bootbox
+https://cdn.jsdelivr.net/npm/bootbox@6.0.2/dist/bootbox.locales.min.js,bootbox
 
 https://cdn.jsdelivr.net/npm/jquery-bootgrid@1.3.1/dist/jquery.bootgrid.css,bootgrid
 https://cdn.jsdelivr.net/npm/jquery-bootgrid@1.3.1/dist/jquery.bootgrid.fa.js,bootgrid
@@ -97,10 +121,10 @@ https://cdn.jsdelivr.net/npm/jquery-form@4.3.0/dist/jquery.form.min.js.map,jquer
 https://cdn.jsdelivr.net/npm/jquery-serializejson@3.2.1/jquery.serializejson.js,jquery
 https://cdn.jsdelivr.net/npm/jquery-serializejson@3.2.1/jquery.serializejson.min.js,jquery
 
-https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.7.0/dist/js/query-builder.js,query-builder
-https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.7.0/dist/js/query-builder.standalone.js,query-builder
-https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.7.0/dist/css/query-builder.dark.css,query-builder
-https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.7.0/dist/css/query-builder.default.css,query-builder
+https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@3.0.0/dist/js/query-builder.js,query-builder
+https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@3.0.0/dist/js/query-builder.standalone.js,query-builder
+https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@3.0.0/dist/css/query-builder.dark.css,query-builder
+https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@3.0.0/dist/css/query-builder.default.css,query-builder
 
 https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/glyphicons.css,../icons/glyphicons
 https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/glyphicons.min.css,../icons/glyphicons
@@ -111,8 +135,8 @@ https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/fonts/glyphicons-halflings-reg
 https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/fonts/glyphicons-halflings-regular.woff,../icons/glyphicons/fonts
 https://cdn.jsdelivr.net/npm/owp.glyphicons@1.2.0/fonts/glyphicons-halflings-regular.woff2,../icons/glyphicons/fonts
 
-https://cdn.jsdelivr.net/npm/dna-engine@3.0/dist/dna-engine.css,dnajs
-https://cdn.jsdelivr.net/npm/dna-engine@3.0/dist/dna-engine.min.js,dnajs
+https://cdn.jsdelivr.net/npm/dna-engine@3.2.7/dist/dna-engine.css,dnajs
+https://cdn.jsdelivr.net/npm/dna-engine@3.2.7/dist/dna-engine.min.js,dnajs
 
 https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.js,d3js
 https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js,d3js
@@ -170,160 +194,231 @@ https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/fonts/Materi
 https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/fonts/Material-Design-Iconic-Font.woff2,../icons/zmdi/fonts
 
 
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/jquery_wrapper.js,tabulator/js
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator.js,tabulator/js
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator.js.map,tabulator/js
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator.min.js,tabulator/js
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator.min.js.map,tabulator/js
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator_esm.js,tabulator/js
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator_esm.js.map,tabulator/js
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator_esm.min.js,tabulator/js
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/js/tabulator_esm.min.js.map,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/js/jquery_wrapper.js,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/js/tabulator.js,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/js/tabulator.js.map,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/js/tabulator.min.js,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/js/tabulator.min.js.map,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/js/tabulator_esm.js,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/js/tabulator_esm.js.map,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/js/tabulator_esm.min.js,tabulator/js
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/js/tabulator_esm.min.js.map,tabulator/js
 
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator.min.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator.min.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap3.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap3.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap3.min.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap3.min.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap4.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap4.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap4.min.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap4.min.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap5.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap5.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap5.min.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bootstrap5.min.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bulma.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bulma.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bulma.min.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_bulma.min.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_materialize.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_materialize.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_materialize.min.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_materialize.min.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_midnight.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_midnight.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_midnight.min.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_midnight.min.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_modern.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_modern.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_modern.min.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_modern.min.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_semanticui.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_semanticui.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_semanticui.min.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_semanticui.min.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_simple.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_simple.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_simple.min.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_simple.min.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_site.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_site.css.map,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_site.min.css,tabulator/css
-https://cdn.jsdelivr.net/npm/tabulator-tables@6.2.5/dist/css/tabulator_site.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap3.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap3.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap3.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap3.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap4.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap4.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap4.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap4.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap5.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap5.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap5.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap5.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bulma.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bulma.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bulma.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_bulma.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_materialize.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_materialize.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_materialize.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_materialize.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_midnight.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_midnight.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_midnight.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_midnight.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_modern.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_modern.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_modern.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_modern.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_semanticui.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_semanticui.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_semanticui.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_semanticui.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_simple.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_simple.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_simple.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_simple.min.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_site.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_site.css.map,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_site.min.css,tabulator/css
+https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.1/dist/css/tabulator_site.min.css.map,tabulator/css
 
-https://unpkg.com/htmx.org@1.9.12/dist/htmx.js,htmx
-https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js,htmx
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/htmx.js,htmx
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/htmx.min.js,htmx
 
-https://unpkg.com/htmx.org@1.9.12/dist/ext/ajax-header.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/alpine-morph.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/class-tools.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/client-side-templates.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/debug.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/disable-element.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/event-header.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/head-support.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/include-vals.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/json-enc.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/loading-states.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/method-override.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/morphdom-swap.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/multi-swap.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/path-deps.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/path-params.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/preload.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/rails-method.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/remove-me.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/response-targets.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/restored.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/sse.js,htmx/ext
-https://unpkg.com/htmx.org@1.9.12/dist/ext/ws.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/ajax-header.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/alpine-morph.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/class-tools.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/client-side-templates.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/debug.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/disable-element.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/event-header.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/head-support.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/include-vals.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/json-enc.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/loading-states.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/method-override.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/morphdom-swap.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/multi-swap.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/path-deps.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/path-params.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/preload.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/rails-method.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/remove-me.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/response-targets.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/restored.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/sse.js,htmx/ext
+https://cdn.jsdelivr.net/npm/htmx.org@1.9.12/dist/ext/ws.js,htmx/ext
 
 
-https://unpkg.com/datatables.net@1.13.8/js/jquery.dataTables.js,datatables/js
-https://unpkg.com/datatables.net@1.13.8/js/jquery.dataTables.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net@1.13.11/js/jquery.dataTables.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net@1.13.11/js/jquery.dataTables.min.js,datatables/js
 
-https://unpkg.com/datatables.net-autofill@2.6.0/js/dataTables.autoFill.js,datatables/js
-https://unpkg.com/datatables.net-autofill@2.6.0/js/dataTables.autoFill.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-autofill@2.7.0/js/dataTables.autoFill.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-autofill@2.7.0/js/dataTables.autoFill.min.js,datatables/js
 
-https://unpkg.com/datatables.net-bs5@1.13.8/js/dataTables.bootstrap5.js,datatables/js
-https://unpkg.com/datatables.net-bs5@1.13.8/js/dataTables.bootstrap5.min.js,datatables/js
-https://unpkg.com/datatables.net-bs5@1.13.8/css/dataTables.bootstrap5.css,datatables/css
-https://unpkg.com/datatables.net-bs5@1.13.8/css/dataTables.bootstrap5.min.css,datatables/css
-https://unpkg.com/datatables.net-bs5@1.13.8/images/favicon.ico,datatables/images
-https://unpkg.com/datatables.net-bs5@1.13.8/images/sort_asc.png,datatables/images
-https://unpkg.com/datatables.net-bs5@1.13.8/images/sort_asc_disabled.png,datatables/images
-https://unpkg.com/datatables.net-bs5@1.13.8/images/sort_both.png,datatables/images
-https://unpkg.com/datatables.net-bs5@1.13.8/images/sort_desc.png,datatables/images
-https://unpkg.com/datatables.net-bs5@1.13.8/images/sort_desc_disabled.png,datatables/images
+https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/js/dataTables.bootstrap5.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/js/dataTables.bootstrap5.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/css/dataTables.bootstrap5.css,datatables/css
+https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/css/dataTables.bootstrap5.min.css,datatables/css
+https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/images/favicon.ico,datatables/images
+https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/images/sort_asc.png,datatables/images
+https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/images/sort_asc_disabled.png,datatables/images
+https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/images/sort_both.png,datatables/images
+https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/images/sort_desc.png,datatables/images
+https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/images/sort_desc_disabled.png,datatables/images
 
-https://unpkg.com/datatables.net-bs4@1.13.8/js/dataTables.bootstrap4.js,datatables/js
-https://unpkg.com/datatables.net-bs4@1.13.8/js/dataTables.bootstrap4.min.js,datatables/js
-https://unpkg.com/datatables.net-bs4@1.13.8/css/dataTables.bootstrap4.css,datatables/css
-https://unpkg.com/datatables.net-bs4@1.13.8/css/dataTables.bootstrap4.min.css,datatables/css
+https://cdn.jsdelivr.net/npm/datatables.net-bs4@1.13.11/js/dataTables.bootstrap4.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-bs4@1.13.11/js/dataTables.bootstrap4.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-bs4@1.13.11/css/dataTables.bootstrap4.css,datatables/css
+https://cdn.jsdelivr.net/npm/datatables.net-bs4@1.13.11/css/dataTables.bootstrap4.min.css,datatables/css
 
-https://unpkg.com/datatables.net-responsive@2.5.0/js/dataTables.responsive.js,datatables/js
-https://unpkg.com/datatables.net-responsive@2.5.0/js/dataTables.responsive.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-responsive@3.0.4/js/dataTables.responsive.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-responsive@3.0.4/js/dataTables.responsive.min.js,datatables/js
 
-https://unpkg.com/datatables.net-responsive-bs5@2.5.0/js/responsive.bootstrap5.js,datatables/js
-https://unpkg.com/datatables.net-responsive-bs5@2.5.0/js/responsive.bootstrap5.min.js,datatables/js
-https://unpkg.com/datatables.net-responsive-bs5@2.5.0/css/responsive.bootstrap5.css,datatables/css
-https://unpkg.com/datatables.net-responsive-bs5@2.5.0/css/responsive.bootstrap5.min.css,datatables/css
+https://cdn.jsdelivr.net/npm/datatables.net-responsive-bs5@3.0.4/js/responsive.bootstrap5.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-responsive-bs5@3.0.4/js/responsive.bootstrap5.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-responsive-bs5@3.0.4/css/responsive.bootstrap5.css,datatables/css
+https://cdn.jsdelivr.net/npm/datatables.net-responsive-bs5@3.0.4/css/responsive.bootstrap5.min.css,datatables/css
 
-https://unpkg.com/datatables.net-responsive-bs4@2.5.0/js/responsive.bootstrap4.js,datatables/js
-https://unpkg.com/datatables.net-responsive-bs4@2.5.0/js/responsive.bootstrap4.min.js,datatables/js
-https://unpkg.com/datatables.net-responsive-bs4@2.5.0/css/responsive.bootstrap4.css,datatables/css
-https://unpkg.com/datatables.net-responsive-bs4@2.5.0/css/responsive.bootstrap4.min.css,datatables/css
+https://cdn.jsdelivr.net/npm/datatables.net-responsive-bs4@3.0.4/js/responsive.bootstrap4.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-responsive-bs4@3.0.4/js/responsive.bootstrap4.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-responsive-bs4@3.0.4/css/responsive.bootstrap4.css,datatables/css
+https://cdn.jsdelivr.net/npm/datatables.net-responsive-bs4@3.0.4/css/responsive.bootstrap4.min.css,datatables/css
 
-https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.colVis.js,datatables/js
-https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.colVis.min.js,datatables/js
-https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.flash.js,datatables/js
-https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.flash.min.js,datatables/js
-https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.html5.js,datatables/js
-https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.html5.min.js,datatables/js
-https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.print.js,datatables/js
-https://unpkg.com/datatables.net-buttons@2.4.2/js/buttons.print.min.js,datatables/js
-https://unpkg.com/datatables.net-buttons@2.4.2/js/dataTables.buttons.js,datatables/js
-https://unpkg.com/datatables.net-buttons@2.4.2/js/dataTables.buttons.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-buttons@3.2.2/js/buttons.colVis.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-buttons@3.2.2/js/buttons.colVis.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-buttons@3.2.2/js/buttons.html5.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-buttons@3.2.2/js/buttons.html5.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-buttons@3.2.2/js/buttons.print.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-buttons@3.2.2/js/buttons.print.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-buttons@3.2.2/js/dataTables.buttons.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-buttons@3.2.2/js/dataTables.buttons.min.js,datatables/js
 
-https://unpkg.com/datatables.net-fixedcolumns@4.3.0/js/dataTables.fixedColumns.js,datatables/js
-https://unpkg.com/datatables.net-fixedcolumns@4.3.0/js/dataTables.fixedColumns.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-fixedcolumns@5.0.4/js/dataTables.fixedColumns.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-fixedcolumns@5.0.4/js/dataTables.fixedColumns.min.js,datatables/js
 
-https://unpkg.com/datatables.net-fixedheader@3.4.0/js/dataTables.fixedHeader.js,datatables/js
-https://unpkg.com/datatables.net-fixedheader@3.4.0/js/dataTables.fixedHeader.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-fixedheader@4.0.1/js/dataTables.fixedHeader.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-fixedheader@4.0.1/js/dataTables.fixedHeader.min.js,datatables/js
 
-https://unpkg.com/datatables.net-rowgroup@1.4.1/js/dataTables.rowGroup.js,datatables/js
-https://unpkg.com/datatables.net-rowgroup@1.4.1/js/dataTables.rowGroup.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-rowgroup@1.5.1/js/dataTables.rowGroup.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-rowgroup@1.5.1/js/dataTables.rowGroup.min.js,datatables/js
 
-https://unpkg.com/datatables.net-rowreorder@1.4.1/js/dataTables.rowReorder.js,datatables/js
-https://unpkg.com/datatables.net-rowreorder@1.4.1/js/dataTables.rowReorder.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-rowreorder@1.5.0/js/dataTables.rowReorder.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-rowreorder@1.5.0/js/dataTables.rowReorder.min.js,datatables/js
 
-https://unpkg.com/datatables.net-scroller@2.3.0/js/dataTables.scroller.js,datatables/js
-https://unpkg.com/datatables.net-scroller@2.3.0/js/dataTables.scroller.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-scroller@2.4.3/js/dataTables.scroller.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-scroller@2.4.3/js/dataTables.scroller.min.js,datatables/js
 
-https://unpkg.com/datatables.net-searchbuilder@1.6.0/js/dataTables.searchBuilder.js,datatables/js
-https://unpkg.com/datatables.net-searchbuilder@1.6.0/js/dataTables.searchBuilder.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-scroller-bs4@2.4.3/js/scroller.bootstrap4.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-scroller-bs4@2.4.3/css/scroller.bootstrap4.min.css,datatables/css
 
-https://unpkg.com/datatables.net-searchpanes@2.2.0/js/dataTables.searchPanes.js,datatables/js
-https://unpkg.com/datatables.net-searchpanes@2.2.0/js/dataTables.searchPanes.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-scroller-bs5@2.4.3/js/scroller.bootstrap5.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-scroller-bs5@2.4.3/css/scroller.bootstrap5.min.css,datatables/css
 
-https://unpkg.com/datatables.net-datetime@1.5.0/dist/dataTables.dateTime.css,datatables/css
-https://unpkg.com/datatables.net-datetime@1.5.0/dist/dataTables.dateTime.min.css,datatables/css
-https://unpkg.com/datatables.net-datetime@1.5.0/dist/dataTables.dateTime.js,datatables/js
-https://unpkg.com/datatables.net-datetime@1.5.0/dist/dataTables.dateTime.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-searchbuilder@1.8.2/js/dataTables.searchBuilder.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-searchbuilder@1.8.2/js/dataTables.searchBuilder.min.js,datatables/js
+
+https://cdn.jsdelivr.net/npm/datatables.net-searchpanes@2.3.3/js/dataTables.searchPanes.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-searchpanes@2.3.3/js/dataTables.searchPanes.min.js,datatables/js
+
+https://cdn.jsdelivr.net/npm/datatables.net-select@3.0.0/js/dataTables.select.min.js,datatables/js
+
+https://cdn.jsdelivr.net/npm/datatables.net-select-bs4@3.0.0/js/select.bootstrap4.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-select-bs4@3.0.0/css/select.bootstrap4.min.css,datatables/css
+
+https://cdn.jsdelivr.net/npm/datatables.net-select-bs5@3.0.0/js/select.bootstrap5.min.js,datatables/js
+https://cdn.jsdelivr.net/npm/datatables.net-select-bs5@3.0.0/css/select.bootstrap5.min.css,datatables/css
+
+https://cdn.jsdelivr.net/npm/datatables.net-datetime@1.5.5/dist/dataTables.dateTime.min.css,datatables/css
+https://cdn.jsdelivr.net/npm/datatables.net-datetime@1.5.5/dist/dataTables.dateTime.min.js,datatables/js
+
+https://cdn.jsdelivr.net/npm/rickshaw@1.7.1/rickshaw.min.js,rickshaw
+https://cdn.jsdelivr.net/npm/rickshaw@1.7.1/rickshaw.min.css,rickshaw
+
+
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-grid.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-grid.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-grid.min.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-grid.min.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-grid.rtl.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-grid.rtl.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-grid.rtl.min.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-grid.rtl.min.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-reboot.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-reboot.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-reboot.min.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-reboot.min.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-reboot.rtl.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-reboot.rtl.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-reboot.rtl.min.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-reboot.rtl.min.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-utilities.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-utilities.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-utilities.min.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-utilities.min.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-utilities.rtl.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-utilities.rtl.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-utilities.rtl.min.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui-utilities.rtl.min.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.min.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.min.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.rtl.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.rtl.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.rtl.min.css,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.rtl.min.css.map,coreui/css
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.bundle.js,coreui/js
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.bundle.js.map,coreui/js
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.bundle.min.js,coreui/js
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.bundle.min.js.map,coreui/js
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.esm.js,coreui/js
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.esm.js.map,coreui/js
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.esm.min.js,coreui/js
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.esm.min.js.map,coreui/js
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.js,coreui/js
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.js.map,coreui/js
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.min.js,coreui/js
+https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.min.js.map,coreui/js
+
+
+https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.css,chosen
+https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.js,chosen
+https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.min.js,chosen
+https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.min.css,chosen
+https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.proto.js,chosen
+https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.proto.min.js,chosen
+https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen-sprite.png,chosen
+https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen-sprite@2x.png,chosen
+
+
 
         ]]></css.urls>
     </properties>
@@ -400,68 +495,6 @@ https://unpkg.com/datatables.net-datetime@1.5.0/dist/dataTables.dateTime.min.js,
                                 <mkdir dir="${root.dir}/var/www/common/html"/>
                                 <mkdir dir="${root.dir}/var/www/common/lib"/>
 
-                                <get src="https://github.com/harvesthq/chosen/releases/download/v1.8.7/chosen_v1.8.7.zip" dest="${project.basedir}/src/main/dist/chosen_v1.8.7.zip" />
-                                <mkdir dir="${root.dir}/var/${project.artifactId}/chosen"/>
-                                <exec dir="${root.dir}/var/${project.artifactId}/chosen" executable="unzip">
-                                    <arg line="-o ${project.basedir}/src/main/dist/chosen_v1.8.7.zip" />
-                                </exec>
-
-                                <mkdir dir="${root.dir}/var/www/common/lib/chosen"/>
-                                <copy todir="${root.dir}/var/www/common/lib/chosen">
-                                    <fileset dir="${root.dir}/var/${project.artifactId}/chosen" includes="*.css"/>
-                                    <fileset dir="${root.dir}/var/${project.artifactId}/chosen" includes="*.js"/>
-                                </copy>
-
-                                <get src="https://github.com/twbs/icons/releases/download/v1.11.2/bootstrap-icons-1.11.2.zip" dest="${project.basedir}/src/main/dist/bootstrap-icons-1.11.2.zip" />
-                                <mkdir dir="${root.dir}/var/${project.artifactId}/bootstrap-icons"/>
-                                <exec dir="${root.dir}/var/${project.artifactId}/bootstrap-icons" executable="unzip">
-                                    <arg line="-o ${project.basedir}/src/main/dist/bootstrap-icons-1.11.2.zip" />
-                                </exec>
-
-                                <mkdir dir="${root.dir}/var/www/common/icons/bootstrap"/>
-                                <copy todir="${root.dir}/var/www/common/icons/bootstrap">
-                                    <fileset dir="${root.dir}/var/${project.artifactId}/bootstrap-icons/bootstrap-icons-1.11.2/font" includes="**/*.css"/>
-                                    <fileset dir="${root.dir}/var/${project.artifactId}/bootstrap-icons/bootstrap-icons-1.11.2/font" includes="**/*.woff"/>
-                                    <fileset dir="${root.dir}/var/${project.artifactId}/bootstrap-icons/bootstrap-icons-1.11.2/font" includes="**/*.woff2"/>
-                                </copy>
-
-
-                                <get src="https://github.com/shutterstock/rickshaw/archive/refs/tags/v1.7.0.zip" dest="${project.basedir}/src/main/dist/rickshaw-1.7.0.zip" />
-                                <mkdir dir="${root.dir}/var/${project.artifactId}/rickshaw"/>
-                                <exec dir="${root.dir}/var/${project.artifactId}/rickshaw" executable="unzip">
-                                    <arg line="-o ${project.basedir}/src/main/dist/rickshaw-1.7.0.zip" />
-                                </exec>
-
-                                <mkdir dir="${root.dir}/var/www/common/lib/rickshaw"/>
-                                <copy todir="${root.dir}/var/www/common/lib/rickshaw">
-                                    <fileset dir="${root.dir}/var/${project.artifactId}/rickshaw/rickshaw-1.7.0" includes="*.css"/>
-                                    <fileset dir="${root.dir}/var/${project.artifactId}/rickshaw/rickshaw-1.7.0" includes="*.js"/>
-                                    <fileset dir="${root.dir}/var/${project.artifactId}/rickshaw/rickshaw-1.7.0/vendor" includes="*.js"/>
-                                </copy>
-
-                                <get src="https://github.com/coreui/coreui/releases/download/v4.3.2/coreui-4.3.2-dist.zip" dest="${project.basedir}/src/main/dist/coreui-4.3.2-dist.zip" />
-                                <mkdir dir="${root.dir}/var/${project.artifactId}/coreui"/>
-                                <exec dir="${root.dir}/var/${project.artifactId}/coreui" executable="unzip">
-                                    <arg line="-o ${project.basedir}/src/main/dist/coreui-4.3.2-dist.zip" />
-                                </exec>
-
-                                <mkdir dir="${root.dir}/var/www/common/lib/coreui"/>
-                                <copy todir="${root.dir}/var/www/common/lib/coreui">
-                                    <fileset dir="${root.dir}/var/${project.artifactId}/coreui/coreui-4.3.2-dist"/>
-                                </copy>
-
-                                <get src="https://github.com/coreui/coreui/releases/download/v5.1.2/coreui-5.1.2-dist.zip" dest="${project.basedir}/src/main/dist/coreui-5.1.2-dist.zip" />
-                                <mkdir dir="${root.dir}/var/${project.artifactId}/coreui5"/>
-                                <exec dir="${root.dir}/var/${project.artifactId}/coreui5" executable="unzip">
-                                    <arg line="-o ${project.basedir}/src/main/dist/coreui-5.1.2-dist.zip" />
-                                </exec>
-
-                                <mkdir dir="${root.dir}/var/www/common/lib/coreui5"/>
-                                <copy todir="${root.dir}/var/www/common/lib/coreui5">
-                                    <fileset dir="${root.dir}/var/${project.artifactId}/coreui5/coreui-5.1.2-dist"/>
-                                </copy>
-
-
                                 <for list="${css.urls}" delimiter=" &#10;" trim="true" param="ncss">
                                     <sequential>
                                         <script manager="bsf" language="beanshell"><![CDATA[
@@ -512,7 +545,8 @@ https://unpkg.com/datatables.net-datetime@1.5.0/dist/dataTables.dateTime.min.js,
                                         release="${buildNumber}"
                                         version="${timestamp}"
                                 >
-                                    <rpmfileset prefix="/var/www/common" filemode='444' dir="${root.dir}/var/www/common" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/var/frankenphp/common" filemode='444' dir="${root.dir}/var/www/common" username="root" group="root" addParents="false" />
+                                    <link path="/var/www/common" target="/var/frankenphp/common" />
                                 </xrpm>
 
                             </target>

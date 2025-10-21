@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.module-fonts</groupId>
     <artifactId>fonts-nerd</artifactId>
-    <version>3.1.1</version>
+    <version>${version.nerdfonts}</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -20,73 +20,74 @@
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
         <!--
             ### curl 'https://www.nerdfonts.com/font-downloads' | xq -n -x '//*[@id="downloads"]/div[2]/div[1]/div/a'|cut -f2 -d'"'
+            ### curl 'https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest'|jq -r '.assets.[].browser_download_url'|fgrep .zip
         -->
-        <font.urls>
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/0xProto.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/3270.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Agave.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/AnonymousPro.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Arimo.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/AurulentSansMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/BigBlueTerminal.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/BitstreamVeraSansMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CascadiaCode.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CascadiaMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/IBMPlexMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CodeNewRoman.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/ComicShannsMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/CommitMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Cousine.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/D2Coding.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/DaddyTimeMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/DejaVuSansMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/DroidSansMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/EnvyCodeR.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FantasqueSansMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraCode.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/GeistMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Gohu.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Go-Mono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hack.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hasklig.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/HeavyData.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Hermit.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/iA-Writer.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Inconsolata.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/InconsolataGo.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/InconsolataLGC.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/IntelOneMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Iosevka.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/IosevkaTerm.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/IosevkaTermSlab.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Lekton.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/LiberationMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Lilex.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/MartianMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Meslo.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Monaspace.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Monofur.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Monoid.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Mononoki.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/MPlus.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Noto.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/OpenDyslexic.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Overpass.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/ProFont.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/ProggyClean.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/RobotoMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/ShareTechMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/SourceCodePro.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/SpaceMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/NerdFontsSymbolsOnly.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Terminus.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Tinos.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Ubuntu.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/UbuntuMono.zip
-            https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/VictorMono.zip
-        </font.urls>
+        <!--font.urls>
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/0xProto.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/3270.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Agave.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/AnonymousPro.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Arimo.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/AurulentSansMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/BigBlueTerminal.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/BitstreamVeraSansMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/CascadiaCode.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/CascadiaMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/IBMPlexMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/CodeNewRoman.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/ComicShannsMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/CommitMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Cousine.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/D2Coding.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/DaddyTimeMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/DejaVuSansMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/DroidSansMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/EnvyCodeR.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/FantasqueSansMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/FiraCode.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/FiraMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/GeistMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Gohu.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Go-Mono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Hack.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Hasklig.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/HeavyData.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Hermit.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/iA-Writer.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Inconsolata.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/InconsolataGo.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/InconsolataLGC.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/IntelOneMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Iosevka.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/IosevkaTerm.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/IosevkaTermSlab.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/JetBrainsMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Lekton.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/LiberationMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Lilex.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/MartianMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Meslo.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Monaspace.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Monofur.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Monoid.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Mononoki.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/MPlus.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Noto.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/OpenDyslexic.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Overpass.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/ProFont.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/ProggyClean.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/RobotoMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/ShareTechMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/SourceCodePro.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/SpaceMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/NerdFontsSymbolsOnly.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Terminus.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Tinos.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/Ubuntu.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/UbuntuMono.zip
+            https://github.com/ryanoasis/nerd-fonts/releases/download/v${project.version}/VictorMono.zip
+        </font.urls-->
 
     </properties>
 
@@ -157,6 +158,12 @@
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
                                 <mkdir dir="${resources.target}/fonts/nerd"/>
 
+                                <echo file="${project.build.directory}/list.sh"><![CDATA[
+                                curl 'https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest'|jq -r '.assets.[].browser_download_url'|fgrep .zip
+                                ]]></echo>
+                                <exec dir="${project.build.directory}" executable="bash" error="/dev/null" outputproperty="font.urls">
+                                    <arg line="${project.build.directory}/list.sh" />
+                                </exec>
                                 <for list="${font.urls}" delimiter="&#10;" trim="true" param="url">
                                     <sequential>
                                         <script manager="bsf" language="beanshell"><![CDATA[
@@ -179,7 +186,7 @@
                                         ]]></script>
                                         <delete dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
                                         <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}/${nameBase}"/>
-                                        <get src="@{url}" dest="${project.build.directory}/${baseName}"/>
+                                        <get src="@{url}" dest="${project.build.directory}/${baseName}" verbose="true"/>
                                         <exec if:true="${isZip}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="unzip">
                                             <arg line="-j -o ${project.build.directory}/${baseName}" />
                                         </exec>

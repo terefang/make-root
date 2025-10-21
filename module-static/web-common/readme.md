@@ -25,6 +25,8 @@
 * echarts – https://echarts.apache.org/
 * alertifyjs https://alertifyjs.com
 
+https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.js
+
 ## nginx
 
 ```
