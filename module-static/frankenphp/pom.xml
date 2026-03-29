@@ -184,6 +184,32 @@
                                         destination="${project.build.directory}"
                                         license="GNU"
                                         group="${project.artifactId}"
+                                        name="${project.artifactId}"
+                                        summary="${project.artifactId}"
+                                        distribution="${project.artifactId}"
+                                        packager="${project.artifactId}"
+                                        url=""
+                                        vendor="${project.artifactId}"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}.${timestamp}"
+                                        version="${version.frankenphp}"
+                                        preInstallScript="src/main/dist/pre-install-centos.sh"
+                                >
+                                    <rpmfileset prefix="/usr/lib/systemd/system/" filemode='644' file="src/main/dist/${project.artifactId}.service" username="${project.artifactId}" group="${project.artifactId}" addParents="false" />
+
+                                    <rpmfileset prefix="/usr/${project.artifactId}/bin" filemode='555' file="${root.dir}/usr/${project.artifactId}/bin/${project.artifactId}" username="${project.artifactId}" group="${project.artifactId}" addParents="false" />
+                                    <rpmfileset prefix="/var/${project.artifactId}/etc" filemode='640' file="src/main/dist/etc/Caddyfile" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true"/>
+                                    <rpmfileset prefix="/var/${project.artifactId}/etc" filemode='640' file="src/main/dist/etc/php.ini" username="${project.artifactId}" group="${project.artifactId}" addParents="false" config="true"/>
+
+                                    <emptydir path="/var/log/${project.artifactId}" filemode='640' dirmode='750' username="${project.artifactId}" group="${project.artifactId}"/>
+
+                                </xrpm>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="GNU"
+                                        group="${project.artifactId}"
                                         name="toolbox-${project.artifactId}"
                                         summary="${project.artifactId}"
                                         distribution="${project.artifactId}"

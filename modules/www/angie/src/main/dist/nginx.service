@@ -1,0 +1,18 @@
+[Unit]
+Description=angie
+Requires=network.target
+After=syslog.target
+
+[Service]
+Type=forking
+PIDFile=/var/log/angie/angie.pid
+ExecStartPre=/usr/libexec/angie/angie -c /etc/angie/angie.conf -t
+ExecStart=/usr/libexec/angie/angie -c /etc/angie/angie.conf
+ExecReload=/usr/libexec/angie/angie -s reload
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=true
+User=root
+Group=root
+
+[Install]
+WantedBy=default.target

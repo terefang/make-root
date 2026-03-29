@@ -64,7 +64,7 @@
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
                                 <mkdir dir="${resources.target}"/>
 
-                                <condition property="archive.exists">
+                                <!--condition property="archive.exists">
                                     <resourceexists>
                                         <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
                                     </resourceexists>
@@ -74,7 +74,7 @@
                                     <resourceexists>
                                         <file file="${resources.target}/muslsys-${prg.tag}.tgz"/>
                                     </resourceexists>
-                                </condition>
+                                </condition-->
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
@@ -112,7 +112,7 @@
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
-                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz bin share" />
+                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz sbin share" />
                                 </exec>
 
                                 <xrpm
@@ -127,12 +127,14 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='4555' dir="${root.dir}/usr/sbin/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='4555' dir="${root.dir}/usr/sbin/" username="root" group="root" addParents="false" />
 
                                 </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
+
                             </target>
                         </configuration>
                     </execution>

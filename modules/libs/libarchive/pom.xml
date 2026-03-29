@@ -59,7 +59,7 @@
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${libarchive.tag}"/>
                                 <mkdir dir="${resources.target}"/>
 
-                                <condition property="archive.exists">
+                                <!--condition property="archive.exists">
                                     <resourceexists>
                                         <file file="${project.basedir}/src/main/dist/${libarchive.archive}"/>
                                     </resourceexists>
@@ -69,7 +69,7 @@
                                     <resourceexists>
                                         <file file="${resources.target}/muslsys-${libarchive.tag}.tgz"/>
                                     </resourceexists>
-                                </condition>
+                                </condition-->
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
@@ -164,14 +164,17 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/man/man1" filemode='444' dir="${root.dir}/usr/share/man/man1" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/man/man1" filemode='444' dir="${root.dir}/usr/share/man/man1" username="root" group="root" addParents="false" />
 
                                 </xrpm>
+
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
+
                             </target>
                         </configuration>
                     </execution>

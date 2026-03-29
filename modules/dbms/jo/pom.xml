@@ -18,7 +18,8 @@
     <properties>
         <pkg.archive>${project.artifactId}-${project.version}.tar.gz</pkg.archive>
         <pkg.tag>${project.artifactId}-${project.version}</pkg.tag>
-        <pkg.url>https://github.com/jpmens/jo/releases/download/${project.version}/${pkg.archive}</pkg.url>
+        <pkg.url>https://github.com/jpmens/jo/archive/refs/heads/master.tar.gz</pkg.url>
+        <pkg.url2>https://github.com/jpmens/jo/releases/download/${project.version}/${pkg.archive}</pkg.url2>
     </properties>
 
     <build>
@@ -57,14 +58,13 @@
                                 <mkdir dir="${toolchain.dir}"/>
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${pkg.tag}"/>
-                                <mkdir dir="${project.build.directory}/${project.artifactId}/master"/>
                                 <mkdir dir="${resources.target}"/>
 
                                 <exec dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
                                 </exec>
 
-                                <get unless:true="${archive.exists}" src="${pkg.url}" dest="${project.basedir}/src/main/dist/${pkg.archive}"/>
+                                <get src="${pkg.url}" dest="${project.basedir}/src/main/dist/${pkg.archive}"/>
 
                                 <!--get src="${static.url}" dest="${project.basedir}/src/main/dist/${pkg.tag}"/-->
 
@@ -72,6 +72,9 @@
                                     <arg line="-xvf ${project.basedir}/src/main/dist/${pkg.archive} --strip 1" />
                                 </exec>
 
+                                <exec dir="${project.build.directory}/${project.artifactId}/${pkg.tag}" executable="autoreconf">
+                                    <arg line="-i" />
+                                </exec>
 
                                 <exec dir="${project.build.directory}/${project.artifactId}/${pkg.tag}" executable="configure" resolveexecutable="true">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
@@ -107,13 +110,14 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
-                                    <rpmfileset prefix="/usr/libexec/toolbox/man" filemode='444' dir="${root.dir}/usr/share/man/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/man" filemode='444' dir="${root.dir}/usr/share/man/" username="root" group="root" addParents="false" />
 
                                 </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
                             </target>
                         </configuration>
                     </execution>

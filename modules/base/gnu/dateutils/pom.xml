@@ -59,11 +59,11 @@
                                 <mkdir dir="${resources.target}"/>
                                 <mkdir dir="${toolchain.dir}"/>
 
-                                <condition property="archive.exists">
+                                <!--condition property="archive.exists">
                                     <resourceexists>
                                         <file file="${pkg.dist}"/>
                                     </resourceexists>
-                                </condition>
+                                </condition-->
 
                                 <get unless:true="${archive.exists}" src="${pkg.url}" dest="${pkg.dist}"/>
 
@@ -112,12 +112,14 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
-                                    <rpmfileset prefix="/usr/libexec/toolbox/man/man1" filemode='444' dir="${root.dir}/usr/share/man/man1" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/man/man1" filemode='444' dir="${root.dir}/usr/share/man/man1" username="root" group="root" addParents="false" />
                                 </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
+
                             </target>
                         </configuration>
                     </execution>

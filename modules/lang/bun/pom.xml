@@ -83,11 +83,13 @@
                                         url="none"
                                         vendor="nos"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${project.build.directory}/${project.artifactId}/${prg.tag}/bun" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' file="${project.build.directory}/${project.artifactId}/${prg.tag}/bun" username="root" group="root" addParents="false" />
                                 </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
+
                             </target>
                         </configuration>
                     </execution>

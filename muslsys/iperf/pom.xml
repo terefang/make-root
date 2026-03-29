@@ -119,8 +119,8 @@
                                         release="${buildNumber}.${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='4555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
-                                    <rpmfileset prefix="/usr/libexec/toolbox/man/man1" filemode='444' dir="${root.dir}/usr/share/man/man1" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='4555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/man/man1" filemode='444' dir="${root.dir}/usr/share/man/man1" username="root" group="root" addParents="false" />
                                 </xrpm>
                             </target>
                         </configuration>

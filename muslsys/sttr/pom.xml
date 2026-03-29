@@ -18,7 +18,8 @@
     <properties>
         <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
-        <prg.url>https://github.com/abhimanyu003/sttr/releases/download/v${project.version}/sttr_${project.version}_linux_amd64.tar.gz</prg.url>
+        <!--prg.url>https://github.com/abhimanyu003/sttr/releases/download/v${project.version}/sttr_${project.version}_linux_amd64.tar.gz</prg.url-->
+        <prg.url>https://github.com/abhimanyu003/sttr/releases/download/v${project.version}/sttr_Linux_x86_64.tar.gz</prg.url>
     </properties>
 
     <build>
@@ -94,11 +95,13 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${project.build.directory}/${project.artifactId}/${prg.tag}/sttr" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' file="${project.build.directory}/${project.artifactId}/${prg.tag}/sttr" username="root" group="root" addParents="false" />
                                 </xrpm>
+
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
                             </target>
                         </configuration>
                     </execution>

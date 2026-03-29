@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.muslsys</groupId>
+    <artifactId>angie</artifactId>
+    <version>${version.angie}</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.archive>${project.artifactId}-${project.version}.tar.gz</prg.archive>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+
+        <prg.url>https://github.com/webserver-llc/angie/archive/refs/tags/Angie-${project.version}.tar.gz</prg.url>
+
+        <!-- https://github.com/nginx/nginx/releases/download/release-${project.version}/${prg.archive} -->
+        <!-- https://nginx.org/download/${prg.archive} -->
+        <!-- https://github.com/wandenberg/nginx-push-stream-module -->
+        <stream.url-1-22>https://github.com/wandenberg/nginx-push-stream-module/archive/refs/tags/0.5.5.tar.gz</stream.url-1-22>
+        <stream.name-1-22>nginx-push-stream-module-0.5.5</stream.name-1-22>
+        <stream.url>https://github.com/wandenberg/nginx-push-stream-module/archive/refs/heads/master.tar.gz</stream.url>
+        <stream.name>nginx-push-stream-module</stream.name>
+        <jwt.url>https://github.com/max-lt/nginx-jwt-module/archive/refs/tags/v3.2.0.tar.gz</jwt.url>
+        <jwt.name>nginx-jwt-module</jwt.name>
+
+        <ngx_devel_kit.name>ngx_devel_kit</ngx_devel_kit.name>
+        <ngx_devel_kit.url>https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v0.3.2.tar.gz</ngx_devel_kit.url>
+
+        <ngx_set_misc.name>ngx_set_misc</ngx_set_misc.name>
+        <ngx_set_misc.url>https://github.com/openresty/set-misc-nginx-module/archive/refs/tags/v0.33.tar.gz</ngx_set_misc.url>
+
+          <ngx_auth_ldap.name>nginx_auth_ldap_module</ngx_auth_ldap.name>
+        <ngx_auth_ldap.url>https://github.com/kvspb/nginx-auth-ldap/archive/refs/heads/master.tar.gz</ngx_auth_ldap.url>
+        <ngx_headers_more.name>headers_more_module</ngx_headers_more.name>
+        <ngx_headers_more.url>https://github.com/openresty/headers-more-nginx-module/archive/refs/tags/v0.39.tar.gz</ngx_headers_more.url>
+
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+
+                                <mkdir dir="${root.dir}"/>
+                                <mkdir dir="${toolchain.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${stream.name}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${jwt.name}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${ngx_headers_more.name}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${ngx_set_misc.name}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${ngx_devel_kit.name}"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${ngx_auth_ldap.name}"/>
+                                <mkdir dir="${resources.target}"/>
+
+                                <!--condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <condition property="final.exists">
+                                    <resourceexists>
+                                        <file file="${resources.target}/muslsys-${prg.tag}.tgz"/>
+                                    </resourceexists>
+                                </condition-->
+
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-musl-bsdcompat-0.1.tgz" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-pcre2-${version.pcre2}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libxcrypt-${version.libxcrypt}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-jansson-${version.jansson}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libjwt-${version.libjwt}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-openldap-${version.openldap}.tgz" />
+                                </exec>
+
+                                <delete unless:true="${final.exists}">
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/*.la"/>
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/*.so*"/>
+                                    <fileset dir="${toolchain.dir}" includes="usr/lib/pkgconfig/*"/>
+                                </delete>
+
+                                <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
+                                <get unless:true="${archive.exists}" src="${stream.url}" dest="${project.basedir}/src/main/dist/${stream.name}.tgz"/>
+                                <get unless:true="${archive.exists}" src="${jwt.url}" dest="${project.basedir}/src/main/dist/${jwt.name}.tgz"/>
+                                <get unless:true="${archive.exists}" src="${ngx_headers_more.url}" dest="${project.basedir}/src/main/dist/${ngx_headers_more.name}.tgz"/>
+                                <get unless:true="${archive.exists}" src="${ngx_set_misc.url}" dest="${project.basedir}/src/main/dist/${ngx_set_misc.name}.tgz"/>
+                                <get unless:true="${archive.exists}" src="${ngx_devel_kit.url}" dest="${project.basedir}/src/main/dist/${ngx_devel_kit.name}.tgz"/>
+                                <get unless:true="${archive.exists}" src="${ngx_auth_ldap.url}" dest="${project.basedir}/src/main/dist/${ngx_auth_ldap.name}.tgz"/>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${stream.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${stream.name}.tgz --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${jwt.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${jwt.name}.tgz --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${ngx_set_misc.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${ngx_set_misc.name}.tgz --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${ngx_headers_more.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${ngx_headers_more.name}.tgz --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${ngx_devel_kit.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${ngx_devel_kit.name}.tgz --strip 1" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${ngx_auth_ldap.name}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${ngx_auth_ldap.name}.tgz --strip 1" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="configure" resolveexecutable="true">
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
+                                    <arg value="--prefix=/usr/share/angie" />
+                                    <arg value="--sbin-path=/usr/libexec/angie/angie" />
+                                    <arg value="--modules-path=/usr/libexec/angie/modules" />
+                                    <arg value="--conf-path=/etc/angie/angie.conf" />
+                                    <arg value="--error-log-path=/var/log/angie/error.log" />
+                                    <arg value="--http-log-path=/var/log/angie/access.log" />
+                                    <arg value="--pid-path=/var/run/angie.pid" />
+                                    <arg value="--lock-path=/var/run/angie.lock" />
+                                    <arg value="--http-client-body-temp-path=/var/cache/angie/client_body_temp" />
+                                    <arg value="--http-proxy-temp-path=/var/cache/angie/proxy_temp" />
+                                    <arg value="--http-fastcgi-temp-path=/var/cache/angie/fastcgi_temp" />
+                                    <arg value="--http-uwsgi-temp-path=/var/cache/angie/uwsgi_temp" />
+                                    <arg value="--http-scgi-temp-path=/var/cache/angie/scgi_temp" />
+                                    <arg value="--user=angie" />
+                                    <arg value="--group=angie" />
+                                    <!--arg value="-/-build=NAME set build name" /-->
+                                    <!--arg value="-/-builddir=DIR set build directory" /-->
+                                    <arg value="--with-select_module" />
+                                    <arg value="--with-poll_module" />
+                                    <arg value="--with-threads" />
+                                    <arg value="--with-file-aio" />
+                                    <arg value="--with-http_ssl_module" />
+                                    <arg value="--with-http_v2_module" />
+                                    <arg value="--with-http_v3_module" />
+                                    <arg value="--with-http_realip_module" />
+                                    <arg value="--with-http_addition_module" />
+                                    <arg value="--with-http_sub_module" />
+                                    <arg value="--with-http_dav_module" />
+                                    <arg value="--with-http_gunzip_module" />
+                                    <arg value="--with-http_gzip_static_module" />
+                                    <arg value="--with-http_auth_request_module" />
+                                    <arg value="--with-http_random_index_module" />
+                                    <arg value="--with-http_secure_link_module" />
+                                    <arg value="--with-http_degradation_module" />
+                                    <arg value="--with-http_slice_module" />
+                                    <arg value="--with-http_stub_status_module" />
+                                    <arg value="--with-http_acme_module" />
+                                    <arg value="--with-mail" />
+                                    <arg value="--with-mail_ssl_module" />
+                                    <arg value="--with-stream" />
+                                    <arg value="--with-stream_ssl_module" />
+                                    <arg value="--with-stream_acme_module" />
+                                    <arg value="--with-stream_realip_module" />
+                                    <arg value="--with-stream_ssl_preread_module" />
+                                    <arg value="--with-cc=x86_64-linux-musl-gcc --static" />
+                                    <arg value="--with-cpp=x86_64-linux-musl-cpp" />
+                                    <arg value="--with-cc-opt=--static" />
+                                    <arg value="--with-ld-opt=--static -lcrypt -ltls" />
+                                    <arg value="--with-pcre" />
+                                    <arg value="--with-ipv6" />
+                                    <arg value="--add-module=../${stream.name}" />
+                                    <arg value="--add-module=../${jwt.name}" />
+                                    <arg value="--add-module=../${ngx_devel_kit.name}" />
+                                    <arg value="--add-module=../${ngx_set_misc.name}" />
+                                    <arg value="--add-module=../${ngx_headers_more.name}" />
+                                    <arg value="--add-module=../${ngx_auth_ldap.name}" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
+                                    <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
+                                    <arg line="-j 8" />
+                                </exec>
+
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <arg line="-j 1 DESTDIR=${root.dir} install" />
+                                </exec>
+
+                                <copy todir="${root.dir}/etc" overwrite="true">
+                                    <fileset dir="src/main/dist/etc"/>
+                                </copy>
+
+                                <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
+                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz libexec share ../etc ../var" />
+                                </exec>
+
+                                <xrpm
+                                        architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="ASL"
+                                        group="base"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}."
+                                        distribution="nos"
+                                        packager="nos"
+                                        url="none"
+                                        vendor="nos"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}~${timestamp}"
+                                        version="${project.version}"
+                                        preInstallScript="src/main/dist/pre-install.sh" >
+
+                                    <rpmfileset prefix="/usr/lib/systemd/system" filemode='644' file="src/main/dist/${project.artifactId}.service" username="root" group="root" addParents="false" />
+
+                                    <rpmfileset prefix="/usr/share/angie" filemode='444' dirmode="555" dir="${root.dir}/usr/share/angie"  username="angie-server" group="angie-server" addParents="false" />
+
+                                    <rpmfileset prefix="/etc/angie" filemode='640' dirmode="755" dir="${root.dir}/etc/angie"  username="angie-server" group="angie-server" addParents="false" config="true">
+                                        <include name="conf.d/*" />
+                                        <include name="tls/*" />
+                                        <include name="fastcgi.conf" />
+                                        <include name="fastcgi_params" />
+                                        <include name="koi-utf" />
+                                        <include name="koi-win" />
+                                        <include name="mime.types" />
+                                        <include name="angie.conf" />
+                                        <include name="scgi_params" />
+                                        <include name="uwsgi_params" />
+                                        <include name="win-utf" />
+
+                                    </rpmfileset>
+
+                                    <rpmfileset prefix="/usr/share/angie" filemode='444' dirmode="755" dir="${root.dir}/etc/angie"  username="angie-server" group="angie-server" addParents="false">
+                                        <include name="**/*.default" />
+                                    </rpmfileset>
+
+                                    <rpmfileset prefix="/usr/libexec/angie" filemode='755' dirmode="755" dir="${root.dir}/usr/libexec/angie"  username="angie-server" group="angie-server" addParents="false" />
+
+                                    <emptydir path="/var/log/angie"  username="angie-server" group="angie-server"/>
+                                    <emptydir path="/var/cache/angie/client_body_temp"  username="angie-server" group="angie-server"/>
+                                    <emptydir path="/var/cache/angie/proxy_temp"  username="angie-server" group="angie-server"/>
+                                    <emptydir path="/var/cache/angie/fastcgi_temp"  username="angie-server" group="angie-server"/>
+                                    <emptydir path="/var/cache/angie/uwsgi_temp"  username="angie-server" group="angie-server"/>
+                                    <emptydir path="/var/cache/angie/scgi_temp"  username="angie-server" group="angie-server"/>
+
+                                </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

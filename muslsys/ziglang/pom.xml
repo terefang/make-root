@@ -16,7 +16,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <pkg.url>https://ziglang.org/download/${project.version}/zig-linux-x86_64-${project.version}.tar.xz</pkg.url>
+        <pkg.url>https://ziglang.org/download/${project.version}/zig-x86_64-linux-${project.version}.tar.xz</pkg.url>
         <pkg.tag>${project.artifactId}-${project.version}</pkg.tag>
         <pkg.archive>${pkg.tag}.tar.gz</pkg.archive>
         <pkg.dist>${project.basedir}/src/main/dist/${pkg.archive}</pkg.dist>
@@ -70,16 +70,16 @@
                                     <arg line="-xvf ${pkg.dist} --strip 1" />
                                 </exec>
 
-                                <echo file="${project.build.directory}/${project.artifactId}/${project.artifactId}/zcc"><![CDATA[#!/bin/sh
-echo -- "EXEC: zig-cc $@"
+                                <!--echo file="${project.build.directory}/${project.artifactId}/${project.artifactId}/zcc"><![CDATA[#!/bin/sh
+echo "EXEC: zig-cc $@"
 zig cc -target x86_64-linux-musl $@
 ]]></echo>
                                 <echo file="${project.build.directory}/${project.artifactId}/${project.artifactId}/zcxx"><![CDATA[#!/bin/sh
-echo -- "EXEC: zig-c++ $@"
+echo "EXEC: zig-c++ $@"
 zig c++ -target x86_64-linux-musl $@
 ]]></echo>
                                 <chmod perm="555" file="${project.build.directory}/${project.artifactId}/${project.artifactId}/zcc" />
-                                <chmod perm="555" file="${project.build.directory}/${project.artifactId}/${project.artifactId}/zcxx" />
+                                <chmod perm="555" file="${project.build.directory}/${project.artifactId}/${project.artifactId}/zcxx" /-->
 
                                 <exec dir="${project.build.directory}/${project.artifactId}" executable="tar">
                                     <arg line="-zcvf ${resources.target}/${pkg.archive} ." />

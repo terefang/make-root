@@ -109,7 +109,7 @@
                                     <env key="LDFLAGS" value="-static --static" />
                                     <env key="LIBS" value=" -lmd" />
                                     <env key="PKGCONFIG" value="/bin/false" />
-                                    <arg value="--prefix=/usr/libexec/toolbox/${project.artifactId}" />
+                                    <arg value="--prefix=/data/toolbox/${project.artifactId}" />
                                     <arg value="--host=x86_64-linux-musl" />
                                     <arg value="--target=x86_64-linux-musl" />
                                     <arg value="--without-rpath" />
@@ -159,10 +159,10 @@
 
                                     <rpmfileset prefix="/usr/libexec/${project.artifactId}/bin" filemode='555' dir="${root.dir}/usr/libexec/${project.artifactId}/bin" username="root" group="root" addParents="false" />
                                     <rpmfileset prefix="/usr/libexec/${project.artifactId}/sbin" filemode='555' dir="${root.dir}/usr/libexec/${project.artifactId}/sbin" username="root" group="root" addParents="false" />
-                                    <link path="/usr/libexec/toolbox/xbin/ssh"          target="/usr/libexec/${project.artifactId}/bin/ssh" />
-                                    <link path="/usr/libexec/toolbox/xbin/scp"          target="/usr/libexec/${project.artifactId}/bin/scp" />
-                                    <link path="/usr/libexec/toolbox/xbin/sftp"         target="/usr/libexec/${project.artifactId}/bin/sftp" />
-                                    <link path="/usr/libexec/toolbox/xbin/ssh-keygen"   target="/usr/libexec/${project.artifactId}/bin/ssh-keygen" />
+                                    <link path="/data/toolbox/xbin/ssh"          target="/usr/libexec/${project.artifactId}/bin/ssh" />
+                                    <link path="/data/toolbox/xbin/scp"          target="/usr/libexec/${project.artifactId}/bin/scp" />
+                                    <link path="/data/toolbox/xbin/sftp"         target="/usr/libexec/${project.artifactId}/bin/sftp" />
+                                    <link path="/data/toolbox/xbin/ssh-keygen"   target="/usr/libexec/${project.artifactId}/bin/ssh-keygen" />
                                 </xrpm>
 
                             </target>

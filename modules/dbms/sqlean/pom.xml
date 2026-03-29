@@ -58,11 +58,11 @@
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
                                 <mkdir dir="${resources.target}"/>
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
-                                <condition property="archive.exists">
+                                <!--condition property="archive.exists">
                                     <resourceexists>
                                         <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
                                     </resourceexists>
-                                </condition>
+                                </condition-->
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
@@ -96,6 +96,10 @@
                                                replace="SQLITE_VERSION := ${version.sqlite.pkg}"/>
 
                                 <replaceregexp file="${project.build.directory}/${project.artifactId}/${prg.tag}/Makefile" byline="true"
+                                               match="SQLEAN_VERSION := (.*)"
+                                               replace="SQLEAN_VERSION := ${version.sqlean}"/>
+
+                                <replaceregexp file="${project.build.directory}/${project.artifactId}/${prg.tag}/Makefile" byline="true"
                                                match="LINK_LIB := (.*)"
                                                replace="LINK_LIB := -ldl -lz -lm -lreadline -lncurses -lterminfo"/>
 
@@ -114,6 +118,9 @@
                                 <replace file="${project.build.directory}/${project.artifactId}/${prg.tag}/src/shell.c"
                                          token="SQLite version %s"
                                          value="SQLean/${version.sqlean} version %s"/>
+
+                                <get src="https://github.com/cyan4973/xxhash/raw/v0.8.3/xxhash.h"
+                                     dest="${project.build.directory}/${project.artifactId}/${prg.tag}/src/crypto/xxhash.impl.h"/>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
@@ -144,12 +151,13 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${version.sqlean}.${version.sqlite}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${root.dir}/usr/bin/sqlean" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' file="${root.dir}/usr/bin/sqlean" username="root" group="root" addParents="false" />
 
                                 </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${version.sqlean}.${version.sqlite}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
                             </target>
                         </configuration>
                     </execution>

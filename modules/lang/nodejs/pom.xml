@@ -100,7 +100,7 @@
                                     <env key="CXX" value="x86_64-linux-musl-g++" />
                                     <env key="CFLAGS" value="-static --static -fPIC" />
                                     <env key="LDFLAGS" value="-static --static" />
-                                    <arg line="--prefix /usr/libexec/toolbox/nodejs --fully-static" />
+                                    <arg line="--prefix /data/toolbox/nodejs --fully-static" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
@@ -109,7 +109,7 @@
                                     <env key="CXX" value="x86_64-linux-musl-g++" />
                                     <env key="CFLAGS" value="-static --static -fPIC" />
                                     <env key="LDFLAGS" value="-static --static" />
-                                    <arg line="-j 9 PREFIX=/usr/libexec/toolbox/nodejs " />
+                                    <arg line="-j 9 PREFIX=/data/toolbox/nodejs " />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
@@ -118,7 +118,7 @@
                                     <env key="CXX" value="x86_64-linux-musl-g++" />
                                     <env key="CFLAGS" value="-static --static -fPIC" />
                                     <env key="LDFLAGS" value="-static --static" />
-                                    <arg line=" DESTDIR=${root.dir} PREFIX=/usr/libexec/toolbox/nodejs install" />
+                                    <arg line=" DESTDIR=${root.dir} PREFIX=/data/toolbox/nodejs install" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
@@ -139,15 +139,15 @@
                                         release="${buildNumber}.${project.parent.version}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/nodejs/bin" filemode='555' dirmode="555" dir="${root.dir}/usr/libexec/toolbox/nodejs/bin" username="root" group="root" addParents="false" />
-                                    <rpmfileset prefix="/usr/libexec/toolbox/nodejs/share" filemode='444' dirmode="555" dir="${root.dir}/usr/libexec/toolbox/nodejs/share" username="root" group="root" addParents="false" />
-                                    <rpmfileset prefix="/usr/libexec/toolbox/nodejs/lib/node_modules/npm/bin" filemode='555' dirmode="555" dir="${root.dir}/usr/libexec/toolbox/nodejs/lib/node_modules/npm/bin" username="root" group="root" addParents="false" />
-                                    <rpmfileset prefix="/usr/libexec/toolbox/nodejs/lib/node_modules/npm/docs" filemode='444' dirmode="555" dir="${root.dir}/usr/libexec/toolbox/nodejs/lib/node_modules/npm/docs" username="root" group="root" addParents="false" />
-                                    <rpmfileset prefix="/usr/libexec/toolbox/nodejs/lib/node_modules/npm/lib" filemode='444' dirmode="555" dir="${root.dir}/usr/libexec/toolbox/nodejs/lib/node_modules/npm/lib" username="root" group="root" addParents="false" />
-                                    <rpmfileset prefix="/usr/libexec/toolbox/nodejs/lib/node_modules/npm/man" filemode='444' dirmode="555" dir="${root.dir}/usr/libexec/toolbox/nodejs/lib/node_modules/npm/man" username="root" group="root" addParents="false" />
-                                    <rpmfileset prefix="/usr/libexec/toolbox/nodejs/lib/node_modules/npm/node_modules" filemode='444' dirmode="555" dir="${root.dir}/usr/libexec/toolbox/nodejs/lib/node_modules/npm/node_modules" username="root" group="root" addParents="false" />
-                                    <link path="/usr/libexec/toolbox/xbin/nodejs"     target="/usr/libexec/toolbox/nodejs/bin/node" />
-                                    <link path="/usr/libexec/toolbox/xbin/node"     target="/usr/libexec/toolbox/nodejs/bin/node" />
+                                    <rpmfileset prefix="/data/toolbox/nodejs/bin" filemode='555' dirmode="555" dir="${root.dir}/data/toolbox/nodejs/bin" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/nodejs/share" filemode='444' dirmode="555" dir="${root.dir}/data/toolbox/nodejs/share" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/nodejs/lib/node_modules/npm/bin" filemode='555' dirmode="555" dir="${root.dir}/data/toolbox/nodejs/lib/node_modules/npm/bin" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/nodejs/lib/node_modules/npm/docs" filemode='444' dirmode="555" dir="${root.dir}/data/toolbox/nodejs/lib/node_modules/npm/docs" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/nodejs/lib/node_modules/npm/lib" filemode='444' dirmode="555" dir="${root.dir}/data/toolbox/nodejs/lib/node_modules/npm/lib" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/nodejs/lib/node_modules/npm/man" filemode='444' dirmode="555" dir="${root.dir}/data/toolbox/nodejs/lib/node_modules/npm/man" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/nodejs/lib/node_modules/npm/node_modules" filemode='444' dirmode="555" dir="${root.dir}/data/toolbox/nodejs/lib/node_modules/npm/node_modules" username="root" group="root" addParents="false" />
+                                    <link path="/data/toolbox/xbin/nodejs"     target="/data/toolbox/nodejs/bin/node" />
+                                    <link path="/data/toolbox/xbin/node"     target="/data/toolbox/nodejs/bin/node" />
                                 </xrpm>
                             </target>
                         </configuration>

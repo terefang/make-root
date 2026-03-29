@@ -159,10 +159,10 @@
                                     <rpmfileset prefix="/usr/${project.artifactId}/bin" filemode='555' dir="${root.dir}/usr/${project.artifactId}/bin" username="root" group="root" addParents="false" />
                                     <rpmfileset prefix="/usr/${project.artifactId}/share" filemode='644' file="${root.dir}/usr/${project.artifactId}/share" username="root" group="root" addParents="false" />
 
-                                    <link path="/usr/libexec/toolbox/xbin/snmpget"     target="/usr/${project.artifactId}/bin/snmpget" />
-                                    <link path="/usr/libexec/toolbox/xbin/snmpwalk"    target="/usr/${project.artifactId}/bin/snmpwalk" />
-                                    <link path="/usr/libexec/toolbox/xbin/snmpgetnext" target="/usr/${project.artifactId}/bin/snmpgetnext" />
-                                    <link path="/usr/libexec/toolbox/xbin/snmpstatus"  target="/usr/${project.artifactId}/bin/snmpstatus" />
+                                    <link path="/data/toolbox/xbin/snmpget"     target="/usr/${project.artifactId}/bin/snmpget" />
+                                    <link path="/data/toolbox/xbin/snmpwalk"    target="/usr/${project.artifactId}/bin/snmpwalk" />
+                                    <link path="/data/toolbox/xbin/snmpgetnext" target="/usr/${project.artifactId}/bin/snmpgetnext" />
+                                    <link path="/data/toolbox/xbin/snmpstatus"  target="/usr/${project.artifactId}/bin/snmpstatus" />
 
                                 </xrpm>
 

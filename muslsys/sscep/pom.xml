@@ -141,9 +141,9 @@
                                         release="${buildNumber}.${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/doc" filemode='444' dir="${root.dir}/usr/share/doc" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/doc" filemode='444' dir="${root.dir}/usr/share/doc" username="root" group="root" addParents="false" />
 
                                 </xrpm>
                             </target>

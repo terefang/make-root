@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.modules</groupId>
+    <artifactId>python</artifactId>
+    <version>${version.python}</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.archive>${project.artifactId}-${version.python}-${version.python.stamp}.tar.gz</prg.archive>
+        <prg.tag>${project.artifactId}-${version.python}-${version.python.stamp}</prg.tag>
+        <prg.url>https://github.com/astral-sh/python-build-standalone/releases/download/${version.python.stamp}/cpython-${version.python}+${version.python.stamp}-x86_64-unknown-linux-gnu-install_only.tar.gz</prg.url>
+        <pkg.list>
+            pyxdg
+            setuptools
+            pexpect
+            msgpack
+            ormsgpack
+            pyglet
+            nltk
+            passlib
+            fonttools
+            regex
+            xsmtplib
+            rich
+            textual
+            async
+            dotenv
+            fsspec
+            fsspec[git]
+            sctokenizer
+            iniconfig
+            lxml
+            cssselect
+            beautifulsoup4
+            pyquery
+            parse
+            pycparser
+            invoke
+            bcrypt
+            pycryptodome
+            pycryptodomex
+            cffi
+            pynacl
+            cryptography
+            paramiko
+            paramiko-expect
+            paramiko-jump
+            loggers
+            ssh-paramiko
+            scp
+            enum-compat
+            asn1
+            pyasn1
+            ldap3
+            et-xmlfile
+            python-dotenv
+            openstep-plist
+            toml
+            tomli
+            hjson
+            six
+            python-jsonpath
+            pillow
+            pillow-lut
+            pypng
+            snmp
+            pysnmp
+            pysnmp-pyasn1
+            ply
+            urllib3
+            idna
+            charset_normalizer
+            certifi
+            requests
+            pysnmp-pysmi
+            ssh-python
+            ssh2-python
+            pwdlib
+            libpass
+            markupsafe
+            Jinja2
+            PyYAML
+            netaddr
+            jmespath
+            template
+            numpy
+            scipy
+            chardet
+            validators
+            serde
+            ujson
+            typing-extensions
+            orjson
+            serde2
+            chardet==7.4.0.post1
+            ruamel.yaml==0.19.1
+            zstandard==0.25.0
+            pytz
+            tzdata
+            python-dateutil
+            pandas
+            pandas-datareader
+            pycairo
+            pdfrw2
+            pikepdf
+            reportlab
+            matplotlib
+            bokeh
+            plotly
+            mpmath
+            sympy
+            seaborn
+            qrcode
+            reportlab-qrcode
+            pyasyncore
+            pyasynchat
+            munch
+            pyftpdlib
+            pyopenssl
+            aescipher
+            unencryptedsocket
+            threadwrapper
+            encryptedsocket
+            omnitools
+            easyrsa
+            scrapli
+            scrapli-community
+            lml
+            pyexcel-io
+            texttable
+            pyexcel
+            pyexcel-xlsx
+            SQLAlchemy
+            sqlean_py
+            sqlean-driver
+            xlsql
+            xlsxwriter
+            openpyxl
+            openpyxl-style-writer
+            duckdb==1.5.1
+            duckdb-driver
+            duckdb-sqlalchemy
+            typing-extensions
+            PyJWT
+            cffi
+            azure-core
+            msal
+            msal-extensions
+            azure-identity
+            mssql-python
+            redis[hiredis]
+            polars
+            polars-astro
+            pyarrow
+            werkzeug
+            itsdangerous
+            click
+            blinker
+            flask
+            meson
+            ninja
+            colorthief
+            sqlglot
+            defusedxml
+            xmltodict
+            wget
+            asn1crypto==1.5.1
+            Babel==2.17.0
+            cbor2==5.6.2
+            docutils==0.20.1
+            freezegun==1.5.1
+            geoip2==2.9.0
+            gevent==24.11.1
+            libsass==0.22.0
+            lxml-html-clean
+            num2words==0.5.13
+            ofxparse==0.21
+            polib==1.1.1
+            psutil==5.9.8
+            PyPDF==5.4.0
+            pyserial==3.5
+            python-magic==0.4.27
+            python-stdnum==1.19
+            pyusb==1.2.1
+            reportlab
+            rjsmin
+            vobject
+            Werkzeug
+            xlrd
+            XlsxWriter
+            xlwt
+            zeep
+        </pkg.list>
+        <!--
+        -->
+    </properties>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-apache-bsf -->
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-apache-bsf</artifactId>
+                        <version>1.10.12</version>
+                    </dependency>
+
+                    <!-- https://mvnrepository.com/artifact/org.beanshell/bsh -->
+                    <dependency>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh</artifactId>
+                        <version>2.0b5</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+                                <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+                                <mkdir dir="${root.dir}"/>
+                                <mkdir dir="${toolchain.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+                                <mkdir dir="${resources.target}"/>
+
+                                <condition property="archive.exists">
+                                    <resourceexists>
+                                        <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
+                                    </resourceexists>
+                                </condition>
+
+                                <get unless:true="${archive.exists}" src="${prg.url}" dest="${project.basedir}/src/main/dist/${prg.archive}"/>
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                    <arg line="-xvf ${project.basedir}/src/main/dist/${prg.archive} --strip 1" />
+                                </exec>
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}/bin" executable="pip3"  resolveexecutable="true">
+                                    <env key="PATH" value="${project.build.directory}/${project.artifactId}/${prg.tag}/bin:${env.PATH}" />
+                                    <arg line="install uv" />
+                                </exec>
+                                <for list="${pkg.list}" delimiter="&#10;" trim="true" param="pkg">
+                                    <sequential>
+                                        <echo>### installing @{pkg} ...</echo>
+                                        <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}/bin" executable="uv"  resolveexecutable="true">
+                                            <env key="PATH" value="${project.build.directory}/${project.artifactId}/${prg.tag}/bin:${env.PATH}" />
+                                            <arg line="pip install --system @{pkg}" />
+                                        </exec>
+                                    </sequential>
+                                </for>
+
+                                <replaceregexp match="^#!.*/python-\d\.\d+.*" replace="#!/usr/bin/env python${version.python.short}" byline="true">
+                                    <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}/bin" includes="*" />
+                                </replaceregexp>
+
+                                <echo>### deleting .pyc ... </echo>
+                                <delete>
+                                    <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}" includes="**/*.pyc"/>
+                                </delete>
+
+                                <echo>### creating archive ... </echo>
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="chmod">
+                                    <arg line="-R +x bin/" />
+                                </exec>
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="tar">
+                                    <arg line="--zstd -cf ${project.basedir}/target/toolbox-${prg.tag}.tar.zst bin lib share include" />
+                                </exec>
+                                <echo>### copying archive ... </echo>
+                                <copy file="${project.basedir}/target/toolbox-${prg.tag}.tar.zst" todir="${user.home}/bin/python"/>
+
+                                <echo>### creating rpm ... </echo>
+                                <xrpm   architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="BSD"
+                                        group="toolbox"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}."
+                                        distribution="nos"
+                                        packager="toolbox"
+                                        url="none"
+                                        vendor="nos"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}~${timestamp}"
+                                        version="${project.version}">
+
+                                    <rpmfileset prefix="/data/toolbox/python/bin" filemode='555' dir="${project.build.directory}/${project.artifactId}/${prg.tag}/bin" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/python/lib" filemode='555' dir="${project.build.directory}/${project.artifactId}/${prg.tag}/lib" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/python/share" filemode='444' dir="${project.build.directory}/${project.artifactId}/${prg.tag}/share" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/python/include" filemode='444' dir="${project.build.directory}/${project.artifactId}/${prg.tag}/include" username="root" group="root" addParents="false" />
+                                </xrpm>
+                                <echo>### copying rpm ... </echo>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

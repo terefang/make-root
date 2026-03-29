@@ -59,7 +59,7 @@
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${bzip2.tag}"/>
                                 <mkdir dir="${resources.target}"/>
 
-                                <condition property="archive.exists">
+                                <!--condition property="archive.exists">
                                     <resourceexists>
                                         <file file="${project.basedir}/src/main/dist/${bzip2.archive}"/>
                                     </resourceexists>
@@ -69,7 +69,7 @@
                                     <resourceexists>
                                         <file file="${resources.target}/muslsys-${bzip2.tag}-bin.tgz"/>
                                     </resourceexists>
-                                </condition>
+                                </condition-->
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />

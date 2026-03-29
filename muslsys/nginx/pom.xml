@@ -118,7 +118,7 @@
                                     <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
-                                    <arg line="-xvf ${resources.target}/muslsys-pcre-${version.pcre}.tgz" />
+                                    <arg line="-xvf ${resources.target}/muslsys-pcre2-${version.pcre2}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-libxcrypt-${version.libxcrypt}.tgz" />

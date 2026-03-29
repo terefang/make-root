@@ -63,13 +63,6 @@
                                 <mkdir dir="${project.build.directory}/${project.artifactId}"/>
                                 <mkdir dir="${toolchain.dir}"/>
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
-
-                                <condition property="binary.exists">
-                                    <resourceexists>
-                                        <file file="${project.basedir}/src/main/dist/${prg.tag}"/>
-                                    </resourceexists>
-                                </condition>
-
                                 <get unless:true="${binary.exists}" src="https://github.com/skx/sysbox/releases/download/release-${project.version}/sysbox-linux-amd64" dest="${project.basedir}/src/main/dist/${prg.tag}" />
 
                                 <copy tofile="${project.build.directory}/${project.artifactId}/${project.artifactId}">
@@ -91,37 +84,37 @@
                                         release="${buildNumber}.${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/${project.artifactId}" filemode='555' file="${project.build.directory}/${project.artifactId}/${project.artifactId}" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/${project.artifactId}" filemode='555' file="${project.build.directory}/${project.artifactId}/${project.artifactId}" username="root" group="root" addParents="false" />
 
-                                    <link path="/usr/libexec/${project.artifactId}/calc" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/choose-file" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/choose-stdin" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/chronic" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/collapse" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/comments" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/cpp" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/env-template" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/exec-stdin" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/expect" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/fingerd" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/html2text" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/http-get" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/httpd" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/ips" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/make-password" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/markdown-toc" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/run-directory" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/splay" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/ssl-expiry" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/timeout" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/todo" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/tree" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/urls" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/validate-json" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/validate-xml" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/validate-yaml" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/watch" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
-                                    <link path="/usr/libexec/${project.artifactId}/with-lock" target="/usr/libexec/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/calc" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/choose-file" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/choose-stdin" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/chronic" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/collapse" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/comments" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/cpp" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/env-template" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/exec-stdin" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/expect" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/fingerd" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/html2text" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/http-get" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/httpd" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/ips" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/make-password" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/markdown-toc" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/run-directory" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/splay" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/ssl-expiry" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/timeout" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/todo" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/tree" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/urls" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/validate-json" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/validate-xml" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/validate-yaml" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/watch" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
+                                    <link path="/data/toolbox/${project.artifactId}/with-lock" target="/data/toolbox/${project.artifactId}/${project.artifactId}" />
 
                                 </xrpm>
 
@@ -137,41 +130,43 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${project.build.directory}/${project.artifactId}/${project.artifactId}" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' file="${project.build.directory}/${project.artifactId}/${project.artifactId}" username="root" group="root" addParents="false" />
 
-                                    <link path="/usr/libexec/toolbox/xbin/calc"             target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/choose-file"      target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/choose-stdin"     target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/chronic"          target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/collapse"         target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/comments"         target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/cpp"              target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/env-template"     target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/exec-stdin"       target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/expect"           target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/fingerd"          target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/html2text"        target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/http-get"         target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/ips"              target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/make-password"    target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/markdown-toc"     target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/run-directory"    target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/splay"            target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/ssl-expiry"       target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/timeout"          target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/todo"             target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/tree"             target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/urls"             target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/validate-json"    target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/validate-xml"     target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/validate-yaml"    target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/watch"            target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
-                                    <link path="/usr/libexec/toolbox/xbin/with-lock"        target="/usr/libexec/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/calc"             target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/choose-file"      target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/choose-stdin"     target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/chronic"          target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/collapse"         target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/comments"         target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/cpp"              target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/env-template"     target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/exec-stdin"       target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/expect"           target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/fingerd"          target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/html2text"        target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/http-get"         target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/ips"              target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/make-password"    target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/markdown-toc"     target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/run-directory"    target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/splay"            target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/ssl-expiry"       target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/timeout"          target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/todo"             target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/tree"             target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/urls"             target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/validate-json"    target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/validate-xml"     target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/validate-yaml"    target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/watch"            target="/data/toolbox/xbin/${project.artifactId}" />
+                                    <link path="/data/toolbox/xbin/with-lock"        target="/data/toolbox/xbin/${project.artifactId}" />
 
                                 </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
+
                             </target>
                         </configuration>
                     </execution>

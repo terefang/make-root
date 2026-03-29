@@ -12,7 +12,7 @@
 
     <groupId>terefang.makeroot.muslsys</groupId>
     <artifactId>libuv</artifactId>
-    <version>1.42.0</version>
+    <version>${version.libuv}</version>
     <packaging>pom</packaging>
 
     <properties>

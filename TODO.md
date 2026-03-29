@@ -1,5 +1,40 @@
 ## packages
 
+https://github.com/chmln/sd/releases/download/v1.1.0/sd-v1.1.0-x86_64-unknown-linux-gnu.tar.gz
+
+https://github.com/troglobit/editline
+
+https://gameoftrees.org/index.html
+
+https://github.com/fish-shell/fish-shell/releases/download/4.3.3/fish-4.3.3-linux-x86_64.tar.xz
+
+https://github.com/dundee/gdu/releases/download/v5.32.0/gdu_linux_amd64_static.tgz
+
+https://github.com/rofl0r/ncdu
+
+https://github.com/pranshuparmar/witr/releases/tag/v0.1.7
+
+https://github.com/ollama/ollama/releases/download/v0.14.2/ollama-linux-amd64.tar.zst
+https://github.com/ollama/ollama/releases/download/v0.14.2/ollama-linux-amd64-rocm.tar.zst
+
+https://github.com/tursodatabase/turso/releases/download/v0.4.3/turso_cli-x86_64-unknown-linux-gnu.tar.xz
+
+https://github.com/xplshn/dbin
+
+procps-ng
+
+lazygit
+
+https://github.com/jesseduffield/lazydocker/releases/download/v0.24.3/lazydocker_0.24.3_Linux_x86_64.tar.gz
+
+https://github.com/eza-community/eza/releases/download/v0.23.4/eza_x86_64-unknown-linux-musl.tar.gz
+
+https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.8/zoxide-0.9.8-x86_64-unknown-linux-musl.tar.gz
+
+https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-unknown-linux-musl.tar.gz
+
+https://github.com/bgreenwell/xleak/
+
 https://github.com/jdx/mise/releases/download/v2025.10.10/mise-v2025.10.10-linux-x64-musl
 
 https://github.com/ducaale/xh/releases/download/v0.25.0/xh-v0.25.0-x86_64-unknown-linux-musl.tar.gz
@@ -27,6 +62,7 @@ https://github.com/soveran/map
 https://github.com/sxyazi/yazi
 
 https://dl.exactcode.de/oss/minised/minised-1.16.tar.gz
+https://github.com/tar-mirror/minised/
 
 https://sed.sourceforge.io/grabbag/ssed/sed-3.62.tar.gz
 

@@ -78,6 +78,9 @@
                                     <arg line="-xvf ${resources.target}/muslsys-zlib-${version.zlib}.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
+                                    <arg line="-xvf ${resources.target}/muslsys-libuv-${version.libuv}.tgz" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-libressl-${version.libressl}-lib.tgz" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
@@ -112,8 +115,8 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${curl.tag}" executable="configure" resolveexecutable="true">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
-                                    <env key="CFLAGS" value="--static" />
-                                    <env key="LDFLAGS" value="-static" />
+                                    <env key="CFLAGS" value="--static -g" />
+                                    <env key="LDFLAGS" value="-static -g" />
                                     <env key="LIBS" value="-lntlm" />
                                     <arg value="--prefix=/usr" />
                                     <arg value="--host=x86_64-linux-musl" />
@@ -135,11 +138,14 @@
                                     <arg value="--enable-smtp" />
                                     <arg value="--enable-mqtt" />
                                     <arg value="--enable-smb" />
+                                    <arg value="--enable-debug" />
+                                    <arg value="--enable-verbose" />
                                     <arg value="--enable-gopher" />
                                     <arg value="--without-libpsl" />
                                     <arg value="--with-ssl" />
                                     <arg value="--with-openssl" />
                                     <arg value="--with-libssh2" />
+                                    <arg value="--with-libuv=${toolchain.dir}" />
                                     <arg value="--enable-threaded-resolver" />
                                     <arg value="--enable-hsts" />
                                     <arg value="--enable-ntlm" />
@@ -164,8 +170,9 @@
                                     <arg value="--enable-bindlocal" />
                                     <arg value="--enable-dateparse" />
                                     <arg value="--enable-netrc" />
-                                    <arg value="--enable-dnsshuffle" />
+                                    <arg value="--disable-dnsshuffle" />
                                     <arg value="--enable-headers-api" />
+                                    <!--arg value="-x-help" /-->
                                 </exec>
 
                                 [exec]   HTTP2:            no      (--with-nghttp2)
@@ -181,6 +188,10 @@
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${curl.tag}" executable="make">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
                                     <arg line="-j 1 DESTDIR=${root.dir} install" />
+                                </exec>
+                                <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${curl.tag}" executable="make">
+                                    <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <arg line="-j 1 DESTDIR=${root.dir} test" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
                                     <arg line="-cvf ${resources.target}/muslsys-${curl.tag}.tgz include lib bin" />
@@ -198,12 +209,13 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${root.dir}/usr/bin/curl" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' file="${root.dir}/usr/bin/curl" username="root" group="root" addParents="false" />
 
                                 </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
                             </target>
                         </configuration>
                     </execution>

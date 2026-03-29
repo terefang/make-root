@@ -65,11 +65,11 @@
                                 <mkdir dir="${project.build.directory}/${project.artifactId}"/>
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
 
-                                <condition property="binary.exists">
+                                <!--condition property="binary.exists">
                                     <resourceexists>
                                         <file file="${project.basedir}/src/main/dist/${prg.tag}"/>
                                     </resourceexists>
-                                </condition>
+                                </condition-->
 
                                 <get unless:true="${binary.exists}" src="${prg.url}" dest="${project.build.directory}/${prg.archive}" />
 
@@ -120,12 +120,13 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
 
                                 </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
                             </target>
                         </configuration>
                     </execution>

@@ -18,7 +18,7 @@
     <properties>
         <prg.tag>${project.artifactId}-${project.version}</prg.tag>
         <prg.archive>${prg.tag}.zip</prg.archive>
-        <prg.url>https://github.com/jqnatividad/qsv/releases/download/${project.version}/qsv-${project.version}-x86_64-unknown-linux-musl.zip</prg.url>
+        <prg.url>https://github.com/jqnatividad/qsv/releases/download/${project.version}/qsv-${project.version}-x86_64-unknown-linux</prg.url>
     </properties>
 
     <build>
@@ -65,25 +65,30 @@
                                 <mkdir dir="${project.build.directory}/${project.artifactId}"/>
                                 <mkdir dir="${project.basedir}/src/main/dist"/>
 
-                                <condition property="binary.exists">
-                                    <resourceexists>
-                                        <file file="${project.basedir}/src/main/dist/${prg.tag}"/>
-                                    </resourceexists>
-                                </condition>
-
-                                <get unless:true="${binary.exists}" src="${prg.url}" dest="${project.build.directory}/${prg.archive}" />
-
-                                <exec unless:true="${binary.exists}" dir="${project.build.directory}/${project.artifactId}/" executable="unzip">
-                                    <arg line="-j ${project.build.directory}/${prg.archive}" />
-                                </exec>
-
-
-
                                 <mkdir dir="${root.dir}/usr/bin/"/>
                                 <mkdir dir="${root.dir}/usr/man/man1"/>
-                                <copy file="${project.build.directory}/${project.artifactId}/qsv"     tofile="${root.dir}/usr/bin/qsv" />
-                                <copy file="${project.build.directory}/${project.artifactId}/qsvdp"   tofile="${root.dir}/usr/bin/qsvdp" />
-                                <copy file="${project.build.directory}/${project.artifactId}/qsvlite" tofile="${root.dir}/usr/bin/qsvlite" />
+
+                                <get src="${prg.url}-musl.zip" dest="${project.build.directory}/${prg.archive}" />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/" executable="unzip">
+                                    <arg line="-o -j ${project.build.directory}/${prg.archive}" />
+                                </exec>
+
+                                <copy file="${project.build.directory}/${project.artifactId}/qsv"     tofile="${root.dir}/usr/bin/qsv-musl" />
+                                <copy file="${project.build.directory}/${project.artifactId}/qsvdp"   tofile="${root.dir}/usr/bin/qsvdp-musl" />
+                                <copy file="${project.build.directory}/${project.artifactId}/qsvpdp"  tofile="${root.dir}/usr/bin/qsvpdp-musl" />
+                                <copy file="${project.build.directory}/${project.artifactId}/qsvlite" tofile="${root.dir}/usr/bin/qsvlite-musl" />
+
+                                <get src="${prg.url}-gnu.zip" dest="${project.build.directory}/${prg.archive}" />
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/" executable="unzip">
+                                    <arg line="-o -j ${project.build.directory}/${prg.archive}" />
+                                </exec>
+
+                                <copy file="${project.build.directory}/${project.artifactId}/qsv"     tofile="${root.dir}/usr/bin/qsv-gnu" />
+                                <copy file="${project.build.directory}/${project.artifactId}/qsvdp"   tofile="${root.dir}/usr/bin/qsvdp-gnu" />
+                                <copy file="${project.build.directory}/${project.artifactId}/qsvpdp"  tofile="${root.dir}/usr/bin/qsvpdp-gnu" />
+                                <copy file="${project.build.directory}/${project.artifactId}/qsvlite" tofile="${root.dir}/usr/bin/qsvlite-gnu" />
 
                                 <xrpm
                                         architecture="X86_64"
@@ -97,12 +102,18 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
 
+                                    <link path="/data/toolbox/xbin/qsv" target="/data/toolbox/xbin/qsv-musl" />
+                                    <link path="/data/toolbox/xbin/qsvdp" target="/data/toolbox/xbin/qsvdp-musl" />
+                                    <link path="/data/toolbox/xbin/qsvpdp" target="/data/toolbox/xbin/qsvpdp-musl" />
+                                    <link path="/data/toolbox/xbin/qsvlite" target="/data/toolbox/xbin/qsvlite-musl" />
                                 </xrpm>
+
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
                             </target>
                         </configuration>
                     </execution>

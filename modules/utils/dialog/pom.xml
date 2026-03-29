@@ -17,7 +17,7 @@
 
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
-        <maven.build.timestamp.format>yyyyMMdd+HHmm</maven.build.timestamp.format>
+        <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
         <dialog.archive>${project.artifactId}-${project.version}.tar.gz</dialog.archive>
         <dialog.tag>${project.artifactId}-${project.version}</dialog.tag>
         <dialog.url>https://invisible-mirror.net/archives/dialog/dialog.tar.gz</dialog.url>
@@ -61,7 +61,7 @@
                                 <mkdir dir="${resources.target}"/>
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${dialog.tag}"/>
 
-                                <condition property="archive.exists">
+                                <!--condition property="archive.exists">
                                     <resourceexists>
                                         <file file="${project.basedir}/src/main/dist/${dialog.archive}"/>
                                     </resourceexists>
@@ -71,7 +71,7 @@
                                     <resourceexists>
                                         <file file="${resources.target}/muslsys-${dialog.tag}.tgz"/>
                                     </resourceexists>
-                                </condition>
+                                </condition-->
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
@@ -95,11 +95,10 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${dialog.tag}" executable="configure" resolveexecutable="true">
                                     <env key="PATH" value="${env.PATH}:${toolchain.dir}/bin" />
+                                    <env key="CC" value="x86_64-linux-musl-gcc -static" />
                                     <env key="CFLAGS" value="-static --static -I${toolchain.dir}/include" />
                                     <env key="LDFLAGS" value="--static -L ${toolchain.dir}/lib" />
                                     <arg value="--prefix=/usr" />
-                                    <arg value="--host=x86_64-linux-musl" />
-                                    <arg value="--target=x86_64-linux-musl" />
                                     <arg value="--disable-nls" />
                                     <arg value="--with-curses" />
                                     <arg value="--with-curses-dir=${toolchain.dir}" />
@@ -121,9 +120,9 @@
                                 <exec dir="${root.dir}/usr" executable="tar">
                                     <arg line="-xvf ${resources.target}/muslsys-${dialog.tag}.tgz" />
                                 </exec>
-                                <cpio destfile="${rpm.path}/bootos-${project.artifactId}.cpio" >
+                                <!--cpio destfile="${rpm.path}/bootos-${project.artifactId}.cpio" >
                                     <tarfileset fullpath="/bin/dialog" file="${root.dir}/usr/bin/dialog" filemode="555"/>
-                                </cpio>
+                                </cpio-->
                                 <xrpm
                                         architecture="X86_64"
                                         destination="${project.build.directory}"
@@ -136,14 +135,16 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' file="${root.dir}/usr/bin/dialog" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' file="${root.dir}/usr/bin/dialog" username="root" group="root" addParents="false" />
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/man" filemode='444' dir="${root.dir}/usr/share/man/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/man" filemode='444' dir="${root.dir}/usr/share/man/" username="root" group="root" addParents="false" />
 
                                 </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
+
                             </target>
                         </configuration>
                     </execution>

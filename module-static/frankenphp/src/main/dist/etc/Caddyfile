@@ -4,11 +4,12 @@
 	# Configure when the directive must be executed
 	order php_server before file_server
     http_port    8200
-	https_port   8201
-	#log {
-    #		output  stderr
-    #		level   debug
-    #}
+	#https_port   8201
+	log {
+        output file /var/log/frankenphp/server.log
+        format console
+        level info
+    }
 }
 
 localhost:8280 {

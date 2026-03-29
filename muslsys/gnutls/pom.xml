@@ -64,7 +64,7 @@
                                 <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
                                 <mkdir dir="${resources.target}"/>
 
-                                <condition property="archive.exists">
+                                <!--condition property="archive.exists">
                                     <resourceexists>
                                         <file file="${project.basedir}/src/main/dist/${prg.archive}"/>
                                     </resourceexists>
@@ -74,7 +74,7 @@
                                     <resourceexists>
                                         <file file="${resources.target}/muslsys-${prg.tag}.tgz"/>
                                     </resourceexists>
-                                </condition>
+                                </condition-->
 
                                 <exec unless:true="${final.exists}" dir="${toolchain.dir}" executable="tar">
                                     <arg line="-xvf ${resources.target}/gcc-10-x86_64-linux-musl-native.tar.gz" />
@@ -118,6 +118,16 @@
                                     <arg value="--with-included-unistring" />
                                     <arg value="--enable-sha1-support" />
                                     <arg value="--enable-ssl3-support" />
+                                    <arg value="--enable-dtls-srtp-support" />
+                                    <arg value="--enable-alpn-support" />
+                                    <arg value="--enable-srp-authentication" />
+                                    <arg value="--enable-psk-authentication" />
+                                    <arg value="--enable-anon-authentication" />
+                                    <arg value="--enable-dhe" />
+                                    <arg value="--enable-ecdhe" />
+                                    <arg value="--enable-gost" />
+                                    <arg value="--disable-ktls" />
+                                    <arg value="--enable-ocsp" />
                                     <arg value="--enable-openssl-compatibility" />
                                     <arg value="--without-idn" />
                                     <arg value="--without-p11-kit" />
@@ -133,7 +143,7 @@
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
                                     <env key="PATH" value="${toolchain.dir}/bin:${env.PATH}" />
-                                    <arg line="-j 8" />
+                                    <arg line="-j 6" />
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${project.build.directory}/${project.artifactId}/${prg.tag}" executable="make">
@@ -142,10 +152,10 @@
                                 </exec>
 
                                 <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
-                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}-bin.tgz bin share" />
+                                    <arg line="-cvf ${resources.target}/muslsys-${project.artifactId}-${project.version}-bin.tgz bin share" />
                                 </exec>
                                 <exec unless:true="${final.exists}" dir="${root.dir}/usr" executable="tar">
-                                    <arg line="-cvf ${resources.target}/muslsys-${prg.tag}.tgz include lib" />
+                                    <arg line="-cvf ${resources.target}/muslsys-${project.artifactId}-${project.version}.tgz include lib" />
                                 </exec>
 
                                 <xrpm
@@ -160,14 +170,16 @@
                                         url=""
                                         vendor="${project.artifactId}"
                                         epoch="${buildNumber}"
-                                        release="${buildNumber}.${timestamp}"
+                                        release="${buildNumber}~${timestamp}"
                                         version="${project.version}">
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/xbin" filemode='555' dir="${root.dir}/usr/bin/" username="root" group="root" addParents="false" />
 
-                                    <rpmfileset prefix="/usr/libexec/toolbox/man/man1" filemode='444' dir="${root.dir}/usr/share/man/man1" username="root" group="root" addParents="false" />
+                                    <rpmfileset prefix="/data/toolbox/man/man1" filemode='444' dir="${root.dir}/usr/share/man/man1" username="root" group="root" addParents="false" />
 
                                 </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${project.version}-${buildNumber}~${timestamp}.x86_64.rpm" todir="${toolbox.dir}/"/>
+
                             </target>
                         </configuration>
                     </execution>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>terefang.makeroot</groupId>
+        <version>2021.1.0</version>
+        <relativePath>../../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>terefang.makeroot.modules</groupId>
+    <artifactId>fonts-mscore</artifactId>
+    <version>${parent.version}</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <prg.tag>${project.artifactId}-${project.version}</prg.tag>
+        <font.list>
+            https://downloads.sourceforge.net/corefonts/OldFiles/IELPKTH.CAB
+            https://sourceforge.net/projects/mscorefonts2/files/cabs/EUupdate.EXE
+            http://ftpmirror.your.org/pub/misc/ftp.microsoft.com/bussys/winnt/winnt-public/fixes/usa/NT40TSE/hotfixes-postSP3/Euro-fix/eurofixi.exe
+            https://web.archive.org/web/20171225132744if_/https://download.microsoft.com/download/E/6/7/E675FFFC-2A6D-4AB0-B3EB-27C9F8C8F696/PowerPointViewer.exe
+        </font.list>
+    </properties>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <inherited>false</inherited>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.redline-rpm</groupId>
+                        <artifactId>redline</artifactId>
+                        <version>1.2.9</version>
+                        <classifier>jar-with-dependencies</classifier>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-compress</artifactId>
+                        <version>1.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.terefang</groupId>
+                        <artifactId>ant-archive-plus</artifactId>
+                        <version>1.5.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-apache-bsf -->
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-apache-bsf</artifactId>
+                        <version>1.10.12</version>
+                    </dependency>
+
+                    <!-- https://mvnrepository.com/artifact/org.beanshell/bsh -->
+                    <dependency>
+                        <groupId>org.beanshell</groupId>
+                        <artifactId>bsh</artifactId>
+                        <version>2.0b5</version>
+                    </dependency>
+                    <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+                    <dependency>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.2</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>ant</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <taskdef classname="org.redline_rpm.ant.RedlineTask" name="xrpm" />
+                                <taskdef classname="org.apache.ant.compress.taskdefs.Cpio" name="cpio" />
+                                <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+                                <mkdir dir="${root.dir}/share/fonts"/>
+                                <mkdir dir="${toolchain.dir}"/>
+                                <mkdir dir="${project.basedir}/src/main/dist"/>
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}"/>
+                                <mkdir dir="${resources.target}"/>
+
+                                <mkdir dir="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore"/>
+                                <for list="${font.list}" delimiter="&#10;" trim="true" param="url">
+                                    <sequential>
+                                        <get src="@{url}" dest="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/fnt.cab"/>
+                                        <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore" executable="cabextract">
+                                            <arg line="--fix -L -d . ../fnt.cab" />
+                                        </exec>
+                                    </sequential>
+                                </for>
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore" executable="cabextract">
+                                    <arg line="--fix -L -d . ./ppviewer.cab" />
+                                </exec>
+
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore" executable="ttc_to_ttf.sh">
+                                    <arg line="cambria.ttc 0 cambria.ttf" />
+                                </exec>
+                                <exec dir="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore" executable="ttc_to_ttf.sh">
+                                    <arg line="cambria.ttc 1 cambria-math.ttf" />
+                                </exec>
+
+
+                                <!--move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/" tofile="${root.dir}/share/fonts/" /-->
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/arial.ttf" tofile="${root.dir}/share/fonts/arial-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/arialbd.ttf" tofile="${root.dir}/share/fonts/arial-bold.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/arialbi.ttf" tofile="${root.dir}/share/fonts/arial-bolditalic.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/ariali.ttf" tofile="${root.dir}/share/fonts/arial-italic.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/cour.ttf" tofile="${root.dir}/share/fonts/courier-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/courbd.ttf" tofile="${root.dir}/share/fonts/courier-bold.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/courbi.ttf" tofile="${root.dir}/share/fonts/courier-bolditalic.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/couri.ttf" tofile="${root.dir}/share/fonts/courier-italic.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/l_10646.ttf" tofile="${root.dir}/share/fonts/lucida-unicode.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/lucon.ttf" tofile="${root.dir}/share/fonts/lucida-console.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/symbol.ttf" tofile="${root.dir}/share/fonts/symbol.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/times.ttf" tofile="${root.dir}/share/fonts/times-new-roman-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/timesbd.ttf" tofile="${root.dir}/share/fonts/times-new-roman-bold.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/timesbi.ttf" tofile="${root.dir}/share/fonts/times-new-roman-bolditalic.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/timesi.ttf" tofile="${root.dir}/share/fonts/times-new-roman-italic.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/verdana.ttf" tofile="${root.dir}/share/fonts/verdana-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/verdanab.ttf" tofile="${root.dir}/share/fonts/verdana-bold.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/verdanai.ttf" tofile="${root.dir}/share/fonts/verdana-italic.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/verdanaz.ttf" tofile="${root.dir}/share/fonts/verdana-bolditalic.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/trebucit.ttf" tofile="${root.dir}/share/fonts/trebuchet-italic.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/trebuc.ttf" tofile="${root.dir}/share/fonts/trebuchet-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/trebucbd.ttf" tofile="${root.dir}/share/fonts/trebuchet-bold.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/trebucbi.ttf" tofile="${root.dir}/share/fonts/trebuchet-bolditalic.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/tahoma.ttf" tofile="${root.dir}/share/fonts/tahoma-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/tahomabd.ttf" tofile="${root.dir}/share/fonts/tahoma-bold.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/wingding.ttf" tofile="${root.dir}/share/fonts/wingdings.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/calibri.ttf" tofile="${root.dir}/share/fonts/calibri-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/calibrib.ttf" tofile="${root.dir}/share/fonts/calibri-bold.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/calibrii.ttf" tofile="${root.dir}/share/fonts/calibri-italic.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/calibriz.ttf" tofile="${root.dir}/share/fonts/calibri-bolditalic.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/cambria.ttf" tofile="${root.dir}/share/fonts/cambria-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/cambriab.ttf" tofile="${root.dir}/share/fonts/cambria-bold.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/cambriai.ttf" tofile="${root.dir}/share/fonts/cambria-italic.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/cambriaz.ttf" tofile="${root.dir}/share/fonts/cambria-bolditalic.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/candara.ttf" tofile="${root.dir}/share/fonts/candara-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/candarab.ttf" tofile="${root.dir}/share/fonts/candara-bold.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/candarai.ttf" tofile="${root.dir}/share/fonts/candara-italic.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/candaraz.ttf" tofile="${root.dir}/share/fonts/candara-bolditalic.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/consola.ttf" tofile="${root.dir}/share/fonts/consolas-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/consolab.ttf" tofile="${root.dir}/share/fonts/consolas-bold.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/consolai.ttf" tofile="${root.dir}/share/fonts/consolas-italic.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/consolaz.ttf" tofile="${root.dir}/share/fonts/consolas-bolditalic.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/constan.ttf" tofile="${root.dir}/share/fonts/constantia-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/constanb.ttf" tofile="${root.dir}/share/fonts/constantia-bold.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/constani.ttf" tofile="${root.dir}/share/fonts/constantia-italic.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/constanz.ttf" tofile="${root.dir}/share/fonts/constantia-bolditalic.ttf" />
+
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/corbel.ttf" tofile="${root.dir}/share/fonts/corbel-regular.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/corbelb.ttf" tofile="${root.dir}/share/fonts/corbel-bold.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/corbeli.ttf" tofile="${root.dir}/share/fonts/corbel-italic.ttf" />
+                                <move file="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore/corbelz.ttf" tofile="${root.dir}/share/fonts/corbel-bolditalic.ttf" />
+
+                                <echo>*** deleting stuff ...</echo>
+                                <delete verbose="false">
+                                    <fileset dir="${project.build.directory}/${project.artifactId}/${prg.tag}/fonts/mscore"/>
+                                </delete>
+                                <echo>*** deleting finished.</echo>
+                                <xrpm   architecture="X86_64"
+                                        destination="${project.build.directory}"
+                                        license="BSD"
+                                        group="toolbox"
+                                        name="toolbox-${project.artifactId}"
+                                        summary="${project.artifactId}."
+                                        distribution="nos"
+                                        packager="toolbox"
+                                        url="none"
+                                        vendor="nos"
+                                        epoch="${buildNumber}"
+                                        release="${buildNumber}"
+                                        version="${timestamp}">
+
+                                    <rpmfileset prefix="/data/toolbox/fonts/mscore" filemode='444' dir="${root.dir}/share/fonts" username="root" group="root" addParents="false" />
+                                </xrpm>
+                                <copy file="${project.build.directory}/toolbox-${project.artifactId}-${timestamp}-${buildNumber}.x86_64.rpm" todir="${toolbox.dir}/"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
